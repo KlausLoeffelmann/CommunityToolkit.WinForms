@@ -39,7 +39,7 @@ namespace SemanticKernelDemo
             label6 = new Label();
             trackBar5 = new TrackBar();
             label5 = new Label();
-            trackBar4 = new TrackBar();
+            _frequencyPenaltySlider = new TrackBar();
             label4 = new Label();
             trackBar3 = new TrackBar();
             label3 = new Label();
@@ -54,14 +54,14 @@ namespace SemanticKernelDemo
             quitToolStripMenuItem = new ToolStripMenuItem();
             viewToolStripMenuItem = new ToolStripMenuItem();
             browserDeveloperToolsToolStripMenuItem = new ToolStripMenuItem();
-            statusStrip2 = new StatusStrip();
-            _toolTip = new ToolTip(components);
             toolStripMenuItem1 = new ToolStripSeparator();
             sOLONLetsCallBackThe80sToolStripMenuItem = new ToolStripMenuItem();
+            statusStrip2 = new StatusStrip();
+            _toolTip = new ToolTip(components);
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar5).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)_frequencyPenaltySlider).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -112,11 +112,11 @@ namespace SemanticKernelDemo
             // panel1
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel1.BackColor = SystemColors.ControlDark;
+            panel1.BackColor = SystemColors.ControlDarkDark;
             panel1.Controls.Add(label6);
             panel1.Controls.Add(trackBar5);
             panel1.Controls.Add(label5);
-            panel1.Controls.Add(trackBar4);
+            panel1.Controls.Add(_frequencyPenaltySlider);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(trackBar3);
             panel1.Controls.Add(label3);
@@ -158,14 +158,20 @@ namespace SemanticKernelDemo
             label5.TabIndex = 9;
             label5.Text = "Frequency Penalty";
             // 
-            // trackBar4
+            // _frequencyPenaltySlider
             // 
-            trackBar4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            trackBar4.Location = new Point(22, 485);
-            trackBar4.Name = "trackBar4";
-            trackBar4.Size = new Size(407, 69);
-            trackBar4.TabIndex = 8;
-            _toolTip.SetToolTip(trackBar4, "Modifies a penalty applied to words that appear more frequently in the conversation. Increasing this value discourages repetition, making the dialogue more dynamic by promoting diverse word usage.");
+            _frequencyPenaltySlider.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            _frequencyPenaltySlider.BackColor = SystemColors.ControlDarkDark;
+            _frequencyPenaltySlider.LargeChange = 10;
+            _frequencyPenaltySlider.Location = new Point(22, 485);
+            _frequencyPenaltySlider.Maximum = 20;
+            _frequencyPenaltySlider.Minimum = -20;
+            _frequencyPenaltySlider.Name = "_frequencyPenaltySlider";
+            _frequencyPenaltySlider.Size = new Size(407, 69);
+            _frequencyPenaltySlider.TabIndex = 8;
+            _frequencyPenaltySlider.TickFrequency = 10;
+            _frequencyPenaltySlider.TickStyle = TickStyle.Both;
+            _toolTip.SetToolTip(_frequencyPenaltySlider, "Modifies a penalty applied to words that appear more frequently in the conversation. Increasing this value discourages repetition, making the dialogue more dynamic by promoting diverse word usage.");
             // 
             // label4
             // 
@@ -281,6 +287,18 @@ namespace SemanticKernelDemo
             browserDeveloperToolsToolStripMenuItem.Text = "Browser Developer Tools...";
             browserDeveloperToolsToolStripMenuItem.Click += BrowserDeveloperToolsToolStripMenuItem_Click;
             // 
+            // toolStripMenuItem1
+            // 
+            toolStripMenuItem1.Name = "toolStripMenuItem1";
+            toolStripMenuItem1.Size = new Size(439, 6);
+            // 
+            // sOLONLetsCallBackThe80sToolStripMenuItem
+            // 
+            sOLONLetsCallBackThe80sToolStripMenuItem.Name = "sOLONLetsCallBackThe80sToolStripMenuItem";
+            sOLONLetsCallBackThe80sToolStripMenuItem.Size = new Size(442, 38);
+            sOLONLetsCallBackThe80sToolStripMenuItem.Text = "SOLON - Let's call back the 80s! ...";
+            sOLONLetsCallBackThe80sToolStripMenuItem.Click += Solon_LetsCallBackThe80sToolStripMenuItem_Click;
+            // 
             // statusStrip2
             // 
             statusStrip2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -295,18 +313,6 @@ namespace SemanticKernelDemo
             // 
             _toolTip.Draw += _toolTip_Draw;
             _toolTip.Popup += _toolTip_Popup;
-            // 
-            // toolStripMenuItem1
-            // 
-            toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(439, 6);
-            // 
-            // sOLONLetsCallBackThe80sToolStripMenuItem
-            // 
-            sOLONLetsCallBackThe80sToolStripMenuItem.Name = "sOLONLetsCallBackThe80sToolStripMenuItem";
-            sOLONLetsCallBackThe80sToolStripMenuItem.Size = new Size(442, 38);
-            sOLONLetsCallBackThe80sToolStripMenuItem.Text = "SOLON - Let's call back the 80s! ...";
-            sOLONLetsCallBackThe80sToolStripMenuItem.Click += Solon_LetsCallBackThe80sToolStripMenuItem_Click;
             // 
             // FrmMain
             // 
@@ -327,7 +333,7 @@ namespace SemanticKernelDemo
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar5).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)_frequencyPenaltySlider).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar3).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
             ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
@@ -356,7 +362,7 @@ namespace SemanticKernelDemo
         private Label label6;
         private TrackBar trackBar5;
         private Label label5;
-        private TrackBar trackBar4;
+        private TrackBar _frequencyPenaltySlider;
         private Label label4;
         private TrackBar trackBar3;
         private Label label3;
