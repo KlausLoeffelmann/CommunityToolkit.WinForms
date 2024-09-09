@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35306.20
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.EntryFormatter", "src\CommunityToolkit.WinForms\EntryFormatter\CommunityToolkit.WinForms.EntryFormatter.csproj", "{73D2AB5D-14D0-4397-B0E3-23F8D9D24A1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinForms.PowerTools.Win32", "src\CommunityToolkit.WinForms\Win32\WinForms.PowerTools.Win32.csproj", "{E6CDDA75-FC37-4169-9A3F-A072FA91C640}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ControlsAndComponents", "ControlsAndComponents", "{76F766EB-8FC8-40CF-8BBF-88102B8F6B53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interop", "Interop", "{166EC1D3-D4D3-47DA-BDBB-B69EC849BEF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntryFormatterDemo", "samples\cs\EntryFormatter\EntryFormatterDemo\EntryFormatterDemo.csproj", "{04973D15-8245-44B8-B0C7-C5210ECE79A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{AC129569-8288-4301-9889-06058A87E915}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73D2AB5D-14D0-4397-B0E3-23F8D9D24A1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73D2AB5D-14D0-4397-B0E3-23F8D9D24A1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73D2AB5D-14D0-4397-B0E3-23F8D9D24A1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73D2AB5D-14D0-4397-B0E3-23F8D9D24A1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6CDDA75-FC37-4169-9A3F-A072FA91C640}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6CDDA75-FC37-4169-9A3F-A072FA91C640}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6CDDA75-FC37-4169-9A3F-A072FA91C640}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6CDDA75-FC37-4169-9A3F-A072FA91C640}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04973D15-8245-44B8-B0C7-C5210ECE79A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04973D15-8245-44B8-B0C7-C5210ECE79A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04973D15-8245-44B8-B0C7-C5210ECE79A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04973D15-8245-44B8-B0C7-C5210ECE79A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{73D2AB5D-14D0-4397-B0E3-23F8D9D24A1C} = {76F766EB-8FC8-40CF-8BBF-88102B8F6B53}
+		{E6CDDA75-FC37-4169-9A3F-A072FA91C640} = {166EC1D3-D4D3-47DA-BDBB-B69EC849BEF3}
+		{04973D15-8245-44B8-B0C7-C5210ECE79A9} = {AC129569-8288-4301-9889-06058A87E915}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1EE0FF45-9F56-4F20-B89A-80F0D3FB5796}
+	EndGlobalSection
+EndGlobal
