@@ -77,7 +77,8 @@ public class SemanticKernelConversation : BindableComponent
     /// </summary>
     /// <remarks>
     /// The temperature value controls the randomness of the model's responses.
-    /// A higher value will make the responses more random, while a lower value will make them more deterministic.
+    /// A higher value will make the responses more random, while a lower value 
+    /// will make them more deterministic.
     /// </remarks>
     [DefaultValue(null)]
     public double? Temperature
@@ -90,10 +91,12 @@ public class SemanticKernelConversation : BindableComponent
     /// Gets or sets the top-p value for chat completion.
     /// </summary>
     /// <remarks>
-    /// The top-p value is a value between 0 and 1 that controls the diversity of the model's responses.
-    /// A higher value will make the responses more diverse, while a lower value will make them more focused.
+    /// The top-p value is a value between 0 and 1 that controls the diversity 
+    /// of the model's responses.
+    /// A higher value will make the responses more diverse, while a lower value 
+    /// will make them more focused.
     /// </remarks>
-    [DefaultValue(null)]
+    [DefaultValue(1)]
     public double? TopP
     {
         get => _topP;

@@ -58,6 +58,8 @@ namespace SemanticKernelDemo
             sOLONLetsCallBackThe80sToolStripMenuItem = new ToolStripMenuItem();
             statusStrip2 = new StatusStrip();
             _toolTip = new ToolTip(components);
+            toolStripMenuItem2 = new ToolStripSeparator();
+            testFormToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar5).BeginInit();
@@ -72,10 +74,10 @@ namespace SemanticKernelDemo
             // _promptControl
             // 
             _promptControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            _promptControl.Location = new Point(3, 673);
+            _promptControl.Location = new Point(3, 607);
             _promptControl.Multiline = true;
             _promptControl.Name = "_promptControl";
-            _promptControl.Size = new Size(900, 97);
+            _promptControl.Size = new Size(1000, 97);
             _promptControl.TabIndex = 0;
             _promptControl.VisualStylesMode = VisualStylesMode.Latest;
             _promptControl.SendPrompt += PromptControl_SendPrompt;
@@ -95,7 +97,7 @@ namespace SemanticKernelDemo
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(1359, 773);
+            tableLayoutPanel1.Size = new Size(1510, 707);
             tableLayoutPanel1.TabIndex = 1;
             // 
             // _conversationView
@@ -104,7 +106,7 @@ namespace SemanticKernelDemo
             _conversationView.HostPage = "wwwroot/index.html";
             _conversationView.Location = new Point(3, 3);
             _conversationView.Name = "_conversationView";
-            _conversationView.Size = new Size(900, 664);
+            _conversationView.Size = new Size(1000, 598);
             _conversationView.StartPath = "/";
             _conversationView.TabIndex = 1;
             _conversationView.Text = "markdownRenderer1";
@@ -125,10 +127,10 @@ namespace SemanticKernelDemo
             panel1.Controls.Add(trackBar1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(_sldTemperature);
-            panel1.Location = new Point(909, 3);
+            panel1.Location = new Point(1009, 3);
             panel1.Name = "panel1";
             tableLayoutPanel1.SetRowSpan(panel1, 2);
-            panel1.Size = new Size(447, 767);
+            panel1.Size = new Size(498, 701);
             panel1.TabIndex = 2;
             // 
             // label6
@@ -145,7 +147,7 @@ namespace SemanticKernelDemo
             trackBar5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             trackBar5.Location = new Point(22, 594);
             trackBar5.Name = "trackBar5";
-            trackBar5.Size = new Size(407, 69);
+            trackBar5.Size = new Size(458, 69);
             trackBar5.TabIndex = 10;
             _toolTip.SetToolTip(trackBar5, resources.GetString("trackBar5.ToolTip"));
             // 
@@ -167,7 +169,7 @@ namespace SemanticKernelDemo
             _frequencyPenaltySlider.Maximum = 20;
             _frequencyPenaltySlider.Minimum = -20;
             _frequencyPenaltySlider.Name = "_frequencyPenaltySlider";
-            _frequencyPenaltySlider.Size = new Size(407, 69);
+            _frequencyPenaltySlider.Size = new Size(458, 69);
             _frequencyPenaltySlider.TabIndex = 8;
             _frequencyPenaltySlider.TickFrequency = 10;
             _frequencyPenaltySlider.TickStyle = TickStyle.Both;
@@ -187,7 +189,7 @@ namespace SemanticKernelDemo
             trackBar3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             trackBar3.Location = new Point(22, 376);
             trackBar3.Name = "trackBar3";
-            trackBar3.Size = new Size(407, 69);
+            trackBar3.Size = new Size(458, 69);
             trackBar3.TabIndex = 6;
             _toolTip.SetToolTip(trackBar3, resources.GetString("trackBar3.ToolTip"));
             // 
@@ -205,7 +207,7 @@ namespace SemanticKernelDemo
             trackBar2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             trackBar2.Location = new Point(22, 267);
             trackBar2.Name = "trackBar2";
-            trackBar2.Size = new Size(407, 69);
+            trackBar2.Size = new Size(458, 69);
             trackBar2.TabIndex = 4;
             _toolTip.SetToolTip(trackBar2, resources.GetString("trackBar2.ToolTip"));
             // 
@@ -223,7 +225,7 @@ namespace SemanticKernelDemo
             trackBar1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             trackBar1.Location = new Point(22, 158);
             trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(407, 69);
+            trackBar1.Size = new Size(458, 69);
             trackBar1.TabIndex = 2;
             _toolTip.SetToolTip(trackBar1, "Adjusts the maximum length of the AI’s response. Shorter values result in concise, to-the-point answers, while longer values allow for more detailed explanations or elaborate conversations.");
             // 
@@ -241,13 +243,15 @@ namespace SemanticKernelDemo
             _sldTemperature.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _sldTemperature.Location = new Point(22, 49);
             _sldTemperature.Name = "_sldTemperature";
-            _sldTemperature.Size = new Size(407, 69);
+            _sldTemperature.Size = new Size(458, 69);
             _sldTemperature.TabIndex = 0;
             _toolTip.SetToolTip(_sldTemperature, resources.GetString("_sldTemperature.ToolTip"));
             // 
             // _semanticKernelConversation
             // 
             _semanticKernelConversation.AssistantInstructions = "";
+            _semanticKernelConversation.Temperature = 1D;
+            _semanticKernelConversation.TopP = 1D;
             // 
             // menuStrip1
             // 
@@ -256,7 +260,7 @@ namespace SemanticKernelDemo
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, viewToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1359, 38);
+            menuStrip1.Size = new Size(1510, 38);
             menuStrip1.TabIndex = 2;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -275,7 +279,7 @@ namespace SemanticKernelDemo
             // 
             // viewToolStripMenuItem
             // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { browserDeveloperToolsToolStripMenuItem, toolStripMenuItem1, sOLONLetsCallBackThe80sToolStripMenuItem });
+            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { browserDeveloperToolsToolStripMenuItem, toolStripMenuItem1, sOLONLetsCallBackThe80sToolStripMenuItem, toolStripMenuItem2, testFormToolStripMenuItem });
             viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             viewToolStripMenuItem.Size = new Size(76, 34);
             viewToolStripMenuItem.Text = "View";
@@ -303,9 +307,9 @@ namespace SemanticKernelDemo
             // 
             statusStrip2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             statusStrip2.ImageScalingSize = new Size(24, 24);
-            statusStrip2.Location = new Point(0, 811);
+            statusStrip2.Location = new Point(0, 745);
             statusStrip2.Name = "statusStrip2";
-            statusStrip2.Size = new Size(1359, 22);
+            statusStrip2.Size = new Size(1510, 22);
             statusStrip2.TabIndex = 3;
             statusStrip2.Text = "statusStrip2";
             // 
@@ -314,11 +318,23 @@ namespace SemanticKernelDemo
             _toolTip.Draw += _toolTip_Draw;
             _toolTip.Popup += _toolTip_Popup;
             // 
+            // toolStripMenuItem2
+            // 
+            toolStripMenuItem2.Name = "toolStripMenuItem2";
+            toolStripMenuItem2.Size = new Size(439, 6);
+            // 
+            // testFormToolStripMenuItem
+            // 
+            testFormToolStripMenuItem.Name = "testFormToolStripMenuItem";
+            testFormToolStripMenuItem.Size = new Size(442, 38);
+            testFormToolStripMenuItem.Text = "Test Form...";
+            testFormToolStripMenuItem.Click += testFormToolStripMenuItem_Click;
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1359, 833);
+            ClientSize = new Size(1510, 767);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(menuStrip1);
             Controls.Add(statusStrip2);
@@ -372,5 +388,7 @@ namespace SemanticKernelDemo
         private ToolTip _toolTip;
         private ToolStripSeparator toolStripMenuItem1;
         private ToolStripMenuItem sOLONLetsCallBackThe80sToolStripMenuItem;
+        private ToolStripSeparator toolStripMenuItem2;
+        private ToolStripMenuItem testFormToolStripMenuItem;
     }
 }

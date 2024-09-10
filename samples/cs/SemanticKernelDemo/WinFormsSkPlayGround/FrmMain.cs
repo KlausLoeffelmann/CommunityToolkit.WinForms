@@ -69,4 +69,10 @@ public partial class FrmMain : Form
         var retroForm = new frmRetro();
         retroForm.Show();
     }
+
+    private void testFormToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        var testForm = new FrmTestForm();
+        testForm.Show();
+    }
 }

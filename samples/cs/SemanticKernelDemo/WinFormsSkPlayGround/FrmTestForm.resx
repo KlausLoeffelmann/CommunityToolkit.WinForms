@@ -117,31 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="_toolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>669, 17</value>
-  </metadata>
-  <data name="trackBar5.ToolTip" xml:space="preserve">
-    <value>Similar to the frequency penalty, but it penalizes the use of words that have already appeared in the conversation. A higher presence penalty encourages the model to introduce new topics or vocabulary, making the chat more varied and less repetitive.</value>
-  </data>
-  <data name="trackBar3.ToolTip" xml:space="preserve">
-    <value>Adjusts the "top-p" parameter, which controls the cumulative probability threshold. A lower value means the AI sticks to the most probable words, creating more focused responses, whereas a higher value broadens the range of possible responses, making the conversation more nuanced.</value>
-  </data>
-  <data name="trackBar2.ToolTip" xml:space="preserve">
-    <value>Controls the "top-k" parameter, which determines how many of the most likely next words are considered by the model when generating text. Lower values make the output more deterministic, while higher values increase the diversity of potential responses, making the conversation feel more varied.</value>
-  </data>
-  <data name="_sldTemperature.ToolTip" xml:space="preserve">
-    <value>Controls the "temperature" parameter in natural language processing models. Lower values make responses more deterministic and focused, while higher values add randomness, making the AI generate more creative or varied responses. This would allow the audience to see the impact on how predictable or imaginative the responses are.</value>
-  </data>
-  <metadata name="_semanticKernelConversation.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>331, 17</value>
-  </metadata>
-  <metadata name="statusStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>499, 17</value>
-  </metadata>
-  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>67</value>
-  </metadata>
 </root>
