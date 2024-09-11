@@ -1,4 +1,5 @@
-﻿namespace CommunityToolkit.WinForms.TypedInputExtenders;
+﻿
+namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
 public partial class DecimalFormatterComponent : DataEntryFormatterComponent<Decimal?>
 {

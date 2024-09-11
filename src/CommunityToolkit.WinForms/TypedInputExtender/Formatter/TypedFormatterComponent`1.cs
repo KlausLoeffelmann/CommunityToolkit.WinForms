@@ -264,4 +264,11 @@ public abstract partial class DataEntryFormatterComponent<T> :
     {
         NotifyEndInit?.Invoke(this, EventArgs.Empty);
     }
+
+    public async Task<object?> TryGetValueAsync(string text)
+    {
+        var formatter = GetDefaultFormatterInstance();
+        object? value = await formatter.ConvertToValueAsync(text);
+        return value;
+    }
 }

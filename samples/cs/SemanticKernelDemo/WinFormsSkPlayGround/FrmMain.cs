@@ -1,4 +1,5 @@
 using CommunityToolkit.WinForms.ModernTabControl;
+using TaskTamer.ViewModels;
 using WinFormsSkPlayGround;
 using WinFormsSkPlayGround.Views;
 using WinFormsSkPlayGround.Views.Demos;
@@ -32,19 +33,22 @@ public partial class FrmMain : Form
     {
         var toolWindowTasks = new Dictionary<Task, ToolStripMenuItem>();
 
+        var mainViewModel = new MainViewModel(null!);
+        DataContext = mainViewModel;
+
         _mainTabControl.AddTab("Main Page", new IntroClockDemo());
-        _mainTabControl.AddTab("Simple Async", new SimpleAsyncDemo());
-        _mainTabControl.AddTab("Async Data Forms", new AsyncDataForms());
+        _mainTabControl.AddTab("Simple Async", new SimpleAsyncDemo(this));
+        // _mainTabControl.AddTab("Async Data Forms", new AsyncDataForms());
         _mainTabControl.AddTab("Async Rendering", new AsyncSpiralContainer());
-        _mainTabControl.AddTab("Learn German!", new LearnGermanDemo());
-        _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
+        // _mainTabControl.AddTab("Learn German!", new LearnGermanDemo());
+        // _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
 
         _mainTabControl.TabChanged += _mainTabControl_TabChanged;
     }
 
     private void _mainTabControl_TabChanged(object? sender, EventArgs e)
     {
-        if (sender is ModernTabControl tabControl 
+        if (sender is ModernTabControl tabControl
             && tabControl.CurrentTab is AsyncSpiralContainer spiralDemo)
         {
             spiralDemo.KickOff();
@@ -64,5 +68,13 @@ public partial class FrmMain : Form
     {
         var testForm = new FrmTestForm();
         testForm.Show();
+    }
+
+    private void colorMeToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        this.FormCaptionTextColor = Color.Yellow;
+        this.FormBorderColor = Color.Green;
+        this.FormCaptionBackColor = Color.Blue;
+        this.FormCornerPreference = FormCornerPreference.Round;
     }
 }

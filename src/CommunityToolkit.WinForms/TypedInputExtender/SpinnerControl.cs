@@ -29,13 +29,14 @@ public class SpinnerControl : Label
         DoubleBuffered = true;
         _fontCollection = new PrivateFontCollection();
         _isSpinning = false;
-        Text = "";
+        Text = "X";
 
         LoadBootFontFromBootFolder();
     }
 
-    // Using the new WinForms API: Control.InvokeAsync
-    private async Task SpinAsync(CancellationToken cancellationToken)
+    // Using the "new" PeriodicTimer from .NET 6 and
+    // our new WinForms API: Control.InvokeAsync
+    public async Task SpinAsync(CancellationToken cancellationToken)
     {
         var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(20));
 
@@ -64,6 +65,7 @@ public class SpinnerControl : Label
         finally
         {
             timer?.Dispose();
+            Text = string.Empty;
         }
     }
 
@@ -87,7 +89,6 @@ public class SpinnerControl : Label
                 count: range.End.Value - range.Start.Value + 1)
             .Select(i => (char)i)
             .ToArray();
-
 
     private void LoadBootFontFromBootFolder()
     {

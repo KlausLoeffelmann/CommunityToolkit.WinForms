@@ -14,6 +14,8 @@ public interface ITypedFormatterComponent : IComponent, ISupportInitialize
 
     object? GetValue(TextBox textBox);
 
+    Task<object?> TryGetValueAsync(string text);
+
     void SetValue(TextBox textBox, object? value);
 
     object? GetDefaultValue();

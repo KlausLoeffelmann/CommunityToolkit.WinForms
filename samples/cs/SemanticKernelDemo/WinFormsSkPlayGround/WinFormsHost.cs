@@ -82,7 +82,7 @@ public class WinFormsHost : IHost
     /// <returns>Ein <see cref="Task"/>, das die asynchrone Operation darstellt.</returns>
     public Task StartAsync(CancellationToken cancellationToken = default)
     {
-        Application.SetColorMode(_colorMode);
+        // Application.SetColorMode(_colorMode);
         Application.SetDefaultVisualStylesMode(_visualStylesMode);
 
         var form = Services.GetRequiredService<Form>();

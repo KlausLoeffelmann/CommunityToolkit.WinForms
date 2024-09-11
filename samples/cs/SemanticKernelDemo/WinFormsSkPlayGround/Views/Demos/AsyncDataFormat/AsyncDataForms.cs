@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿
+namespace WinFormsSkPlayGround.Views.Demos;
 
-namespace WinFormsSkPlayGround.Views.Demos
+public partial class AsyncDataForms : UserControl
 {
-    public partial class AsyncDataForms : UserControl
+    public AsyncDataForms()
     {
-        public AsyncDataForms()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        _mainViewModelSource.DataSource = DataContext;
     }
 }

@@ -1,18 +1,23 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.WinForms.TypedInputExtenders;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using OpenAI;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Design;
 using System.Text;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace SemanticKernelDemo.SemanticKernel;
 
 #pragma warning disable SKEXP0010
-public class SemanticKernelConversation : BindableComponent
+public partial class SemanticKernelComponent : BindableComponent
 {
     private Kernel? _kernel;
     private ChatHistory? _chatHistory;
@@ -107,6 +112,9 @@ public class SemanticKernelConversation : BindableComponent
         set => _topP = value;
     }
 
+    [DefaultValue(null)]
+    public ITypedFormatterComponent? Formatter { get; set; }
+
     [MemberNotNull(nameof(_kernel), nameof(_chatHistory))]
     private void Initialize()
     {
@@ -168,6 +176,65 @@ public class SemanticKernelConversation : BindableComponent
 
             yield return response.Content;
         }
+    }
+
+    public async Task<ResponseValueResult<T>> TryGetValueFromJsonAsync<T>(string prompt)
+    {
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(prompt);
+        ArgumentNullException.ThrowIfNull(Formatter);
+
+        try
+        {
+            (bool succeeded, string jsonResultString) = CheckAndRemoveCodeTags(prompt);
+
+            using JsonDocument doc = JsonDocument.Parse(jsonResultString);
+            JsonElement root = doc.RootElement;
+
+            if (root.TryGetProperty("returnValue", out JsonElement returnValueElement))
+            {
+                string rawValue = returnValueElement.GetString()!;
+
+                T? parsedValue = (T?) await Formatter.TryGetValueAsync(rawValue);
+
+                return new ResponseValueResult<T>("OK", parsedValue);
+            }
+            else if (root.TryGetProperty("errorMessage", out JsonElement errorMessageElement))
+            {
+                string errorMessage = errorMessageElement.GetString()!;
+
+                return new(errorMessage, default);
+            }
+            else
+            {
+                string errorMessage = $"We got an issue processing the results:\nThe returned data was unclear.";
+                return new(errorMessage, default!);
+            }
+        }
+        catch (JsonException jEx)
+        {
+            string errorMessage = $"We got an issue processing the results:\n{jEx.Message}";
+            return new(errorMessage, default!);
+        }
+        catch (Exception ex)
+        {
+            string errorMessage = $"We got an issue processing the results:\n{ex.Message}";
+            return new(errorMessage, default!);
+        }
+    }
+
+    // Method to check for and remove code tags from a string.
+    public static (bool, string) CheckAndRemoveCodeTags(string input)
+    {
+        // Regex pattern to match code blocks with optional language specifier
+        var regex = new Regex(@"^```[a-zA-Z]*\s*\n?([\s\S]*?)\n?```$");
+        var match = regex.Match(input);
+
+        if (match.Success)
+        {
+            // Remove the code tags and trim any excess whitespace/newlines
+            return (true, match.Groups[1].Value.Trim());
+        }
+        return (false, input);
     }
 
     public async Task<string> GetResponseAsync(string prompt, TextBoxBase? textBox = default)

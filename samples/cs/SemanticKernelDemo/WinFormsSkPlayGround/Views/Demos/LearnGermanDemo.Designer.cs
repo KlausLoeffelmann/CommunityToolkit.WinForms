@@ -39,7 +39,7 @@ partial class LearnGermanDemo
         _btnAsyncPhoneticTranslate = new SemanticKernelDemo.Controls.AsyncButton();
         _btnAsyncReadPhoneticEnglishOutLoud = new SemanticKernelDemo.Controls.AsyncButton();
         _btnAsyncReadOutLoudGermanOriginal = new SemanticKernelDemo.Controls.AsyncButton();
-        _skPhoneticEnglish = new SemanticKernelDemo.SemanticKernel.SemanticKernelConversation();
+        _skPhoneticEnglish = new SemanticKernelDemo.SemanticKernel.SemanticKernelComponent();
         tableLayoutPanel1.SuspendLayout();
         SuspendLayout();
         // 
@@ -202,5 +202,5 @@ partial class LearnGermanDemo
     private SemanticKernelDemo.Controls.AsyncButton _btnAsyncPhoneticTranslate;
     private SemanticKernelDemo.Controls.AsyncButton _btnAsyncReadPhoneticEnglishOutLoud;
     private SemanticKernelDemo.Controls.AsyncButton _btnAsyncReadOutLoudGermanOriginal;
-    private SemanticKernelDemo.SemanticKernel.SemanticKernelConversation _skPhoneticEnglish;
+    private SemanticKernelDemo.SemanticKernel.SemanticKernelComponent _skPhoneticEnglish;
 }

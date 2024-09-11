@@ -15,6 +15,9 @@ internal static class Program
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
+        Application.SetColorMode(SystemColorMode.Dark);
+
+        #region "Copilot Demo"
 
         #region Prompt
         // I read the comment for WinFormsHost, but I do not understand it. Where is the
@@ -27,9 +30,10 @@ internal static class Program
         // for example between a Blazor component and a WinForms form.
         WinFormsHost = WinFormsHost.Initialize(
             startFormType: typeof(FrmMain),
-            colorMode: SystemColorMode.Dark,
+            colorMode: SystemColorMode.Classic,
             visualStylesMode: VisualStylesMode.Latest);
-
         WinFormsHost.Start();
+
+#endregion
     }
 }

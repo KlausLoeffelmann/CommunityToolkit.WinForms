@@ -45,7 +45,7 @@
             label1 = new Label();
             _sldTemperature = new TrackBar();
             _promptControl = new SemanticKernelDemo.Controls.AsyncPromptControl();
-            _semanticKernelConversation = new SemanticKernelDemo.SemanticKernel.SemanticKernelConversation();
+            _semanticKernelConversation = new SemanticKernelDemo.SemanticKernel.SemanticKernelComponent();
             _toolTip = new ToolTip(components);
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -269,7 +269,7 @@
         private Label label1;
         private TrackBar _sldTemperature;
         private SemanticKernelDemo.Controls.AsyncPromptControl _promptControl;
-        private SemanticKernelDemo.SemanticKernel.SemanticKernelConversation _semanticKernelConversation;
+        private SemanticKernelDemo.SemanticKernel.SemanticKernelComponent _semanticKernelConversation;
         private ToolTip _toolTip;
     }
 }

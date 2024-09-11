@@ -38,7 +38,6 @@
             label2 = new Label();
             _txtDateDue = new TextBox();
             label1 = new Label();
-            _txtTodoItemText = new TextBox();
             panel2 = new Panel();
             label3 = new Label();
             _txtNotes = new TextBox();
@@ -48,10 +47,11 @@
             panel3 = new Panel();
             _taskGridView = new CommunityToolkit.WinForms.GridView.GridView();
             _mainViewModelSource = new BindingSource(components);
-            _dateFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent();
-            _decimalFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent();
             _taskViewItem = new TaskTamer9.WinForms.Views.TaskViewItem();
             taskViewModelBindingSource = new BindingSource(components);
+            _dateFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent();
+            _decimalFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent();
+            _txtTodoItemText = new TextBox();
             groupBox1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -60,9 +60,9 @@
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_taskGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_mainViewModelSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)taskViewModelBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_dateFormatter).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_decimalFormatter).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)taskViewModelBindingSource).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -158,17 +158,6 @@
             label1.Size = new Size(106, 30);
             label1.TabIndex = 1;
             label1.Text = "Date due:";
-            // 
-            // _txtTodoItemText
-            // 
-            _txtTodoItemText.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            _txtTodoItemText.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            _txtTodoItemText.Location = new Point(12, 19);
-            _txtTodoItemText.Name = "_txtTodoItemText";
-            _txtTodoItemText.Padding = new Padding(4);
-            _txtTodoItemText.PlaceholderText = "New Todo Item";
-            _txtTodoItemText.Size = new Size(561, 58);
-            _txtTodoItemText.TabIndex = 0;
             // 
             // panel2
             // 
@@ -281,6 +270,17 @@
             // 
             taskViewModelBindingSource.DataSource = typeof(TaskTamer.ViewModels.TaskViewModel);
             // 
+            // _txtTodoItemText
+            // 
+            _txtTodoItemText.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            _txtTodoItemText.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            _txtTodoItemText.Location = new Point(12, 19);
+            _txtTodoItemText.Name = "_txtTodoItemText";
+            _txtTodoItemText.Padding = new Padding(4);
+            _txtTodoItemText.PlaceholderText = "New Todo Item";
+            _txtTodoItemText.Size = new Size(561, 45);
+            _txtTodoItemText.TabIndex = 0;
+            // 
             // AsyncDataForms
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
@@ -302,9 +302,9 @@
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)_taskGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)_mainViewModelSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)taskViewModelBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)_dateFormatter).EndInit();
             ((System.ComponentModel.ISupportInitialize)_decimalFormatter).EndInit();
-            ((System.ComponentModel.ISupportInitialize)taskViewModelBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -319,7 +319,6 @@
         private Label label2;
         private TextBox _txtDateDue;
         private Label label1;
-        private TextBox _txtTodoItemText;
         private Panel panel2;
         private Label label3;
         private TextBox _txtNotes;
@@ -333,5 +332,7 @@
         private BindingSource _mainViewModelSource;
         private TaskTamer9.WinForms.Views.TaskViewItem _taskViewItem;
         private BindingSource taskViewModelBindingSource;
+        private SemanticKernelDemo.SemanticKernel.SemanticKernelComponent semanticKernelConversation1;
+        private TextBox _txtTodoItemText;
     }
 }
