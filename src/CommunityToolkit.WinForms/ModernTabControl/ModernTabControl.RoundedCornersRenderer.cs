@@ -43,7 +43,6 @@ public partial class ModernTabControl
                 // We create a gradient Brush for the background from the top to the bottom of the item
                 // with starting with SystemColors.ControlDarkDark to SystemColor.Control
 
-#pragma warning disable WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
                 if (Application.IsDarkModeEnabled)
                 {
 
@@ -61,7 +60,6 @@ public partial class ModernTabControl
                         SystemColors.ControlLight,
                         LinearGradientMode.Vertical);
                 }
-#pragma warning restore WFO5001 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
             }
 
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -95,6 +93,16 @@ public partial class ModernTabControl
                         bounds.Height - 1),
                     new Size(15, 15));
             }
+
+            // Paint a TextColor line at the bottom of the item:
+            using var textBrush = new SolidBrush(SystemColors.ControlText);
+            e.Graphics.FillRectangle(
+                textBrush,
+                new Rectangle(
+                    bounds.X,
+                    bounds.Bottom - 1,
+                    bounds.Width,
+                    1));
         }
     }
 }
