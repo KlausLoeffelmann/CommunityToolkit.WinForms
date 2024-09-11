@@ -11,9 +11,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.18.2" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2739.15" />
+    <PackageReference Include="System.Speech" Version="9.0.0-rc.2.24459.11" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\ModernTabControl\ModernTabControl.csproj" />
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
     <ProjectReference Include="..\ConversationView\ConversationView.csproj" />
   </ItemGroup>
 
@@ -21,6 +24,18 @@
     <Compile Update="PromptControlVersions\PromptControlV1.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

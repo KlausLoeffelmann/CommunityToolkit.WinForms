@@ -1,6 +1,6 @@
 ﻿namespace WinFormsSkPlayGround.Views;
 
-partial class DecodingParametersView
+partial class SimpleAsyncDemo
 {
     /// <summary> 
     /// Required designer variable.
@@ -28,28 +28,34 @@ partial class DecodingParametersView
     /// </summary>
     private void InitializeComponent()
     {
-        editFloatingPointSlider1 = new Controls.EditFloatingPointSlider();
+        _spinner = new CommunityToolkit.WinForms.TypedInputExtenders.SpinnerControl();
         SuspendLayout();
         // 
-        // editFloatingPointSlider1
+        // spinnerControl2
         // 
-        editFloatingPointSlider1.Location = new Point(44, 61);
-        editFloatingPointSlider1.Name = "editFloatingPointSlider1";
-        editFloatingPointSlider1.Size = new Size(397, 64);
-        editFloatingPointSlider1.TabIndex = 0;
-        editFloatingPointSlider1.Text = "editFloatingPointSlider1";
+        _spinner.Dock = DockStyle.Fill;
+        _spinner.Font = new Font("Segoe UI", 72F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        _spinner.IsSpinning = false;
+        _spinner.Location = new Point(0, 0);
+        _spinner.Name = "spinnerControl2";
+        _spinner.Size = new Size(1076, 615);
+        _spinner.TabIndex = 1;
+        _spinner.Text = "X";
+        _spinner.TextAlign = ContentAlignment.MiddleCenter;
+        _spinner.Click += Spinner_ClickHandler;
         // 
-        // DecodingParametersView
+        // SimpleAsyncDemo
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        Controls.Add(editFloatingPointSlider1);
-        Name = "DecodingParametersView";
-        Size = new Size(620, 659);
+        Controls.Add(_spinner);
+        Name = "SimpleAsyncDemo";
+        Size = new Size(1076, 615);
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
 
-    private Controls.EditFloatingPointSlider editFloatingPointSlider1;
+    private CommunityToolkit.WinForms.TypedInputExtenders.SpinnerControl _spinner;
 }

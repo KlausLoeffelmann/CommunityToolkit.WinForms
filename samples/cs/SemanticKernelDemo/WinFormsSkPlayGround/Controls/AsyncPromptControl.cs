@@ -3,7 +3,8 @@ using System.Runtime.InteropServices;
 
 namespace SemanticKernelDemo.Controls;
 
-public partial class PromptControl : TextBox
+[DefaultEvent(nameof(AsyncSendPrompt))]
+public partial class AsyncPromptControl : TextBox
 {
     private readonly static Padding s_defaultPadding = new(5, 5, 50, 5);
     private bool _isMouseOver;
@@ -23,12 +24,12 @@ public partial class PromptControl : TextBox
     private static extern bool InvalidateRect(IntPtr hWnd, IntPtr lpRect, bool bErase);
 
     // Event to be raised when the user presses Enter without Ctrl
-    public event EventHandler? SendPrompt;
+    public event AsyncEventHandler? AsyncSendPrompt;
     public event EventHandler? NewPromptSuggestionRequest;
     public event EventHandler? PreviousPromptRequest;
     public event EventHandler? PromptCompleteSuggestionRequest;
 
-    public PromptControl()
+    public AsyncPromptControl()
     {
         VisualStylesMode = VisualStylesMode.Latest;
         Multiline = true;
@@ -124,8 +125,45 @@ public partial class PromptControl : TextBox
         base.OnKeyDown(e);
     }
 
-    protected virtual void OnSendPrompt(EventArgs e) 
-        => SendPrompt?.Invoke(this, e);
+    protected async virtual void OnSendPrompt(EventArgs e)
+    {
+        bool previousEnabled = Enabled;
+
+        if (AsyncSendPrompt is null)
+            return;
+
+        if (AutoDisableWhenBusy)
+        {
+            previousEnabled = Enabled;
+            Enabled = false;
+        }
+
+        if (ParallelInvoke)
+        {
+            // Invoke each handler in parallel
+            await Task.WhenAll(AsyncSendPrompt.GetInvocationList().Cast<AsyncEventHandler>().Select(handler => handler.Invoke(this, e))).ConfigureAwait(false);
+        }
+        else
+        {
+            // Invoke each handler safely
+            foreach (AsyncEventHandler handler in AsyncSendPrompt.GetInvocationList().Cast<AsyncEventHandler>())
+            {
+                try
+                {
+                    await handler.Invoke(this, e).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    Application.OnThreadException(ex);
+                }
+            }
+        }
+
+        if (AutoDisableWhenBusy && !previousEnabled)
+        {
+            Enabled = previousEnabled;
+        }
+    }
 
     protected virtual void OnNewPromptSuggestionRequest(EventArgs e) 
         => NewPromptSuggestionRequest?.Invoke(this, e);
@@ -158,4 +196,16 @@ public partial class PromptControl : TextBox
             OnMouseMove(new MouseEventArgs(MouseButtons.None, 0, clientPoint.X, clientPoint.Y, 0));
         }
     }
+
+    /// <summary>
+    ///  Gets or sets a value indicating whether the <see cref="AsyncButton"/> control should invoke async handler in parallel.
+    /// </summary>
+    [DefaultValue(false)]
+    public bool ParallelInvoke { get; set; }
+
+    /// <summary>
+    ///  Gets or sets a value indicating whether the <see cref="AsyncButton"/> control should be automatically disabled when busy.
+    /// </summary>
+    [DefaultValue(false)]
+    public bool AutoDisableWhenBusy { get; set; }
 }

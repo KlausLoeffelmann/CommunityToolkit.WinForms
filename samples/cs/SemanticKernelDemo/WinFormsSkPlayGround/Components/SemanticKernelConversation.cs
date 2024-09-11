@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Design;
+using System.Text;
 
 namespace SemanticKernelDemo.SemanticKernel;
 
@@ -26,8 +27,11 @@ public class SemanticKernelConversation : BindableComponent
     [Browsable(false)]
     public string? ApiKey { get; set; }
 
-    [Bindable(true), Browsable(true), DefaultValue(null), Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
-    [Category("AI"), Description("Gets or sets the general instructions how to process requests.")]
+    [Bindable(true)]
+    [Browsable(true)]
+    [DefaultValue(null)]
+    [Category("AI")]
+    [Description("Gets or sets the general instructions how to process requests.")]
     public string? AssistantInstructions { get; set; }
 
     /// <summary>
@@ -133,8 +137,7 @@ public class SemanticKernelConversation : BindableComponent
     /// </summary>
     /// <param name="prompt">The prompt to process.</param>
     /// <returns>A stream of chat responses.</returns>
-    
-    public async IAsyncEnumerable<string> ProcessPromptAsync(string prompt)
+    public async IAsyncEnumerable<string> RequestResponseStreamAsync(string prompt)
     {
         if (_kernel is null || _chatHistory is null)
         {
@@ -164,6 +167,43 @@ public class SemanticKernelConversation : BindableComponent
             }
 
             yield return response.Content;
+        }
+    }
+
+    public async Task<string> GetResponseAsync(string prompt, TextBoxBase? textBox = default)
+    {
+        try
+        {
+            if (_kernel is null || _chatHistory is null)
+            {
+                Initialize();
+            }
+
+            var responses = RequestResponseStreamAsync(prompt);
+            StringBuilder responseStringBuilder = new();
+
+            await foreach (var response in responses)
+            {
+                responseStringBuilder.Append(response);
+
+                if (textBox is null)
+                {
+                    continue;
+                }
+
+                await textBox.InvokeAsync(() =>
+                {
+                    textBox.AppendText(response);
+                    textBox.ScrollToCaret();
+                });
+            }
+
+            return responseStringBuilder.ToString();
+        }
+        catch (Exception ex)
+        {
+            // Handle or log the exception as needed
+            throw new InvalidOperationException("An error occurred while processing the response.", ex);
         }
     }
 }

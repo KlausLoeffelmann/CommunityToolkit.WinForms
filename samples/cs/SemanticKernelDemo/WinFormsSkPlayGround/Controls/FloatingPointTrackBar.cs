@@ -1,8 +1,7 @@
-﻿using Microsoft.VisualBasic.Devices;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
 
-namespace WinFormsSkPlayGround.Views;
+namespace WinFormsSkPlayGround.Controls;
 
 public class FloatingPointTrackBar : TrackBar
 {
@@ -141,7 +140,7 @@ public class FloatingPointTrackBar : TrackBar
 
         if (m.Msg == WM_PAINT)
         {
-            OnPaintInternal();
+            // OnPaintInternal();
         }
     }
 

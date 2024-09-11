@@ -1,4 +1,6 @@
-﻿namespace WinFormsSkPlayGround
+﻿using WinFormsSkPlayGround.Controls;
+
+namespace WinFormsSkPlayGround
 {
     partial class FrmTestForm
     {
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            floatingPointTrackBar1 = new Views.FloatingPointTrackBar();
+            floatingPointTrackBar1 = new FloatingPointTrackBar();
             _lblValue = new Label();
             ((System.ComponentModel.ISupportInitialize)floatingPointTrackBar1).BeginInit();
             SuspendLayout();
@@ -71,7 +73,7 @@
 
         #endregion
 
-        private Views.FloatingPointTrackBar floatingPointTrackBar1;
+        private FloatingPointTrackBar floatingPointTrackBar1;
         private Label _lblValue;
     }
 }

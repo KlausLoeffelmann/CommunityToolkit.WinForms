@@ -30,365 +30,204 @@ namespace SemanticKernelDemo
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
-            _promptControl = new PromptControl();
-            tableLayoutPanel1 = new TableLayoutPanel();
-            _conversationView = new WinForms.ControlConcepts.ConversationView();
-            panel1 = new Panel();
-            label6 = new Label();
-            trackBar5 = new TrackBar();
-            label5 = new Label();
-            _frequencyPenaltySlider = new TrackBar();
-            label4 = new Label();
-            trackBar3 = new TrackBar();
-            label3 = new Label();
-            trackBar2 = new TrackBar();
-            label2 = new Label();
-            trackBar1 = new TrackBar();
-            label1 = new Label();
-            _sldTemperature = new TrackBar();
-            _semanticKernelConversation = new SemanticKernel.SemanticKernelConversation();
-            menuStrip1 = new MenuStrip();
-            fileToolStripMenuItem = new ToolStripMenuItem();
-            quitToolStripMenuItem = new ToolStripMenuItem();
-            viewToolStripMenuItem = new ToolStripMenuItem();
-            browserDeveloperToolsToolStripMenuItem = new ToolStripMenuItem();
+            _menuStrip = new MenuStrip();
+            _tsmFile = new ToolStripMenuItem();
+            _tsmQuit = new ToolStripMenuItem();
+            _tsmView = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
-            sOLONLetsCallBackThe80sToolStripMenuItem = new ToolStripMenuItem();
+            _tsmFairyTailGenerator = new ToolStripMenuItem();
+            _tsmLearnGermanIn2Minutes = new ToolStripMenuItem();
+            _tsmSolonLetsCallBackThe80s = new ToolStripMenuItem();
+            _tsmTools = new ToolStripMenuItem();
+            _tsmWinFormsAIPlayGround = new ToolStripMenuItem();
+            toolStripMenuItem3 = new ToolStripSeparator();
+            _tsmBrowserDeveloperTools = new ToolStripMenuItem();
+            toolStripMenuItem4 = new ToolStripSeparator();
+            _tsmTestForm = new ToolStripMenuItem();
+            _tsmAsyncDemos = new ToolStripMenuItem();
+            _tsmAsyncTimerDemo = new ToolStripMenuItem();
+            asyncToolStripMenuItem1 = new ToolStripMenuItem();
+            asyncDataEntryToolStripMenuItem = new ToolStripMenuItem();
             statusStrip2 = new StatusStrip();
-            _toolTip = new ToolTip(components);
-            toolStripMenuItem2 = new ToolStripSeparator();
-            testFormToolStripMenuItem = new ToolStripMenuItem();
-            tableLayoutPanel1.SuspendLayout();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar5).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)_frequencyPenaltySlider).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar3).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)_sldTemperature).BeginInit();
-            menuStrip1.SuspendLayout();
+            _mainTabControl = new CommunityToolkit.WinForms.ModernTabControl.ModernTabControl();
+            _menuStrip.SuspendLayout();
             SuspendLayout();
             // 
-            // _promptControl
+            // _menuStrip
             // 
-            _promptControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            _promptControl.Location = new Point(3, 607);
-            _promptControl.Multiline = true;
-            _promptControl.Name = "_promptControl";
-            _promptControl.Size = new Size(1000, 97);
-            _promptControl.TabIndex = 0;
-            _promptControl.VisualStylesMode = VisualStylesMode.Latest;
-            _promptControl.SendPrompt += PromptControl_SendPrompt;
-            _promptControl.NewPromptSuggestionRequest += PromptControl_NewPromptSuggestionRequest;
+            _menuStrip.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            _menuStrip.ImageScalingSize = new Size(24, 24);
+            _menuStrip.Items.AddRange(new ToolStripItem[] { _tsmFile, _tsmView, _tsmTools, _tsmAsyncDemos });
+            _menuStrip.Location = new Point(0, 0);
+            _menuStrip.Name = "_menuStrip";
+            _menuStrip.Size = new Size(1254, 38);
+            _menuStrip.TabIndex = 2;
+            _menuStrip.Text = "menuStrip1";
             // 
-            // tableLayoutPanel1
+            // _tsmFile
             // 
-            tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 66.6666641F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
-            tableLayoutPanel1.Controls.Add(_conversationView, 0, 0);
-            tableLayoutPanel1.Controls.Add(_promptControl, 0, 1);
-            tableLayoutPanel1.Controls.Add(panel1, 1, 0);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 38);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle());
-            tableLayoutPanel1.Size = new Size(1510, 707);
-            tableLayoutPanel1.TabIndex = 1;
+            _tsmFile.DropDownItems.AddRange(new ToolStripItem[] { _tsmQuit });
+            _tsmFile.Name = "_tsmFile";
+            _tsmFile.Size = new Size(68, 34);
+            _tsmFile.Text = " &File";
             // 
-            // _conversationView
+            // _tsmQuit
             // 
-            _conversationView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            _conversationView.HostPage = "wwwroot/index.html";
-            _conversationView.Location = new Point(3, 3);
-            _conversationView.Name = "_conversationView";
-            _conversationView.Size = new Size(1000, 598);
-            _conversationView.StartPath = "/";
-            _conversationView.TabIndex = 1;
-            _conversationView.Text = "markdownRenderer1";
+            _tsmQuit.Name = "_tsmQuit";
+            _tsmQuit.Size = new Size(157, 38);
+            _tsmQuit.Text = "Quit";
             // 
-            // panel1
+            // _tsmView
             // 
-            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel1.BackColor = SystemColors.ControlDarkDark;
-            panel1.Controls.Add(label6);
-            panel1.Controls.Add(trackBar5);
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(_frequencyPenaltySlider);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(trackBar3);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(trackBar2);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(trackBar1);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(_sldTemperature);
-            panel1.Location = new Point(1009, 3);
-            panel1.Name = "panel1";
-            tableLayoutPanel1.SetRowSpan(panel1, 2);
-            panel1.Size = new Size(498, 701);
-            panel1.TabIndex = 2;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(22, 558);
-            label6.Name = "label6";
-            label6.Size = new Size(193, 32);
-            label6.TabIndex = 11;
-            label6.Text = "Presence Penalty";
-            // 
-            // trackBar5
-            // 
-            trackBar5.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            trackBar5.Location = new Point(22, 594);
-            trackBar5.Name = "trackBar5";
-            trackBar5.Size = new Size(458, 69);
-            trackBar5.TabIndex = 10;
-            _toolTip.SetToolTip(trackBar5, resources.GetString("trackBar5.ToolTip"));
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(22, 449);
-            label5.Name = "label5";
-            label5.Size = new Size(209, 32);
-            label5.TabIndex = 9;
-            label5.Text = "Frequency Penalty";
-            // 
-            // _frequencyPenaltySlider
-            // 
-            _frequencyPenaltySlider.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            _frequencyPenaltySlider.BackColor = SystemColors.ControlDarkDark;
-            _frequencyPenaltySlider.LargeChange = 10;
-            _frequencyPenaltySlider.Location = new Point(22, 485);
-            _frequencyPenaltySlider.Maximum = 20;
-            _frequencyPenaltySlider.Minimum = -20;
-            _frequencyPenaltySlider.Name = "_frequencyPenaltySlider";
-            _frequencyPenaltySlider.Size = new Size(458, 69);
-            _frequencyPenaltySlider.TabIndex = 8;
-            _frequencyPenaltySlider.TickFrequency = 10;
-            _frequencyPenaltySlider.TickStyle = TickStyle.Both;
-            _toolTip.SetToolTip(_frequencyPenaltySlider, "Modifies a penalty applied to words that appear more frequently in the conversation. Increasing this value discourages repetition, making the dialogue more dynamic by promoting diverse word usage.");
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(22, 340);
-            label4.Name = "label4";
-            label4.Size = new Size(291, 32);
-            label4.TabIndex = 7;
-            label4.Text = "Top-p (Nucleus Sampling)";
-            // 
-            // trackBar3
-            // 
-            trackBar3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            trackBar3.Location = new Point(22, 376);
-            trackBar3.Name = "trackBar3";
-            trackBar3.Size = new Size(458, 69);
-            trackBar3.TabIndex = 6;
-            _toolTip.SetToolTip(trackBar3, resources.GetString("trackBar3.ToolTip"));
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(22, 231);
-            label3.Name = "label3";
-            label3.Size = new Size(187, 32);
-            label3.TabIndex = 5;
-            label3.Text = "Top-k Sampling:";
-            // 
-            // trackBar2
-            // 
-            trackBar2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            trackBar2.Location = new Point(22, 267);
-            trackBar2.Name = "trackBar2";
-            trackBar2.Size = new Size(458, 69);
-            trackBar2.TabIndex = 4;
-            _toolTip.SetToolTip(trackBar2, resources.GetString("trackBar2.ToolTip"));
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(22, 122);
-            label2.Name = "label2";
-            label2.Size = new Size(196, 32);
-            label2.TabIndex = 3;
-            label2.Text = "Response Length";
-            // 
-            // trackBar1
-            // 
-            trackBar1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            trackBar1.Location = new Point(22, 158);
-            trackBar1.Name = "trackBar1";
-            trackBar1.Size = new Size(458, 69);
-            trackBar1.TabIndex = 2;
-            _toolTip.SetToolTip(trackBar1, "Adjusts the maximum length of the AI’s response. Shorter values result in concise, to-the-point answers, while longer values allow for more detailed explanations or elaborate conversations.");
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(22, 13);
-            label1.Name = "label1";
-            label1.Size = new Size(270, 32);
-            label1.TabIndex = 1;
-            label1.Text = "Temperature (Creativity)";
-            // 
-            // _sldTemperature
-            // 
-            _sldTemperature.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            _sldTemperature.Location = new Point(22, 49);
-            _sldTemperature.Name = "_sldTemperature";
-            _sldTemperature.Size = new Size(458, 69);
-            _sldTemperature.TabIndex = 0;
-            _toolTip.SetToolTip(_sldTemperature, resources.GetString("_sldTemperature.ToolTip"));
-            // 
-            // _semanticKernelConversation
-            // 
-            _semanticKernelConversation.AssistantInstructions = "";
-            _semanticKernelConversation.Temperature = 1D;
-            _semanticKernelConversation.TopP = 1D;
-            // 
-            // menuStrip1
-            // 
-            menuStrip1.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            menuStrip1.ImageScalingSize = new Size(24, 24);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, viewToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1510, 38);
-            menuStrip1.TabIndex = 2;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { quitToolStripMenuItem });
-            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(68, 34);
-            fileToolStripMenuItem.Text = " &File";
-            // 
-            // quitToolStripMenuItem
-            // 
-            quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            quitToolStripMenuItem.Size = new Size(157, 38);
-            quitToolStripMenuItem.Text = "Quit";
-            // 
-            // viewToolStripMenuItem
-            // 
-            viewToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { browserDeveloperToolsToolStripMenuItem, toolStripMenuItem1, sOLONLetsCallBackThe80sToolStripMenuItem, toolStripMenuItem2, testFormToolStripMenuItem });
-            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
-            viewToolStripMenuItem.Size = new Size(76, 34);
-            viewToolStripMenuItem.Text = "View";
-            // 
-            // browserDeveloperToolsToolStripMenuItem
-            // 
-            browserDeveloperToolsToolStripMenuItem.Name = "browserDeveloperToolsToolStripMenuItem";
-            browserDeveloperToolsToolStripMenuItem.Size = new Size(442, 38);
-            browserDeveloperToolsToolStripMenuItem.Text = "Browser Developer Tools...";
-            browserDeveloperToolsToolStripMenuItem.Click += BrowserDeveloperToolsToolStripMenuItem_Click;
+            _tsmView.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem1, _tsmFairyTailGenerator, _tsmLearnGermanIn2Minutes, _tsmSolonLetsCallBackThe80s });
+            _tsmView.Name = "_tsmView";
+            _tsmView.Size = new Size(76, 34);
+            _tsmView.Text = "View";
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
             toolStripMenuItem1.Size = new Size(439, 6);
             // 
-            // sOLONLetsCallBackThe80sToolStripMenuItem
+            // _tsmFairyTailGenerator
             // 
-            sOLONLetsCallBackThe80sToolStripMenuItem.Name = "sOLONLetsCallBackThe80sToolStripMenuItem";
-            sOLONLetsCallBackThe80sToolStripMenuItem.Size = new Size(442, 38);
-            sOLONLetsCallBackThe80sToolStripMenuItem.Text = "SOLON - Let's call back the 80s! ...";
-            sOLONLetsCallBackThe80sToolStripMenuItem.Click += Solon_LetsCallBackThe80sToolStripMenuItem_Click;
+            _tsmFairyTailGenerator.Name = "_tsmFairyTailGenerator";
+            _tsmFairyTailGenerator.Size = new Size(442, 38);
+            _tsmFairyTailGenerator.Text = "The Fairy Tail Generator...";
+            // 
+            // _tsmLearnGermanIn2Minutes
+            // 
+            _tsmLearnGermanIn2Minutes.Name = "_tsmLearnGermanIn2Minutes";
+            _tsmLearnGermanIn2Minutes.Size = new Size(442, 38);
+            _tsmLearnGermanIn2Minutes.Text = "Learn German in 2 Minutes...";
+            // 
+            // _tsmSolonLetsCallBackThe80s
+            // 
+            _tsmSolonLetsCallBackThe80s.Name = "_tsmSolonLetsCallBackThe80s";
+            _tsmSolonLetsCallBackThe80s.Size = new Size(442, 38);
+            _tsmSolonLetsCallBackThe80s.Text = "SOLON - Let's call back the 80s! ...";
+            _tsmSolonLetsCallBackThe80s.Click += Solon_LetsCallBackThe80s_Click;
+            // 
+            // _tsmTools
+            // 
+            _tsmTools.DropDownItems.AddRange(new ToolStripItem[] { _tsmWinFormsAIPlayGround, toolStripMenuItem3, _tsmBrowserDeveloperTools, toolStripMenuItem4, _tsmTestForm });
+            _tsmTools.Name = "_tsmTools";
+            _tsmTools.Size = new Size(79, 34);
+            _tsmTools.Text = "Tools";
+            // 
+            // _tsmWinFormsAIPlayGround
+            // 
+            _tsmWinFormsAIPlayGround.Name = "_tsmWinFormsAIPlayGround";
+            _tsmWinFormsAIPlayGround.Size = new Size(358, 38);
+            _tsmWinFormsAIPlayGround.Text = "WinForms AI Playground";
+            // 
+            // toolStripMenuItem3
+            // 
+            toolStripMenuItem3.Name = "toolStripMenuItem3";
+            toolStripMenuItem3.Size = new Size(355, 6);
+            // 
+            // _tsmBrowserDeveloperTools
+            // 
+            _tsmBrowserDeveloperTools.Name = "_tsmBrowserDeveloperTools";
+            _tsmBrowserDeveloperTools.Size = new Size(358, 38);
+            _tsmBrowserDeveloperTools.Text = "Browser Developer Tools";
+            // 
+            // toolStripMenuItem4
+            // 
+            toolStripMenuItem4.Name = "toolStripMenuItem4";
+            toolStripMenuItem4.Size = new Size(355, 6);
+            // 
+            // _tsmTestForm
+            // 
+            _tsmTestForm.Name = "_tsmTestForm";
+            _tsmTestForm.Size = new Size(358, 38);
+            _tsmTestForm.Text = "Test Form";
+            _tsmTestForm.Click += TestForm_Click;
+            // 
+            // _tsmAsyncDemos
+            // 
+            _tsmAsyncDemos.DropDownItems.AddRange(new ToolStripItem[] { _tsmAsyncTimerDemo, asyncToolStripMenuItem1, asyncDataEntryToolStripMenuItem });
+            _tsmAsyncDemos.Name = "_tsmAsyncDemos";
+            _tsmAsyncDemos.Size = new Size(85, 34);
+            _tsmAsyncDemos.Text = "Async";
+            // 
+            // _tsmAsyncTimerDemo
+            // 
+            _tsmAsyncTimerDemo.Name = "_tsmAsyncTimerDemo";
+            _tsmAsyncTimerDemo.Size = new Size(326, 38);
+            _tsmAsyncTimerDemo.Text = "Async Timer Demo";
+            // 
+            // asyncToolStripMenuItem1
+            // 
+            asyncToolStripMenuItem1.Name = "asyncToolStripMenuItem1";
+            asyncToolStripMenuItem1.Size = new Size(326, 38);
+            asyncToolStripMenuItem1.Text = "Async Graphics Demo";
+            // 
+            // asyncDataEntryToolStripMenuItem
+            // 
+            asyncDataEntryToolStripMenuItem.Name = "asyncDataEntryToolStripMenuItem";
+            asyncDataEntryToolStripMenuItem.Size = new Size(326, 38);
+            asyncDataEntryToolStripMenuItem.Text = "Async Data Entry";
             // 
             // statusStrip2
             // 
             statusStrip2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             statusStrip2.ImageScalingSize = new Size(24, 24);
-            statusStrip2.Location = new Point(0, 745);
+            statusStrip2.Location = new Point(0, 685);
             statusStrip2.Name = "statusStrip2";
-            statusStrip2.Size = new Size(1510, 22);
+            statusStrip2.Size = new Size(1254, 22);
             statusStrip2.TabIndex = 3;
             statusStrip2.Text = "statusStrip2";
             // 
-            // _toolTip
+            // _mainTabControl
             // 
-            _toolTip.Draw += _toolTip_Draw;
-            _toolTip.Popup += _toolTip_Popup;
-            // 
-            // toolStripMenuItem2
-            // 
-            toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(439, 6);
-            // 
-            // testFormToolStripMenuItem
-            // 
-            testFormToolStripMenuItem.Name = "testFormToolStripMenuItem";
-            testFormToolStripMenuItem.Size = new Size(442, 38);
-            testFormToolStripMenuItem.Text = "Test Form...";
-            testFormToolStripMenuItem.Click += testFormToolStripMenuItem_Click;
+            _mainTabControl.Dock = DockStyle.Fill;
+            _mainTabControl.Location = new Point(0, 38);
+            _mainTabControl.Name = "_mainTabControl";
+            _mainTabControl.Size = new Size(1254, 647);
+            _mainTabControl.TabIndex = 4;
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1510, 767);
-            Controls.Add(tableLayoutPanel1);
-            Controls.Add(menuStrip1);
+            ClientSize = new Size(1254, 707);
+            Controls.Add(_mainTabControl);
+            Controls.Add(_menuStrip);
             Controls.Add(statusStrip2);
             Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            MainMenuStrip = menuStrip1;
+            MainMenuStrip = _menuStrip;
             Margin = new Padding(4);
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "WinForms AI Playground";
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)trackBar5).EndInit();
-            ((System.ComponentModel.ISupportInitialize)_frequencyPenaltySlider).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar3).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)trackBar1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)_sldTemperature).EndInit();
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
+            Load += FrmMain_Load;
+            _menuStrip.ResumeLayout(false);
+            _menuStrip.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private PromptControl _promptControl;
-        private TableLayoutPanel tableLayoutPanel1;
-        private WinForms.ControlConcepts.ConversationView _conversationView;
-        private Panel panel1;
-        private SemanticKernel.SemanticKernelConversation _semanticKernelConversation;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem fileToolStripMenuItem;
-        private ToolStripMenuItem quitToolStripMenuItem;
+        private MenuStrip _menuStrip;
+        private ToolStripMenuItem _tsmFile;
+        private ToolStripMenuItem _tsmQuit;
         private StatusStrip statusStrip2;
-        private ToolStripMenuItem viewToolStripMenuItem;
-        private ToolStripMenuItem browserDeveloperToolsToolStripMenuItem;
-        private Label label1;
-        private TrackBar _sldTemperature;
-        private Label label6;
-        private TrackBar trackBar5;
-        private Label label5;
-        private TrackBar _frequencyPenaltySlider;
-        private Label label4;
-        private TrackBar trackBar3;
-        private Label label3;
-        private TrackBar trackBar2;
-        private Label label2;
-        private TrackBar trackBar1;
-        private ToolTip _toolTip;
+        private ToolStripMenuItem _tsmView;
         private ToolStripSeparator toolStripMenuItem1;
-        private ToolStripMenuItem sOLONLetsCallBackThe80sToolStripMenuItem;
-        private ToolStripSeparator toolStripMenuItem2;
-        private ToolStripMenuItem testFormToolStripMenuItem;
+        private ToolStripMenuItem _tsmLearnGermanIn2Minutes;
+        private ToolStripMenuItem _tsmTools;
+        private ToolStripMenuItem _tsmAsyncDemos;
+        private ToolStripMenuItem _tsmFairyTailGenerator;
+        private ToolStripMenuItem _tsmSolonLetsCallBackThe80s;
+        private ToolStripMenuItem _tsmWinFormsAIPlayGround;
+        private ToolStripSeparator toolStripMenuItem3;
+        private ToolStripMenuItem _tsmBrowserDeveloperTools;
+        private ToolStripSeparator toolStripMenuItem4;
+        private ToolStripMenuItem _tsmTestForm;
+        private ToolStripMenuItem _tsmAsyncTimerDemo;
+        private ToolStripMenuItem asyncToolStripMenuItem1;
+        private ToolStripMenuItem asyncDataEntryToolStripMenuItem;
+        private CommunityToolkit.WinForms.ModernTabControl.ModernTabControl _mainTabControl;
     }
 }

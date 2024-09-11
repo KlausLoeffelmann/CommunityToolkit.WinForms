@@ -7,6 +7,10 @@ using System.Text;
 
 namespace WinForms.ControlConcepts;
 
+/// <summary>
+/// Represents a custom conversation view control that extends 
+/// the BlazorWebView class.
+/// </summary>
 public class ConversationView : BlazorWebView
 {
     protected override void OnPaintBackground(PaintEventArgs e)
@@ -22,6 +26,9 @@ public class ConversationView : BlazorWebView
     private readonly IServiceProvider? _serviceProvider;
     private ConversationViewModel? _viewModel;
 
+    /// <summary>
+    /// Initializes a new instance of the ConversationView class.
+    /// </summary>
     public ConversationView()
     {
         _serviceProvider = this.GetServiceProvider();
@@ -46,10 +53,10 @@ public class ConversationView : BlazorWebView
 
         // Create new dictionary of parameters for the component
         Dictionary<string, object?> parameters = new()
-        {
-            { nameof(ConversationRenderer.ViewModel), _viewModel },
-            { nameof(ConversationRenderer.BackColor), SystemColors.ControlDark.ToWebColor() }
-        };
+            {
+                { nameof(ConversationRenderer.ViewModel), _viewModel },
+                { nameof(ConversationRenderer.BackColor), SystemColors.ControlDark.ToWebColor() }
+            };
 
         var component = new RootComponent(
             selector: "#app",
@@ -62,6 +69,11 @@ public class ConversationView : BlazorWebView
         HostPage = "wwwroot/index.html";
     }
 
+    /// <summary>
+    /// Adds a conversation item to the conversation view.
+    /// </summary>
+    /// <param name="text">The text of the conversation item.</param>
+    /// <param name="isResponse">A flag indicating whether the conversation item is a response.</param>
     public void AddConversationItem(string text, bool isResponse)
     {
         var item = new ConversationItemViewModel
@@ -90,6 +102,11 @@ public class ConversationView : BlazorWebView
         WebView.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
     }
 
+    /// <summary>
+    /// Updates the current response asynchronously.
+    /// </summary>
+    /// <param name="asyncEnumerable">The async enumerable that provides the responses.</param>
+    /// <returns>An async enumerable of the responses.</returns>
     public async IAsyncEnumerable<string> UpdateCurrentResponseAsync(IAsyncEnumerable<string> asyncEnumerable)
     {
         if (_viewModel is null)
