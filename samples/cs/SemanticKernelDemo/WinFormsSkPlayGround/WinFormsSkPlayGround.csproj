@@ -17,6 +17,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\ModernTabControl\ModernTabControl.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
+    <ProjectReference Include="..\..\Time Tamer\TimeTamer.DataLayer\TaskTamer.DataLayer.csproj" />
+    <ProjectReference Include="..\..\Time Tamer\TimeTamer.Generic\TaskTamer.Generic.csproj" />
+    <ProjectReference Include="..\..\Time Tamer\TimeTamer.ViewModels\TaskTamer.ViewModels.csproj" />
     <ProjectReference Include="..\ConversationView\ConversationView.csproj" />
   </ItemGroup>
 

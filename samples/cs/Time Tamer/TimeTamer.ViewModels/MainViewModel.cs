@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DemoToolkit.Mvvm.DesktopGeneric;
-using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using TaskTamer.DataLayer.Models;
@@ -33,7 +32,7 @@ public partial class MainViewModel : ObservableObject
     ///  Property, which will be bound to a StatusStrip label in the MainView, showing the current user's name.
     /// </summary>
     [ObservableProperty]
-    [property: TypeConverter(typeof(UserToStringConverter))]
+    //[property: TypeConverter(typeof(UserToStringConverter))]
     private UserViewModel? _currentUser;
 
     ///// <summary>

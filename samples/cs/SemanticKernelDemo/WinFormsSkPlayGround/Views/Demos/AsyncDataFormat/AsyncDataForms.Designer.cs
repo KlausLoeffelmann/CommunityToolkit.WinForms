@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             groupBox1 = new GroupBox();
             tableLayoutPanel1 = new TableLayoutPanel();
             panel1 = new Panel();
@@ -46,8 +47,11 @@
             tableLayoutPanel2 = new TableLayoutPanel();
             panel3 = new Panel();
             _taskGridView = new CommunityToolkit.WinForms.GridView.GridView();
+            _mainViewModelSource = new BindingSource(components);
             _dateFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent();
             _decimalFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent();
+            _taskViewItem = new TaskTamer9.WinForms.Views.TaskViewItem();
+            taskViewModelBindingSource = new BindingSource(components);
             groupBox1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
@@ -55,8 +59,10 @@
             tableLayoutPanel2.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_taskGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)_mainViewModelSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_dateFormatter).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_decimalFormatter).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)taskViewModelBindingSource).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -247,13 +253,33 @@
             _taskGridView.AllowUserToDeleteRows = false;
             _taskGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel2.SetColumnSpan(_taskGridView, 2);
-            _taskGridView.GridViewItemTemplate = null;
+            _taskGridView.DataBindings.Add(new Binding("SelectedItem", _mainViewModelSource, "SelectedTask", true));
+            _taskGridView.DataBindings.Add(new Binding("DataContext", _mainViewModelSource, "Tasks", true));
+            _taskGridView.GridViewItemTemplate = _taskViewItem;
             _taskGridView.Location = new Point(3, 3);
             _taskGridView.Name = "_taskGridView";
             _taskGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             _taskGridView.Size = new Size(1290, 390);
             _taskGridView.TabIndex = 2;
             _taskGridView.VirtualMode = true;
+            // 
+            // _mainViewModelSource
+            // 
+            _mainViewModelSource.DataSource = typeof(TaskTamer.ViewModels.MainViewModel);
+            // 
+            // _taskViewItem
+            // 
+            _taskViewItem.DataBindings.Add(new Binding("DueDate", taskViewModelBindingSource, "DueDate", true));
+            _taskViewItem.DataBindings.Add(new Binding("Project", taskViewModelBindingSource, "Project", true));
+            _taskViewItem.DataBindings.Add(new Binding("TaskDescription", taskViewModelBindingSource, "Description", true));
+            _taskViewItem.DataBindings.Add(new Binding("TaskName", taskViewModelBindingSource, "Name", true));
+            _taskViewItem.DataBindings.Add(new Binding("TaskStatus", taskViewModelBindingSource, "Status", true));
+            _taskViewItem.DescriptionFont = new Font("Segoe UI", 16F, FontStyle.Bold);
+            _taskViewItem.NameFont = new Font("Segoe UI", 16F, FontStyle.Bold);
+            // 
+            // taskViewModelBindingSource
+            // 
+            taskViewModelBindingSource.DataSource = typeof(TaskTamer.ViewModels.TaskViewModel);
             // 
             // AsyncDataForms
             // 
@@ -275,8 +301,10 @@
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)_taskGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)_mainViewModelSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)_dateFormatter).EndInit();
             ((System.ComponentModel.ISupportInitialize)_decimalFormatter).EndInit();
+            ((System.ComponentModel.ISupportInitialize)taskViewModelBindingSource).EndInit();
             ResumeLayout(false);
         }
 
@@ -302,5 +330,8 @@
         private CommunityToolkit.WinForms.GridView.GridView _taskGridView;
         private CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent _dateFormatter;
         private CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent _decimalFormatter;
+        private BindingSource _mainViewModelSource;
+        private TaskTamer9.WinForms.Views.TaskViewItem _taskViewItem;
+        private BindingSource taskViewModelBindingSource;
     }
 }
