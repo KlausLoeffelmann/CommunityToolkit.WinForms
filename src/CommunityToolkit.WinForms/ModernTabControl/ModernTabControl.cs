@@ -34,6 +34,7 @@ public partial class ModernTabControl : Panel
             page.Width = ClientSize.Width;
             page.Height = ClientSize.Height - _menuStrip.Height;
             page.Location = new Point(0, _menuStrip.Height);
+            page.Padding = new Padding(3, 25, 3, 3);
         }
     }
 

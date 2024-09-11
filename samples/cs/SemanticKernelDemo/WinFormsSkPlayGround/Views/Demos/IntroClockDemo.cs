@@ -6,7 +6,10 @@ public class IntroClockDemo : ContainerControl
 {
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
-    public IntroClockDemo() => DoubleBuffered = true;
+    public IntroClockDemo()
+    {
+        DoubleBuffered = true;
+    }
 
     protected override void OnResize(EventArgs e)
     {

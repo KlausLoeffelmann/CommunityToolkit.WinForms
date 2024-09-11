@@ -1,7 +1,7 @@
 using CommunityToolkit.WinForms.ModernTabControl;
-using SemanticKernelDemo.Controls;
 using WinFormsSkPlayGround;
 using WinFormsSkPlayGround.Views;
+using WinFormsSkPlayGround.Views.Demos;
 
 namespace SemanticKernelDemo;
 
@@ -13,6 +13,19 @@ public partial class FrmMain : Form
     public FrmMain()
     {
         InitializeComponent();
+        PositionForm();
+    }
+
+    private void PositionForm()
+    {
+        // Size the Form up to 80% of the Screen, and center it:
+        Screen screen = Screen.FromControl(this);
+        int width = (int)(screen.WorkingArea.Width * 0.90);
+        int height = (int)(screen.WorkingArea.Height * 0.90);
+        int x = (screen.WorkingArea.Width - width) / 2;
+        int y = (screen.WorkingArea.Height - height) / 2;
+
+        Bounds = new Rectangle(x, y, width, height);
     }
 
     private void FrmMain_Load(object sender, EventArgs e)
@@ -21,6 +34,7 @@ public partial class FrmMain : Form
 
         _mainTabControl.AddTab("Main Page", new IntroClockDemo());
         _mainTabControl.AddTab("Simple Async", new SimpleAsyncDemo());
+        _mainTabControl.AddTab("Async Data Forms", new AsyncDataForms());
         _mainTabControl.AddTab("Async Rendering", new AsyncSpiralContainer());
         _mainTabControl.AddTab("Learn German!", new LearnGermanDemo());
         _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());

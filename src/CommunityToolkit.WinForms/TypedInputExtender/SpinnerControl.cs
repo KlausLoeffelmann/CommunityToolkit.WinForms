@@ -73,12 +73,21 @@ public class SpinnerControl : Label
 
         try
         {
-            await Task.Delay(20, cancellationToken);
+            await Task.Delay(60, cancellationToken);
         }
         catch (OperationCanceledException)
         {
         }
     }
+
+    private static char[] CharSequence(Range range)
+        => Enumerable
+            .Range(
+                start: range.Start.Value,
+                count: range.End.Value - range.Start.Value + 1)
+            .Select(i => (char)i)
+            .ToArray();
+
 
     private void LoadBootFontFromBootFolder()
     {
@@ -143,11 +152,4 @@ public class SpinnerControl : Label
         base.Dispose(disposing);
     }
 
-    private static char[] CharSequence(Range range)
-    => Enumerable
-        .Range(
-            start: range.Start.Value,
-            count: range.End.Value - range.Start.Value + 1)
-        .Select(i => (char)i)
-        .ToArray();
 }

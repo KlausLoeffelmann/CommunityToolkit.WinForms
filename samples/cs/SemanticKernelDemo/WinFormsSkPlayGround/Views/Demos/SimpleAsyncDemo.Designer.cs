@@ -31,16 +31,16 @@ partial class SimpleAsyncDemo
         _spinner = new CommunityToolkit.WinForms.TypedInputExtenders.SpinnerControl();
         SuspendLayout();
         // 
-        // spinnerControl2
+        // _spinner
         // 
         _spinner.Dock = DockStyle.Fill;
-        _spinner.Font = new Font("Segoe UI", 72F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        _spinner.Font = new Font("Segoe UI", 128F, FontStyle.Regular, GraphicsUnit.Point, 0);
         _spinner.IsSpinning = false;
         _spinner.Location = new Point(0, 0);
-        _spinner.Name = "spinnerControl2";
-        _spinner.Size = new Size(1076, 615);
+        _spinner.Name = "_spinner";
+        _spinner.Size = new Size(1250, 817);
         _spinner.TabIndex = 1;
-        _spinner.Text = "X";
+        _spinner.Text = " X";
         _spinner.TextAlign = ContentAlignment.MiddleCenter;
         _spinner.Click += Spinner_ClickHandler;
         // 
@@ -50,9 +50,8 @@ partial class SimpleAsyncDemo
         AutoScaleMode = AutoScaleMode.Font;
         Controls.Add(_spinner);
         Name = "SimpleAsyncDemo";
-        Size = new Size(1076, 615);
+        Size = new Size(1250, 817);
         ResumeLayout(false);
-        PerformLayout();
     }
 
     #endregion
