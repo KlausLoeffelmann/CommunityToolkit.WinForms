@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\ConsoleControl\ConsoleControl.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
   </ItemGroup>
 

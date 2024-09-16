@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalDataEntryFormatter5 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
-            CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalDataEntryFormatter4 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
-            CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalDataEntryFormatter3 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
-            CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalDataEntryFormatter2 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
+            CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalFormatter4 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
+            CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalFormatter3 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
+            CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalFormatter2 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
+            CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalFormatter1 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
             _dateFormatterComponent = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent();
             _decimalFormatterComponent = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent();
             textBox1 = new TextBox();
@@ -39,7 +39,7 @@
             textBox3 = new TextBox();
             textBox4 = new TextBox();
             dataEntryPanel1 = new CommunityToolkit.WinForms.TypedInputExtenders.TypedInputExtenderPanel();
-            label1 = new Label();
+            consoleControl1 = new CommunityToolkit.WinForms.Controls.ConsoleControl();
             ((System.ComponentModel.ISupportInitialize)_dateFormatterComponent).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_decimalFormatterComponent).BeginInit();
             dataEntryPanel1.SuspendLayout();
@@ -55,13 +55,14 @@
             dataEntryPanel1.SetErrorText(textBox1, "");
             dataEntryPanel1.SetFocusColor(textBox1, null);
             dataEntryPanel1.SetFormatterComponent(textBox1, _decimalFormatterComponent);
-            decimalDataEntryFormatter5.AllowFormular = true;
-            decimalDataEntryFormatter5.CurrencySymbol = "$";
-            decimalDataEntryFormatter5.DecimalPlaces = 2;
-            _decimalFormatterComponent.SetFormatterSettings(textBox1, decimalDataEntryFormatter5);
-            textBox1.Location = new Point(30, 33);
+            decimalFormatter4.AllowFormular = true;
+            decimalFormatter4.CurrencySymbol = "$";
+            decimalFormatter4.DecimalPlaces = 2;
+            _decimalFormatterComponent.SetFormatterSettings(textBox1, decimalFormatter4);
+            textBox1.Location = new Point(39, 42);
+            textBox1.Margin = new Padding(4);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(685, 31);
+            textBox1.Size = new Size(889, 39);
             textBox1.TabIndex = 0;
             _decimalFormatterComponent.SetValue(textBox1, new decimal(new int[] { 10, 0, 0, 0 }));
             // 
@@ -71,12 +72,13 @@
             dataEntryPanel1.SetErrorText(textBox2, "");
             dataEntryPanel1.SetFocusColor(textBox2, null);
             dataEntryPanel1.SetFormatterComponent(textBox2, _decimalFormatterComponent);
-            decimalDataEntryFormatter4.CurrencySymbol = "$";
-            decimalDataEntryFormatter4.DecimalPlaces = 2;
-            _decimalFormatterComponent.SetFormatterSettings(textBox2, decimalDataEntryFormatter4);
-            textBox2.Location = new Point(30, 89);
+            decimalFormatter3.CurrencySymbol = "$";
+            decimalFormatter3.DecimalPlaces = 2;
+            _decimalFormatterComponent.SetFormatterSettings(textBox2, decimalFormatter3);
+            textBox2.Location = new Point(39, 114);
+            textBox2.Margin = new Padding(4);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(685, 31);
+            textBox2.Size = new Size(889, 39);
             textBox2.TabIndex = 1;
             _decimalFormatterComponent.SetValue(textBox2, new decimal(new int[] { 20, 0, 0, 0 }));
             // 
@@ -86,12 +88,13 @@
             dataEntryPanel1.SetErrorText(textBox3, "");
             dataEntryPanel1.SetFocusColor(textBox3, null);
             dataEntryPanel1.SetFormatterComponent(textBox3, _decimalFormatterComponent);
-            decimalDataEntryFormatter3.CurrencySymbol = "$";
-            decimalDataEntryFormatter3.DecimalPlaces = 2;
-            _decimalFormatterComponent.SetFormatterSettings(textBox3, decimalDataEntryFormatter3);
-            textBox3.Location = new Point(30, 146);
+            decimalFormatter2.CurrencySymbol = "$";
+            decimalFormatter2.DecimalPlaces = 2;
+            _decimalFormatterComponent.SetFormatterSettings(textBox3, decimalFormatter2);
+            textBox3.Location = new Point(39, 187);
+            textBox3.Margin = new Padding(4);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(685, 31);
+            textBox3.Size = new Size(889, 39);
             textBox3.TabIndex = 2;
             _decimalFormatterComponent.SetValue(textBox3, new decimal(new int[] { 30, 0, 0, 0 }));
             // 
@@ -101,42 +104,44 @@
             dataEntryPanel1.SetErrorText(textBox4, "");
             dataEntryPanel1.SetFocusColor(textBox4, null);
             dataEntryPanel1.SetFormatterComponent(textBox4, _decimalFormatterComponent);
-            decimalDataEntryFormatter2.CurrencySymbol = "$";
-            decimalDataEntryFormatter2.DecimalPlaces = 2;
-            _decimalFormatterComponent.SetFormatterSettings(textBox4, decimalDataEntryFormatter2);
-            textBox4.Location = new Point(30, 203);
+            decimalFormatter1.CurrencySymbol = "$";
+            decimalFormatter1.DecimalPlaces = 2;
+            _decimalFormatterComponent.SetFormatterSettings(textBox4, decimalFormatter1);
+            textBox4.Location = new Point(39, 260);
+            textBox4.Margin = new Padding(4);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(685, 31);
+            textBox4.Size = new Size(889, 39);
             textBox4.TabIndex = 3;
             _decimalFormatterComponent.SetValue(textBox4, new decimal(new int[] { 40, 0, 0, 0 }));
             // 
             // dataEntryPanel1
             // 
-            dataEntryPanel1.Controls.Add(label1);
             dataEntryPanel1.Controls.Add(textBox4);
             dataEntryPanel1.Controls.Add(textBox3);
             dataEntryPanel1.Controls.Add(textBox2);
             dataEntryPanel1.Controls.Add(textBox1);
-            dataEntryPanel1.Location = new Point(76, 65);
+            dataEntryPanel1.Location = new Point(13, 13);
+            dataEntryPanel1.Margin = new Padding(4);
             dataEntryPanel1.Name = "dataEntryPanel1";
-            dataEntryPanel1.Size = new Size(745, 489);
+            dataEntryPanel1.Size = new Size(968, 357);
             dataEntryPanel1.TabIndex = 0;
             // 
-            // label1
+            // consoleControl1
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(108, 301);
-            label1.Name = "label1";
-            label1.Size = new Size(59, 25);
-            label1.TabIndex = 4;
-            label1.Text = "label1";
+            consoleControl1.Location = new Point(29, 398);
+            consoleControl1.Name = "consoleControl1";
+            consoleControl1.Size = new Size(1365, 385);
+            consoleControl1.TabIndex = 1;
+            consoleControl1.Text = "";
             // 
             // FrmMain
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1100, 636);
+            ClientSize = new Size(1430, 814);
+            Controls.Add(consoleControl1);
             Controls.Add(dataEntryPanel1);
+            Margin = new Padding(4);
             Name = "FrmMain";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)_dateFormatterComponent).EndInit();
@@ -155,6 +160,6 @@
         private TextBox textBox4;
         private TextBox textBox3;
         private TextBox textBox2;
-        private Label label1;
+        private CommunityToolkit.WinForms.Controls.ConsoleControl consoleControl1;
     }
 }
