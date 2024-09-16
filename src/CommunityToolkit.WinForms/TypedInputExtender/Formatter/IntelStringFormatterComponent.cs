@@ -18,8 +18,8 @@ public partial class IntelStringFormatterComponent
     public override void SetValue(Control textBox, string? value)
         => base.SetValueInternal((TextBox)textBox, value);
 
-    protected override ITypedFormatter<string> GetDefaultFormatterInstance()
-        => (ITypedFormatter<string>)new DateFormatter();
+    protected override ITypedFormatter<string?> GetDefaultFormatterInstance()
+        => (ITypedFormatter<string?>)new DateFormatter();
 
     protected override object GetDefaultValue()
         => string.Empty;
