@@ -19,8 +19,8 @@ internal static class Program
         //Application.SetHighDpiMode(HighDpiMode.SystemAware);
 
         // New for .NET 9:
-        Application.SetColorMode(SystemColorMode.Classic);
-        Application.SetDefaultVisualStylesMode(VisualStylesMode.Classic);
+        Application.SetColorMode(SystemColorMode.Dark);
+        Application.SetDefaultVisualStylesMode(VisualStylesMode.Latest);
 
         Application.Run(new FormMain()
         // Application.Run(new FormRenderTest()
