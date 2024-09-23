@@ -170,7 +170,7 @@ public class ConsoleControl : RichTextBox
         this.SelectionFont = this.Font;
     }
 
-    private System.Drawing.FontStyle ConvertToDrawingFontStyle(CustomFontStyle style)
+    private static System.Drawing.FontStyle ConvertToDrawingFontStyle(CustomFontStyle style)
     {
         var fontStyle = System.Drawing.FontStyle.Regular;
 
@@ -190,18 +190,13 @@ public class ConsoleControl : RichTextBox
     {
         var baseSize = this.Font.Size;
 
-        switch (size)
+        return size switch
         {
-            case FontSize.Smaller:
-                return baseSize - 2f;
-            case FontSize.Small:
-                return baseSize - 1f;
-            case FontSize.Larger:
-                return baseSize + 1f;
-            case FontSize.Large:
-                return baseSize + 2f;
-            default:
-                return baseSize;
-        }
+            FontSize.Smaller => baseSize - 2f,
+            FontSize.Small => baseSize - 1f,
+            FontSize.Larger => baseSize + 1f,
+            FontSize.Large => baseSize + 2f,
+            _ => baseSize,
+        };
     }
 }
