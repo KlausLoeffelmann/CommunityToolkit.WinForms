@@ -38,10 +38,10 @@ public partial class FrmMain : Form
 
         _mainTabControl.AddTab("Main Page", new IntroClockDemo());
         _mainTabControl.AddTab("Simple Async", new SimpleAsyncDemo(this));
-        // _mainTabControl.AddTab("Async Data Forms", new AsyncDataForms());
+        _mainTabControl.AddTab("Async Data Forms", new AsyncDataForms());
         _mainTabControl.AddTab("Async Rendering", new AsyncSpiralContainer());
-        // _mainTabControl.AddTab("Learn German!", new LearnGermanDemo());
-        // _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
+        _mainTabControl.AddTab("Learn German!", new LearnGermanDemo());
+        _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
 
         _mainTabControl.TabChanged += _mainTabControl_TabChanged;
     }

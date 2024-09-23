@@ -12,7 +12,7 @@ public partial class LearnGermanDemo : UserControl
             .GetEnvironmentVariable(ApiKeyEnvironmentVarLookup);
     }
 
-    private async Task BtnAsyncPhoneticTranslate_AsyncClick(object sender, EventArgs e)
+    private async Task _btnAsyncPhoneticTranslate_AsyncClick(object sender, EventArgs e)
     {
         _txtPhoneticEnglish.Text = await _skPhoneticEnglish.GetResponseAsync(
             _germanTextPrompt.Text);

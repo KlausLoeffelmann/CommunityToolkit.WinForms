@@ -12,19 +12,32 @@ internal class EditFloatingPointSlider : ContainerControl
         // Setup a FloatingPointSlider and a TextBox as the inner controls:
         _innerTextBox = new TextBox()
         {
-            Size = new Size(100, 20),
+            Size = new Size(80, 20),
             Text = "0.0",
             Dock = DockStyle.Right,
         };
 
         _innerSlider = new FloatingPointTrackBar()
         {
-            Size = new Size(100, 20),
+            Size = new Size(120, 20),
             Dock = DockStyle.Fill,
         };
 
         Controls.Add(_innerSlider);
         Controls.Add(_innerTextBox);
+
+        _innerSlider.ValueChanged += _innerSlider_ValueChanged;
+    }
+
+    private void _innerSlider_ValueChanged(object? sender, EventArgs e)
+    {
+        try
+        {
+            _innerTextBox.Text = _innerSlider.Value.ToString("#.###");
+        }
+        catch (Exception)
+        {
+        }
     }
 
     [Browsable(true)]
