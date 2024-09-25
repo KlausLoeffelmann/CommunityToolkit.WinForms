@@ -1,26 +1,29 @@
-﻿namespace CommunityToolkit.WinForms.Controls;
+﻿using System.Drawing;
+
+namespace CommunityToolkit.WinForms.Controls;
 
 /// <summary>
-/// Represents a custom control that provides a console-like interface.
+///  Represents a custom control that provides a console-like interface.
 /// </summary>
 public class ConsoleControl : RichTextBox
 {
     private Color _currentTextColor;
     private CustomFontStyle _currentFontStyle;
     private FontSize _currentFontSize;
+    private AsyncTaskQueue _taskQueue = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ConsoleControl"/> class.
+    ///  Initializes a new instance of the <see cref="ConsoleControl"/> class.
     /// </summary>
     public ConsoleControl()
     {
-        _currentTextColor = this.ForeColor;
+        _currentTextColor = ForeColor;
         _currentFontStyle = CustomFontStyle.Normal;
         _currentFontSize = FontSize.Normal;
     }
 
     /// <summary>
-    /// Writes the specified text asynchronously to the console control.
+    ///  Writes the specified text asynchronously to the console control.
     /// </summary>
     /// <param name="text">The text to write.</param>
     /// <param name="textColor">The color of the text. (Optional)</param>
@@ -35,11 +38,22 @@ public class ConsoleControl : RichTextBox
         FontSize? size = null,
         bool keepStyles = false)
     {
+        await _taskQueue.EnqueueAsync(
+            () => WriteInternalAsync(text, textColor, style, size, keepStyles));
+    }
+
+    public async Task WriteInternalAsync(
+        string text,
+        Color? textColor = null,
+        CustomFontStyle? style = null,
+        FontSize? size = null,
+        bool keepStyles = false)
+    {
         await Task.Run(() =>
         {
-            if (this.InvokeRequired)
+            if (InvokeRequired)
             {
-                this.Invoke((MethodInvoker)(() => ApplyText(text, textColor, style, size, keepStyles)));
+                Invoke((MethodInvoker)(() => ApplyText(text, textColor, style, size, keepStyles)));
             }
             else
             {
@@ -49,7 +63,7 @@ public class ConsoleControl : RichTextBox
     }
 
     /// <summary>
-    /// Writes the specified text followed by a new line asynchronously to the console control.
+    ///  Writes the specified text followed by a new line asynchronously to the console control.
     /// </summary>
     /// <param name="text">The text to write. (Optional)</param>
     /// <param name="textColor">The color of the text. (Optional)</param>
@@ -64,47 +78,52 @@ public class ConsoleControl : RichTextBox
         FontSize? size = null,
         bool keepStyles = false)
     {
-        await WriteAsync((text ?? string.Empty) + Environment.NewLine, textColor, style, size, keepStyles);
+        await WriteAsync(
+            (text ?? string.Empty) + Environment.NewLine, 
+            textColor, 
+            style, 
+            size, 
+            keepStyles);
     }
 
     /// <summary>
-    /// Clears the console control.
+    ///  Resets the styles.
     /// </summary>
     /// <param name="resetStyles">Indicates whether to reset the text styles. (Optional)</param>
-    public void Clear(bool resetStyles = false)
+    public Task ResetStylesAsync()
+        => _taskQueue.EnqueueAsync(
+            () => InvokeAsync(
+                () => ResetStyles()));
+
+    /// <summary>
+    ///  Cancels all pending Write/WriteLine/Style tasks and clears the console control.
+    /// </summary>
+    /// <returns></returns>
+    public Task ResetAsync()
     {
-        if (this.InvokeRequired)
-        {
-            this.Invoke((MethodInvoker)(() => ClearControl(resetStyles)));
-        }
-        else
-        {
-            ClearControl(resetStyles);
-        }
+        // We need to signal to end the task queue before clearing the control
+        _taskQueue.Dispose();
+        _taskQueue = new AsyncTaskQueue();
+
+        return InvokeAsync(() => ClearControl(true));
+
     }
 
     /// <summary>
-    /// Sets the text styles for the console control.
+    ///  Sets the text styles for the console control.
     /// </summary>
     /// <param name="textColor">The color of the text. (Optional)</param>
     /// <param name="style">The font style of the text. (Optional)</param>
     /// <param name="size">The font size of the text. (Optional)</param>
     /// <param name="keepSetting">Indicates whether to keep the current text styles. (Optional)</param>
-    public void SetStyle(
+    public Task SetStyleInternalAsync(
         Color? textColor = null,
         CustomFontStyle? style = null,
         FontSize? size = null,
-        bool keepSetting = false)
-    {
-        if (this.InvokeRequired)
-        {
-            this.Invoke((MethodInvoker)(() => ApplyStyles(textColor, style, size, keepSetting)));
-        }
-        else
-        {
-            ApplyStyles(textColor, style, size, keepSetting);
-        }
-    }
+        bool keepSetting = false) 
+            => _taskQueue.EnqueueAsync(
+                () => InvokeAsync(
+                    () => ApplyStyles(textColor, style, size, keepSetting)));
 
     private void ApplyText(
         string text,
@@ -114,7 +133,8 @@ public class ConsoleControl : RichTextBox
         bool keepStyles)
     {
         ApplyStyles(textColor, style, size, keepStyles);
-        this.AppendText(text);
+        AppendText(text);
+
         if (!keepStyles)
         {
             ResetStyles();
@@ -124,6 +144,7 @@ public class ConsoleControl : RichTextBox
     private void ClearControl(bool resetStyles)
     {
         base.Clear();
+
         if (resetStyles)
         {
             ResetStyles();
@@ -138,7 +159,7 @@ public class ConsoleControl : RichTextBox
     {
         if (textColor.HasValue)
         {
-            this.SelectionColor = textColor.Value;
+            SelectionColor = textColor.Value;
             if (keepStyles)
             {
                 _currentTextColor = textColor.Value;
@@ -146,13 +167,13 @@ public class ConsoleControl : RichTextBox
         }
         else
         {
-            this.SelectionColor = _currentTextColor;
+            SelectionColor = _currentTextColor;
         }
 
         var fontStyle = ConvertToDrawingFontStyle(style ?? _currentFontStyle);
         var fontSize = ConvertToFontSize(size ?? _currentFontSize);
 
-        this.SelectionFont = new Font(this.Font.FontFamily, fontSize, fontStyle);
+        SelectionFont = new Font(Font.FontFamily, fontSize, fontStyle);
 
         if (keepStyles)
         {
@@ -163,32 +184,26 @@ public class ConsoleControl : RichTextBox
 
     private void ResetStyles()
     {
-        _currentTextColor = this.ForeColor;
+        _currentTextColor = ForeColor;
         _currentFontStyle = CustomFontStyle.Normal;
         _currentFontSize = FontSize.Normal;
-        this.SelectionColor = _currentTextColor;
-        this.SelectionFont = this.Font;
+        SelectionColor = _currentTextColor;
+        SelectionFont = Font;
     }
 
-    private static System.Drawing.FontStyle ConvertToDrawingFontStyle(CustomFontStyle style)
-    {
-        var fontStyle = System.Drawing.FontStyle.Regular;
-
-        if (style.HasFlag(CustomFontStyle.Bold))
-            fontStyle |= System.Drawing.FontStyle.Bold;
-        if (style.HasFlag(CustomFontStyle.Italic))
-            fontStyle |= System.Drawing.FontStyle.Italic;
-        if (style.HasFlag(CustomFontStyle.Underline))
-            fontStyle |= System.Drawing.FontStyle.Underline;
-        if (style.HasFlag(CustomFontStyle.StrikeThrough))
-            fontStyle |= System.Drawing.FontStyle.Strikeout;
-
-        return fontStyle;
-    }
+    private static System.Drawing.FontStyle ConvertToDrawingFontStyle(CustomFontStyle style) 
+        => style switch
+        {
+            CustomFontStyle.Bold => System.Drawing.FontStyle.Bold,
+            CustomFontStyle.Italic => System.Drawing.FontStyle.Italic,
+            CustomFontStyle.Underline => System.Drawing.FontStyle.Underline,
+            CustomFontStyle.StrikeThrough => System.Drawing.FontStyle.Strikeout,
+            _ => System.Drawing.FontStyle.Regular
+        };
 
     private float ConvertToFontSize(FontSize size)
     {
-        var baseSize = this.Font.Size;
+        var baseSize = Font.Size;
 
         return size switch
         {
