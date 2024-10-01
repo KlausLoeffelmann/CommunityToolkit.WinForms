@@ -48,9 +48,9 @@ namespace SemanticKernelDemo
             _tsmAsyncTimerDemo = new ToolStripMenuItem();
             asyncToolStripMenuItem1 = new ToolStripMenuItem();
             asyncDataEntryToolStripMenuItem = new ToolStripMenuItem();
+            colorMeToolStripMenuItem = new ToolStripMenuItem();
             statusStrip2 = new StatusStrip();
             _mainTabControl = new CommunityToolkit.WinForms.ModernTabControl.ModernTabControl();
-            colorMeToolStripMenuItem = new ToolStripMenuItem();
             _menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -61,7 +61,7 @@ namespace SemanticKernelDemo
             _menuStrip.Items.AddRange(new ToolStripItem[] { _tsmFile, _tsmView, _tsmTools, _tsmAsyncDemos, colorMeToolStripMenuItem });
             _menuStrip.Location = new Point(0, 0);
             _menuStrip.Name = "_menuStrip";
-            _menuStrip.Size = new Size(1254, 44);
+            _menuStrip.Size = new Size(1254, 38);
             _menuStrip.TabIndex = 2;
             _menuStrip.Text = "menuStrip1";
             // 
@@ -69,43 +69,43 @@ namespace SemanticKernelDemo
             // 
             _tsmFile.DropDownItems.AddRange(new ToolStripItem[] { _tsmQuit });
             _tsmFile.Name = "_tsmFile";
-            _tsmFile.Size = new Size(79, 40);
+            _tsmFile.Size = new Size(68, 34);
             _tsmFile.Text = " &File";
             // 
             // _tsmQuit
             // 
             _tsmQuit.Name = "_tsmQuit";
-            _tsmQuit.Size = new Size(185, 44);
+            _tsmQuit.Size = new Size(157, 38);
             _tsmQuit.Text = "Quit";
             // 
             // _tsmView
             // 
             _tsmView.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem1, _tsmFairyTailGenerator, _tsmLearnGermanIn2Minutes, _tsmSolonLetsCallBackThe80s });
             _tsmView.Name = "_tsmView";
-            _tsmView.Size = new Size(88, 40);
+            _tsmView.Size = new Size(76, 34);
             _tsmView.Text = "View";
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(519, 6);
+            toolStripMenuItem1.Size = new Size(439, 6);
             // 
             // _tsmFairyTailGenerator
             // 
             _tsmFairyTailGenerator.Name = "_tsmFairyTailGenerator";
-            _tsmFairyTailGenerator.Size = new Size(522, 44);
+            _tsmFairyTailGenerator.Size = new Size(442, 38);
             _tsmFairyTailGenerator.Text = "The Fairy Tail Generator...";
             // 
             // _tsmLearnGermanIn2Minutes
             // 
             _tsmLearnGermanIn2Minutes.Name = "_tsmLearnGermanIn2Minutes";
-            _tsmLearnGermanIn2Minutes.Size = new Size(522, 44);
+            _tsmLearnGermanIn2Minutes.Size = new Size(442, 38);
             _tsmLearnGermanIn2Minutes.Text = "Learn German in 2 Minutes...";
             // 
             // _tsmSolonLetsCallBackThe80s
             // 
             _tsmSolonLetsCallBackThe80s.Name = "_tsmSolonLetsCallBackThe80s";
-            _tsmSolonLetsCallBackThe80s.Size = new Size(522, 44);
+            _tsmSolonLetsCallBackThe80s.Size = new Size(442, 38);
             _tsmSolonLetsCallBackThe80s.Text = "SOLON - Let's call back the 80s! ...";
             _tsmSolonLetsCallBackThe80s.Click += Solon_LetsCallBackThe80s_Click;
             // 
@@ -113,35 +113,35 @@ namespace SemanticKernelDemo
             // 
             _tsmTools.DropDownItems.AddRange(new ToolStripItem[] { _tsmWinFormsAIPlayGround, toolStripMenuItem3, _tsmBrowserDeveloperTools, toolStripMenuItem4, _tsmTestForm });
             _tsmTools.Name = "_tsmTools";
-            _tsmTools.Size = new Size(91, 40);
+            _tsmTools.Size = new Size(79, 34);
             _tsmTools.Text = "Tools";
             // 
             // _tsmWinFormsAIPlayGround
             // 
             _tsmWinFormsAIPlayGround.Name = "_tsmWinFormsAIPlayGround";
-            _tsmWinFormsAIPlayGround.Size = new Size(419, 44);
+            _tsmWinFormsAIPlayGround.Size = new Size(358, 38);
             _tsmWinFormsAIPlayGround.Text = "WinForms AI Playground";
             // 
             // toolStripMenuItem3
             // 
             toolStripMenuItem3.Name = "toolStripMenuItem3";
-            toolStripMenuItem3.Size = new Size(416, 6);
+            toolStripMenuItem3.Size = new Size(355, 6);
             // 
             // _tsmBrowserDeveloperTools
             // 
             _tsmBrowserDeveloperTools.Name = "_tsmBrowserDeveloperTools";
-            _tsmBrowserDeveloperTools.Size = new Size(419, 44);
+            _tsmBrowserDeveloperTools.Size = new Size(358, 38);
             _tsmBrowserDeveloperTools.Text = "Browser Developer Tools";
             // 
             // toolStripMenuItem4
             // 
             toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(416, 6);
+            toolStripMenuItem4.Size = new Size(355, 6);
             // 
             // _tsmTestForm
             // 
             _tsmTestForm.Name = "_tsmTestForm";
-            _tsmTestForm.Size = new Size(419, 44);
+            _tsmTestForm.Size = new Size(358, 38);
             _tsmTestForm.Text = "Test Form";
             _tsmTestForm.Click += TestForm_Click;
             // 
@@ -149,26 +149,33 @@ namespace SemanticKernelDemo
             // 
             _tsmAsyncDemos.DropDownItems.AddRange(new ToolStripItem[] { _tsmAsyncTimerDemo, asyncToolStripMenuItem1, asyncDataEntryToolStripMenuItem });
             _tsmAsyncDemos.Name = "_tsmAsyncDemos";
-            _tsmAsyncDemos.Size = new Size(101, 40);
+            _tsmAsyncDemos.Size = new Size(85, 34);
             _tsmAsyncDemos.Text = "Async";
             // 
             // _tsmAsyncTimerDemo
             // 
             _tsmAsyncTimerDemo.Name = "_tsmAsyncTimerDemo";
-            _tsmAsyncTimerDemo.Size = new Size(385, 44);
+            _tsmAsyncTimerDemo.Size = new Size(326, 38);
             _tsmAsyncTimerDemo.Text = "Async Timer Demo";
             // 
             // asyncToolStripMenuItem1
             // 
             asyncToolStripMenuItem1.Name = "asyncToolStripMenuItem1";
-            asyncToolStripMenuItem1.Size = new Size(385, 44);
+            asyncToolStripMenuItem1.Size = new Size(326, 38);
             asyncToolStripMenuItem1.Text = "Async Graphics Demo";
             // 
             // asyncDataEntryToolStripMenuItem
             // 
             asyncDataEntryToolStripMenuItem.Name = "asyncDataEntryToolStripMenuItem";
-            asyncDataEntryToolStripMenuItem.Size = new Size(385, 44);
+            asyncDataEntryToolStripMenuItem.Size = new Size(326, 38);
             asyncDataEntryToolStripMenuItem.Text = "Async Data Entry";
+            // 
+            // colorMeToolStripMenuItem
+            // 
+            colorMeToolStripMenuItem.Name = "colorMeToolStripMenuItem";
+            colorMeToolStripMenuItem.Size = new Size(126, 34);
+            colorMeToolStripMenuItem.Text = "Color Me!";
+            colorMeToolStripMenuItem.Click += colorMeToolStripMenuItem_Click;
             // 
             // statusStrip2
             // 
@@ -182,22 +189,15 @@ namespace SemanticKernelDemo
             // 
             // _mainTabControl
             // 
-            _mainTabControl.Dock = DockStyle.Fill;
-            _mainTabControl.Location = new Point(0, 44);
+            _mainTabControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            _mainTabControl.Location = new Point(12, 51);
             _mainTabControl.Name = "_mainTabControl";
-            _mainTabControl.Size = new Size(1254, 641);
+            _mainTabControl.Size = new Size(1230, 617);
             _mainTabControl.TabIndex = 4;
-            // 
-            // colorMeToolStripMenuItem
-            // 
-            colorMeToolStripMenuItem.Name = "colorMeToolStripMenuItem";
-            colorMeToolStripMenuItem.Size = new Size(145, 40);
-            colorMeToolStripMenuItem.Text = "Color Me!";
-            colorMeToolStripMenuItem.Click += colorMeToolStripMenuItem_Click;
             // 
             // FrmMain
             // 
-            AutoScaleDimensions = new SizeF(15F, 38F);
+            AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1254, 707);
             Controls.Add(_mainTabControl);

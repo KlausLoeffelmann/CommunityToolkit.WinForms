@@ -13,18 +13,14 @@ namespace WinForms.ControlConcepts;
 /// </summary>
 public class ConversationView : BlazorWebView
 {
+    private readonly IServiceProvider? _serviceProvider;
+    private ConversationViewModel? _viewModel;
+
     protected override void OnPaintBackground(PaintEventArgs e)
     {
         base.OnPaintBackground(e);
         e.Graphics.Clear(SystemColors.ControlLightLight);
     }
-
-    protected override void OnPaint(PaintEventArgs e)
-    {
-    }
-
-    private readonly IServiceProvider? _serviceProvider;
-    private ConversationViewModel? _viewModel;
 
     /// <summary>
     /// Initializes a new instance of the ConversationView class.
@@ -37,6 +33,7 @@ public class ConversationView : BlazorWebView
         {
             Services = _serviceProvider;
         }
+
         WebView.CoreWebView2InitializationCompleted += WebView_CoreWebView2InitializationCompleted;
         WebView.NavigationCompleted += WebView_NavigationCompleted;
     }
@@ -116,15 +113,14 @@ public class ConversationView : BlazorWebView
 
         StringBuilder currentParagraph = new();
         string builtUpHtmlParagraphs = string.Empty;
-        string currentHTML = string.Empty;
 
         // Iterate through the responses asynchronously and add them to the conversation view model
         await foreach (var response in asyncEnumerable)
         {
-            currentParagraph.Append(response.ToString());
+            currentParagraph.Append(response);
 
             // Convert Markdown to HTML using Markdig
-            currentHTML = Markdown.ToHtml(currentParagraph.ToString());
+            string currentHTML = Markdown.ToHtml(currentParagraph.ToString());
 
             // Test, if the response ends with any sort of LineFeed/CR:
             if (response.EndsWith('\n') || response.EndsWith('\r'))

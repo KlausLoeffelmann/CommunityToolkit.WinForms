@@ -34,9 +34,9 @@
             panel1 = new Panel();
             editFloatingPointSlider1 = new Controls.EditFloatingPointSlider();
             label1 = new Label();
-            _conversationView = new WinForms.ControlConcepts.ConversationView();
             _semanticKernelConversation = new SemanticKernelDemo.SemanticKernel.SemanticKernelComponent();
             _toolTip = new ToolTip(components);
+            _conversationView = new WinForms.ControlConcepts.ConversationView();
             _mainLayoutPanel.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -46,9 +46,9 @@
             _mainLayoutPanel.ColumnCount = 2;
             _mainLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
             _mainLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            _mainLayoutPanel.Controls.Add(_conversationView, 0, 0);
             _mainLayoutPanel.Controls.Add(_promptControl, 0, 1);
             _mainLayoutPanel.Controls.Add(panel1, 1, 0);
-            _mainLayoutPanel.Controls.Add(_conversationView, 0, 0);
             _mainLayoutPanel.Dock = DockStyle.Fill;
             _mainLayoutPanel.Location = new Point(0, 0);
             _mainLayoutPanel.Margin = new Padding(4);
@@ -56,17 +56,17 @@
             _mainLayoutPanel.RowCount = 2;
             _mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 75F));
             _mainLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            _mainLayoutPanel.Size = new Size(1221, 726);
+            _mainLayoutPanel.Size = new Size(1264, 758);
             _mainLayoutPanel.TabIndex = 0;
             // 
             // _promptControl
             // 
             _promptControl.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            _promptControl.Location = new Point(4, 548);
+            _promptControl.Location = new Point(4, 572);
             _promptControl.Margin = new Padding(4);
             _promptControl.Multiline = true;
             _promptControl.Name = "_promptControl";
-            _promptControl.Size = new Size(907, 174);
+            _promptControl.Size = new Size(940, 182);
             _promptControl.TabIndex = 4;
             _promptControl.VisualStylesMode = VisualStylesMode.Latest;
             _promptControl.AsyncSendPrompt += PromptControl_AsyncSendPrompt;
@@ -79,11 +79,11 @@
             panel1.BackColor = SystemColors.ControlDarkDark;
             panel1.Controls.Add(editFloatingPointSlider1);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(919, 4);
+            panel1.Location = new Point(952, 4);
             panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
             _mainLayoutPanel.SetRowSpan(panel1, 2);
-            panel1.Size = new Size(298, 718);
+            panel1.Size = new Size(308, 750);
             panel1.TabIndex = 3;
             // 
             // editFloatingPointSlider1
@@ -92,7 +92,7 @@
             editFloatingPointSlider1.Location = new Point(26, 68);
             editFloatingPointSlider1.Margin = new Padding(4);
             editFloatingPointSlider1.Name = "editFloatingPointSlider1";
-            editFloatingPointSlider1.Size = new Size(248, 44);
+            editFloatingPointSlider1.Size = new Size(258, 44);
             editFloatingPointSlider1.TabIndex = 2;
             editFloatingPointSlider1.Text = "editFloatingPointSlider1";
             // 
@@ -107,6 +107,12 @@
             label1.TabIndex = 1;
             label1.Text = "Temperature (Creativity)";
             // 
+            // _semanticKernelConversation
+            // 
+            _semanticKernelConversation.AssistantInstructions = "";
+            _semanticKernelConversation.Temperature = 1D;
+            _semanticKernelConversation.TopP = 1D;
+            // 
             // _conversationView
             // 
             _conversationView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -114,16 +120,11 @@
             _conversationView.Location = new Point(4, 4);
             _conversationView.Margin = new Padding(4);
             _conversationView.Name = "_conversationView";
-            _conversationView.Size = new Size(907, 536);
+            _conversationView.Padding = new Padding(5);
+            _conversationView.Size = new Size(940, 560);
             _conversationView.StartPath = "/";
-            _conversationView.TabIndex = 2;
+            _conversationView.TabIndex = 5;
             _conversationView.Text = "markdownRenderer1";
-            // 
-            // _semanticKernelConversation
-            // 
-            _semanticKernelConversation.AssistantInstructions = "";
-            _semanticKernelConversation.Temperature = 1D;
-            _semanticKernelConversation.TopP = 1D;
             // 
             // AIPlayGroundView
             // 
@@ -133,7 +134,7 @@
             Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4);
             Name = "AIPlayGroundView";
-            Size = new Size(1221, 726);
+            Size = new Size(1264, 758);
             _mainLayoutPanel.ResumeLayout(false);
             _mainLayoutPanel.PerformLayout();
             panel1.ResumeLayout(false);
@@ -144,12 +145,12 @@
         #endregion
 
         private TableLayoutPanel _mainLayoutPanel;
-        private WinForms.ControlConcepts.ConversationView _conversationView;
         private Panel panel1;
         private Label label1;
         private SemanticKernelDemo.Controls.AsyncPromptControl _promptControl;
         private SemanticKernelDemo.SemanticKernel.SemanticKernelComponent _semanticKernelConversation;
         private ToolTip _toolTip;
         private Controls.EditFloatingPointSlider editFloatingPointSlider1;
+        private WinForms.ControlConcepts.ConversationView _conversationView;
     }
 }
