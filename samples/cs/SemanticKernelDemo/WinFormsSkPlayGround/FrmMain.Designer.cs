@@ -209,7 +209,6 @@ namespace SemanticKernelDemo
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "WinForms AI Playground";
-            Load += FrmMain_Load;
             _menuStrip.ResumeLayout(false);
             _menuStrip.PerformLayout();
             ResumeLayout(false);

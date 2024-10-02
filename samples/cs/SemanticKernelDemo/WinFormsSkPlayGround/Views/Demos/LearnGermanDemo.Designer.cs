@@ -119,20 +119,19 @@ partial class LearnGermanDemo
         _btnAsyncPhoneticTranslate.TabIndex = 7;
         _btnAsyncPhoneticTranslate.Text = "Phonetic Translation";
         _btnAsyncPhoneticTranslate.UseVisualStyleBackColor = true;
-        _btnAsyncPhoneticTranslate.AsyncClick += _btnAsyncPhoneticTranslate_AsyncClick;
+        _btnAsyncPhoneticTranslate.AsyncClick += BtnAsyncPhoneticTranslate_AsyncClick;
         // 
         // _btnAsyncReadPhoneticEnglishOutLoud
         // 
         _btnAsyncReadPhoneticEnglishOutLoud.DialogResult = DialogResult.OK;
-        _btnAsyncReadPhoneticEnglishOutLoud.Enabled = false;
         _btnAsyncReadPhoneticEnglishOutLoud.Location = new Point(911, 377);
         _btnAsyncReadPhoneticEnglishOutLoud.Margin = new Padding(30, 4, 10, 10);
         _btnAsyncReadPhoneticEnglishOutLoud.Name = "_btnAsyncReadPhoneticEnglishOutLoud";
-        _btnAsyncReadPhoneticEnglishOutLoud.Size = new Size(232, 103);
+        _btnAsyncReadPhoneticEnglishOutLoud.Size = new Size(232, 76);
         _btnAsyncReadPhoneticEnglishOutLoud.TabIndex = 9;
         _btnAsyncReadPhoneticEnglishOutLoud.Text = "Read out loud!";
         _btnAsyncReadPhoneticEnglishOutLoud.UseVisualStyleBackColor = true;
-        _btnAsyncReadPhoneticEnglishOutLoud.Visible = false;
+        _btnAsyncReadPhoneticEnglishOutLoud.AsyncClick += BtnAsyncReadPhoneticEnglishOutLoud_AsyncClick;
         // 
         // _skPhoneticEnglish
         // 

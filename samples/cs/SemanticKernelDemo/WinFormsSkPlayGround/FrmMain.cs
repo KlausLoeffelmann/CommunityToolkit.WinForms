@@ -1,3 +1,4 @@
+using CommunityToolkit.WinForms.Extensions;
 using CommunityToolkit.WinForms.ModernTabControl;
 using TaskTamer.ViewModels;
 using WinFormsSkPlayGround;
@@ -8,29 +9,29 @@ namespace SemanticKernelDemo;
 
 public partial class FrmMain : Form
 {
+    private readonly WinFormsUserSettingsService _settingsService;
     private readonly IServiceProvider? _serviceProvider;
     private AIPlayGroundView? _aiPlayGroundView;
 
     public FrmMain()
     {
         InitializeComponent();
-        PositionForm();
+        _settingsService = new();
+        _settingsService.Load();
     }
 
-    private void PositionForm()
+    protected override void OnLoad(EventArgs e)
     {
-        // Size the Form up to 80% of the Screen, and center it:
-        Screen screen = Screen.FromControl(this);
-        int width = (int)(screen.WorkingArea.Width * 0.90);
-        int height = (int)(screen.WorkingArea.Height * 0.90);
-        int x = (screen.WorkingArea.Width - width) / 2;
-        int y = (screen.WorkingArea.Height - height) / 2;
+        base.OnLoad(e);
 
-        Bounds = new Rectangle(x, y, width, height);
-    }
+        var bounds = _settingsService.GetInstance(
+            "bounds",
+            this.CenterOnScreen(
+                horizontalFillGrade: 80,
+                verticalFillGrade: 80));
 
-    private void FrmMain_Load(object sender, EventArgs e)
-    {
+        Bounds = bounds;
+
         var toolWindowTasks = new Dictionary<Task, ToolStripMenuItem>();
 
         var mainViewModel = new MainViewModel(null!);
@@ -44,6 +45,13 @@ public partial class FrmMain : Form
         _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
 
         _mainTabControl.TabChanged += _mainTabControl_TabChanged;
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        base.OnFormClosed(e);
+        _settingsService.SetInstance("bounds", this.GetRestorableBounds());
+        _settingsService.Save();
     }
 
     private void _mainTabControl_TabChanged(object? sender, EventArgs e)
