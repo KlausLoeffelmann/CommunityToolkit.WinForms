@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using CommunityToolkit.WinForms.AsyncSupport;
+using System.Drawing;
 
 namespace CommunityToolkit.WinForms.Controls;
 
