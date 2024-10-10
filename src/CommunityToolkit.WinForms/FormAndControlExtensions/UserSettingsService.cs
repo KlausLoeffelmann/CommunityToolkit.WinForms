@@ -69,7 +69,7 @@ public class WinFormsUserSettingsService : IUserSettingsService
         return defaultValue;
     }
 
-    public T GetInstance<T>(string key, T defaultValue) 
+    public T GetInstance<T>(string key, T defaultValue)
     {
         // Check if the key exists in the settings dictionary:
         if (_settings.TryGetValue(key, out string? value))
@@ -87,20 +87,12 @@ public class WinFormsUserSettingsService : IUserSettingsService
         _settings[key] = JsonSerializer.Serialize(value);
     }
 
-    public void Load()
+    public static IUserSettingsService CreateAndLoad()
     {
-        // Get the path to the settings file:
-        FileInfo settingsFile = GetUserApplicationPath();
+        var settings = (IUserSettingsService) new WinFormsUserSettingsService();
+        settings.Load();
 
-        // Check if the settings file exists:
-        if (settingsFile.Exists)
-        {
-            // Read the Json from the settings file:
-            string json = File.ReadAllText(settingsFile.FullName);
-
-            // Deserialize the Json to the settings dictionary:
-            _settings = JsonSerializer.Deserialize<Dictionary<string, string>>(json)!;
-        }
+        return settings;
     }
 
     public void Remove(string key) => _settings.Remove(key);
@@ -127,5 +119,21 @@ public class WinFormsUserSettingsService : IUserSettingsService
     {
         // Write the value to the settings dictionary as JSon:
         _settings[key] = JsonSerializer.Serialize(value);
+    }
+
+    void IUserSettingsService.Load()
+    {
+        // Get the path to the settings file:
+        FileInfo settingsFile = GetUserApplicationPath();
+
+        // Check if the settings file exists:
+        if (settingsFile.Exists)
+        {
+            // Read the Json from the settings file:
+            string json = File.ReadAllText(settingsFile.FullName);
+
+            // Deserialize the Json to the settings dictionary:
+            _settings = JsonSerializer.Deserialize<Dictionary<string, string>>(json)!;
+        }
     }
 }
