@@ -6,7 +6,7 @@ public partial class ModernTabControl : Panel
 {
     private readonly MenuStrip _menuStrip;   // Tab bar
     private readonly List<Panel> _tabPages;  // Tab pages
-    private ToolStripMenuItem _currentItem;
+    private ToolStripMenuItem? _currentItem;
 
     public event EventHandler? TabChanged;
 
