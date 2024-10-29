@@ -31,7 +31,6 @@ public partial class AsyncPromptControl : TextBox
 
     public AsyncPromptControl()
     {
-        VisualStylesMode = VisualStylesMode.Latest;
         Multiline = true;
         Padding = s_defaultPadding;
     }
@@ -41,45 +40,6 @@ public partial class AsyncPromptControl : TextBox
     {
         get => base.Padding;
         set => base.Padding = value;
-    }
-
-    protected override void OnNonClientPaint(PaintEventArgs paintEventArgs)
-    {
-#pragma warning disable WFO5000
-        base.OnNonClientPaint(paintEventArgs);
-#pragma warning restore WFO5000
-
-        // Define the font and character for the icon
-        Font iconFont = new("Segoe Fluent Icons", 12);
-        char sendIcon = '\uE724';
-        char filledSendIcon = '\uE725';
-
-        // Draw the appropriate icon based on the mouse state
-        if (_isMouseDown)
-        {
-            RenderSendIcon(true, SystemColors.WindowText);
-            return;
-        }
-
-        if (_isMouseOver)
-        {
-            RenderSendIcon(false, Color.Red);
-            return;
-        }
-
-        RenderSendIcon(false, SystemColors.GrayText);
-
-        void RenderSendIcon(bool isFilled, Color color)
-        {
-            TextRenderer.DrawText(
-                paintEventArgs.Graphics,
-                (isFilled ? filledSendIcon : sendIcon).ToString(),
-                iconFont,
-                new Point(
-                    paintEventArgs.ClipRectangle.Right - 40,
-                    paintEventArgs.ClipRectangle.Top - 11 + paintEventArgs.ClipRectangle.Height / 2),
-                color);
-        }
     }
 
     protected override void OnMouseMove(MouseEventArgs e)

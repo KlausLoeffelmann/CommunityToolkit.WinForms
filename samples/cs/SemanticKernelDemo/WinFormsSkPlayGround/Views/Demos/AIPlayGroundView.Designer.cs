@@ -68,7 +68,6 @@
             _promptControl.Name = "_promptControl";
             _promptControl.Size = new Size(940, 182);
             _promptControl.TabIndex = 4;
-            _promptControl.VisualStylesMode = VisualStylesMode.Latest;
             _promptControl.AsyncSendPrompt += PromptControl_AsyncSendPrompt;
             _promptControl.NewPromptSuggestionRequest += PromptControl_NewPromptSuggestionRequest;
             _promptControl.PreviousPromptRequest += PromptControl_NewPromptSuggestionRequest;
@@ -122,7 +121,6 @@
             _conversationView.Name = "_conversationView";
             _conversationView.Padding = new Padding(5);
             _conversationView.Size = new Size(940, 560);
-            _conversationView.StartPath = "/";
             _conversationView.TabIndex = 5;
             _conversationView.Text = "markdownRenderer1";
             // 

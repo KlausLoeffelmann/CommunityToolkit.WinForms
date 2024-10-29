@@ -1,3 +1,4 @@
+using CommunityToolkit.WinForms.ComponentModel;
 using CommunityToolkit.WinForms.Extensions;
 using CommunityToolkit.WinForms.ModernTabControl;
 using TaskTamer.ViewModels;
@@ -9,15 +10,14 @@ namespace SemanticKernelDemo;
 
 public partial class FrmMain : Form
 {
-    private readonly WinFormsUserSettingsService _settingsService;
+    private readonly IUserSettingsService _settingsService;
     private readonly IServiceProvider? _serviceProvider;
     private AIPlayGroundView? _aiPlayGroundView;
 
     public FrmMain()
     {
         InitializeComponent();
-        _settingsService = new();
-        _settingsService.Load();
+        _settingsService = WinFormsUserSettingsService.CreateAndLoad();
     }
 
     protected override void OnLoad(EventArgs e)

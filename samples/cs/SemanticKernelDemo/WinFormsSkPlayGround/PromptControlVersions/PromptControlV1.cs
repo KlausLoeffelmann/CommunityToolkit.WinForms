@@ -9,7 +9,6 @@ public partial class PromptControlV1 : TextBox
 
     public PromptControlV1()
     {
-        VisualStylesMode = VisualStylesMode.Latest;
         Multiline = true;
         Padding = s_defaultPadding;
     }

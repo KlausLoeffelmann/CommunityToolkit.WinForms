@@ -75,7 +75,6 @@ partial class LearnGermanDemo
         _germanTextPrompt.Size = new Size(873, 293);
         _germanTextPrompt.TabIndex = 8;
         _germanTextPrompt.Text = "Lerne Deutsch in nur 2 Minuten!\r\n\r\n";
-        _germanTextPrompt.VisualStylesMode = VisualStylesMode.Latest;
         // 
         // label1
         // 

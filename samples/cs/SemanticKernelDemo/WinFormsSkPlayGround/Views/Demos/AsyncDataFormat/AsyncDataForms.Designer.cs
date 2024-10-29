@@ -200,7 +200,6 @@
             // _chkAISupport
             // 
             _chkAISupport.Anchor = AnchorStyles.Top;
-            _chkAISupport.Appearance = Appearance.ToggleSwitch;
             _chkAISupport.AutoSize = true;
             _chkAISupport.Location = new Point(46, 94);
             _chkAISupport.Name = "_chkAISupport";
@@ -290,7 +289,6 @@
             Margin = new Padding(4);
             Name = "AsyncDataForms";
             Size = new Size(1296, 730);
-            VisualStylesMode = VisualStylesMode.Latest;
             groupBox1.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);

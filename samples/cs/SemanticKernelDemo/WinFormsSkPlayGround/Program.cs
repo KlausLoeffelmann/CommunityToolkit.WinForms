@@ -30,8 +30,7 @@ internal static class Program
         // for example between a Blazor component and a WinForms form.
         WinFormsHost = WinFormsHost.Initialize(
             startFormType: typeof(FrmMain),
-            colorMode: SystemColorMode.Classic,
-            visualStylesMode: VisualStylesMode.Latest);
+            colorMode: SystemColorMode.Classic);
         WinFormsHost.Start();
 
 #endregion

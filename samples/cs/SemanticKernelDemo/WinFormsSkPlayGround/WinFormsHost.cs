@@ -16,7 +16,6 @@ public class WinFormsHost : IHost
     private bool disposedValue;
     private readonly IHost _innerHost;
     private readonly SystemColorMode _colorMode;
-    private readonly VisualStylesMode _visualStylesMode;
 
     private static IHost? s_host;
 
@@ -28,12 +27,10 @@ public class WinFormsHost : IHost
     /// <param name="visualStylesMode">Der visuelle Stilmodus.</param>
     private WinFormsHost(
         IHost host,
-        SystemColorMode colorMode,
-        VisualStylesMode visualStylesMode)
+        SystemColorMode colorMode)
     {
         _innerHost = host;
         _colorMode = colorMode;
-        _visualStylesMode = visualStylesMode;
     }
 
     /// <summary>
@@ -50,8 +47,7 @@ public class WinFormsHost : IHost
     /// <returns>Der initialisierte <see cref="WinFormsHost"/>.</returns>
     public static WinFormsHost Initialize(
         Type startFormType,
-        SystemColorMode colorMode = SystemColorMode.Classic,
-        VisualStylesMode visualStylesMode = VisualStylesMode.Classic)
+        SystemColorMode colorMode = SystemColorMode.Classic)
     {
         if (s_host is not null)
         {
@@ -71,7 +67,7 @@ public class WinFormsHost : IHost
         var host = builder.Build();
         Application.ApplicationExit += (sender, args) => host.Dispose();
 
-        s_host = new WinFormsHost(host, colorMode, visualStylesMode);
+        s_host = new WinFormsHost(host, colorMode);
         return (WinFormsHost)s_host;
     }
 
@@ -82,8 +78,7 @@ public class WinFormsHost : IHost
     /// <returns>Ein <see cref="Task"/>, das die asynchrone Operation darstellt.</returns>
     public Task StartAsync(CancellationToken cancellationToken = default)
     {
-        // Application.SetColorMode(_colorMode);
-        Application.SetDefaultVisualStylesMode(_visualStylesMode);
+        Application.SetColorMode(_colorMode);
 
         var form = Services.GetRequiredService<Form>();
         Application.Run(form);
