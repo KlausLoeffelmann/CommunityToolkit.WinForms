@@ -4,7 +4,7 @@ Public Class ConsoleControl
     Inherits TextBox
 
     Private ReadOnly _newLine As String = Environment.NewLine
-    Private ReadOnly _writeLineAction = New Action(Of String)(
+    Private ReadOnly _writeLineAction As New Action(Of String)(
         Sub(text)
             AppendText(text)
             ScrollToBottom()

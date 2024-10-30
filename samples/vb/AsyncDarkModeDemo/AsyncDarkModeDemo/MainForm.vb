@@ -1,29 +1,25 @@
-﻿Imports System.Collections.Concurrent
-Imports System.Runtime.CompilerServices
-Imports System.Threading.Tasks.Sources
-
-Public Class MainForm
+﻿Public Class MainForm
 
     Public Class AwaitableToolStripMenuItem
         Inherits ToolStripMenuItem
 
         Private _clickCompletion As New TaskCompletionSource
 
-        Public Function GetAwaiter() As TaskAwaiter
-            Return _clickCompletion.Task.GetAwaiter()
-        End Function
-
         Protected Overrides Sub OnClick(e As EventArgs)
             MyBase.OnClick(e)
             _clickCompletion.SetResult()
             _clickCompletion = New TaskCompletionSource
         End Sub
+
+        Public Function ToTask() As Task
+            Return _clickCompletion.Task
+        End Function
+
     End Class
 
     Private _newDocMenuItem As New AwaitableToolStripMenuItem
     Private _quitMenuItem As New AwaitableToolStripMenuItem
-
-    Private _con As New ConcurrentStack(Of Task)
+    Private _docCounter As Integer = 1
 
     Sub New()
 
@@ -43,24 +39,42 @@ Public Class MainForm
     Protected Overrides Async Sub OnLoad(e As EventArgs)
         MyBase.OnLoad(e)
 
-        Dim formTasks As New List(Of Task)
+        Dim formTasks As New Dictionary(Of Task, DocumentForm)
+        Dim documentForm As DocumentForm
 
         Do
-            Dim awaitedTask = Await ValueTask.(Combine(formTasks, _newDocMenuItem, _quitMenuItem))
+            Dim awaitedTask = Await Task.WhenAny(
+                Combine(
+                    formTasks.Keys,
+                    _newDocMenuItem.ToTask,
+                    _quitMenuItem.ToTask))
 
-            If awaitedTask Is _newDocMenuItem Then
-                Dim documentForm As New DocumentForm
-                formTasks.Add(documentForm.ShowAsync(Me))
-            ElseIf formTasks.Contains(awaitedTask) Then
-                formTasks.Remove(awaitedTask)
-            Else
+            If awaitedTask Is _newDocMenuItem.ToTask Then
+                documentForm = New DocumentForm($"Document {_docCounter}")
+                formTasks.Add(documentForm.ShowAsync, documentForm)
+                _docCounter += 1
+
+                Await InvokeAsync(
+                    Sub() _logList.Items.Add($"Creating new document {documentForm.Text}..."))
+
+            ElseIf awaitedTask Is _quitMenuItem.ToTask Then
                 Exit Do
+
+            Else
+                documentForm = formTasks(awaitedTask)
+
+                Await InvokeAsync(
+                    Sub() _logList.Items.Add($"{documentForm.Text} is closing..."))
+
+                formTasks.Remove(awaitedTask)
             End If
         Loop
+
+        Close()
     End Sub
 
-    Public Shared Function Combine(list As List(Of Task), ParamArray additionalItems As IAsyncResult) As IEnumerable(Of Task)
-        Return list.Concat(additionalItems).Select(Function(item) DirectCast(item, Task))
+    Private Shared Function Combine(list As IEnumerable(Of Task), ParamArray additionalItems As Task()) As IEnumerable(Of Task)
+        Return list.Concat(additionalItems)
     End Function
 
 End Class

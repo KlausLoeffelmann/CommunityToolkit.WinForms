@@ -13,13 +13,13 @@
 
         ' Add 50 buttons to the FlowLayoutPanel
 
-        For z = 0 To 2
+        For z As Integer = 0 To 2
             For i As Integer = 1 To 50
                 Dim button As New Button With
                 {
                     .Text = $"Button {i}",
                     .AutoSize = True,
-                    .FlatStyle = z
+                    .FlatStyle = CType(z, FlatStyle)
                 }
 
                 flowLayoutPanel.Controls.Add(button)
