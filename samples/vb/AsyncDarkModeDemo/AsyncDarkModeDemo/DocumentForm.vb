@@ -1,11 +1,12 @@
-﻿Imports System.Threading
+﻿Imports System.ComponentModel
+Imports System.Threading
 
 Public Class DocumentForm
-
     Private _dateTimeCreated As DateTime = DateTime.Now
     Private _renderFont As Font
     Private _formClosingCancellation As CancellationTokenSource
     Private _foreColorBrush As Brush
+    Private _documentName As String
 
     Sub New()
 
@@ -16,12 +17,30 @@ Public Class DocumentForm
         ' We want the render Font double the size of the default font:
         _renderFont = New Font(Font.FontFamily, Font.Size * 2, FontStyle.Regular)
         _formClosingCancellation = New CancellationTokenSource
+
+        Dim testString As String = Nothing
+        testString = DirectCast(CType(Nothing, Object), String)
+
     End Sub
 
     Sub New(documentName As String)
         Me.New()
-        Text = documentName
+        Me.DocumentName = documentName
     End Sub
+
+    ''' <summary>
+    '''  The name of the document.
+    ''' </summary>
+    <DefaultValue(CStr(Nothing))>
+    Public Property DocumentName As String
+        Get
+            Return _documentName
+        End Get
+        Private Set(value As String)
+            Text = value
+            _documentName = value
+        End Set
+    End Property
 
     Protected Overrides Async Sub OnLoad(e As EventArgs)
         MyBase.OnLoad(e)
@@ -38,14 +57,13 @@ Public Class DocumentForm
         Dim formGraphics As Graphics = Nothing
 
         Do
-            Try
-                Await periodicTimer.
-                        WaitForNextTickAsync(_formClosingCancellation.Token).
-                        ConfigureAwait(False)
+            Await periodicTimer.
+                    WaitForNextTickAsync().
+                    ConfigureAwait(False)
 
-            Catch ex As OperationCanceledException
+            If (_formClosingCancellation.IsCancellationRequested) Then
                 Exit Do
-            End Try
+            End If
 
             ' Let's test, if the doc window has been resized:
             If surface.Size <> ClientSize Then
@@ -78,7 +96,7 @@ Public Class DocumentForm
                 _foreColorBrush,
                 textLocation)
 
-            text = $"Document created ({DateTime.Now - _dateTimeCreated:mm\:ss} ago)"
+            text = $"Document created ({DateTime.Now - _dateTimeCreated:mm\:ss\:fff} ago)"
 
             textSize = bufferGraphics.MeasureString(text, _renderFont)
 
@@ -111,8 +129,9 @@ Public Class DocumentForm
 
     End Function
 
-    Overloads Sub OnFormClosing(e As FormClosingEventArgs)
+    Protected Overrides Sub OnFormClosing(e As FormClosingEventArgs)
         MyBase.OnFormClosing(e)
+
         _formClosingCancellation.Cancel()
     End Sub
 

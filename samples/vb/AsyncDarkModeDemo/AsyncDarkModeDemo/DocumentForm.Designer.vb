@@ -17,20 +17,20 @@ Partial Class DocumentForm
   'Required by the Windows Form Designer
   Private components As System.ComponentModel.IContainer
 
-  'NOTE: The following procedure is required by the Windows Form Designer
-  'It can be modified using the Windows Form Designer.  
-  'Do not modify it using the code editor.
-  <System.Diagnostics.DebuggerStepThrough()> _
-  Private Sub InitializeComponent()
-    SuspendLayout()
-    ' 
-    ' DocumentForm
-    ' 
-    AutoScaleDimensions = New SizeF(8F, 20F)
-    AutoScaleMode = AutoScaleMode.Font
-    ClientSize = New Size(716, 312)
-    Name = "DocumentForm"
-    Text = "DocumentForm"
-    ResumeLayout(False)
-  End Sub
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        SuspendLayout()
+        ' 
+        ' DocumentForm
+        ' 
+        AutoScaleDimensions = New SizeF(8F, 20F)
+        AutoScaleMode = AutoScaleMode.Font
+        ClientSize = New Size(899, 349)
+        Name = "DocumentForm"
+        Text = "DocumentForm"
+        ResumeLayout(False)
+    End Sub
 End Class
