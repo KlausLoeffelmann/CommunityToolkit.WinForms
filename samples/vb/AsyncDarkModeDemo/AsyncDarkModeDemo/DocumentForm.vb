@@ -17,10 +17,6 @@ Public Class DocumentForm
         ' We want the render Font double the size of the default font:
         _renderFont = New Font(Font.FontFamily, Font.Size * 2, FontStyle.Regular)
         _formClosingCancellation = New CancellationTokenSource
-
-        Dim testString As String = Nothing
-        testString = DirectCast(CType(Nothing, Object), String)
-
     End Sub
 
     Sub New(documentName As String)
@@ -121,7 +117,7 @@ Public Class DocumentForm
             ' on the thread that owns the Form (the UI thread):
             formGraphics = If(
                 formGraphics,
-                Await InvokeAsync(Function() Graphics.FromHwnd(Handle)))
+                Await InvokeAsync(Function() Graphics.FromHwnd(Handle)).ConfigureAwait(False))
 
             ' Now, we can draw the bitmap on the form.
             ' And note: That does NOT need to happen on the UI thread,
