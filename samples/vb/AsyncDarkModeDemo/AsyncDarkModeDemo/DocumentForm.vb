@@ -46,7 +46,9 @@ Public Class DocumentForm
         MyBase.OnLoad(e)
         _foreColorBrush = New SolidBrush(ForeColor)
 
-        Await RenderContentAsync()
+        Await Task.Run(Async Function() 
+                           Await RenderContentAsync()
+                       End Function)
     End Sub
 
     Private Async Function RenderContentAsync() As Task
@@ -61,16 +63,16 @@ Public Class DocumentForm
                     WaitForNextTickAsync().
                     ConfigureAwait(False)
 
-            If (_formClosingCancellation.IsCancellationRequested) Then
-                Exit Do
-            End If
-
             ' Let's test, if the doc window has been resized:
             If surface.Size <> ClientSize Then
 
                 ' Yes, we need a bitmap in the new size for double buffering.
                 surface.Dispose()
-                surface = New Bitmap(ClientSize.Width, ClientSize.Height)
+
+                ' Let's make sure, the Bitmap is never smaller than 10 x 10.
+                surface = New Bitmap(
+                    width:=Math.Max(ClientSize.Width, 10),
+                    height:=Math.Max(ClientSize.Height, 10))
 
                 bufferGraphics?.Dispose() : bufferGraphics = Nothing
                 formGraphics?.Dispose() : formGraphics = Nothing
@@ -81,6 +83,10 @@ Public Class DocumentForm
 
             ' Let's clear the background:
             bufferGraphics.Clear(BackColor)
+
+            If (_formClosingCancellation.IsCancellationRequested) Then
+                Exit Do
+            End If
 
             ' Let's write the document creation date centered on the top of the form:
             Dim text = $"Document {Me.Text} created on {_dateTimeCreated}"
