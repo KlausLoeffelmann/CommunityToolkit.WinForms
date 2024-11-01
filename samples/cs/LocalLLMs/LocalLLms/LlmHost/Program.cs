@@ -1,10 +1,19 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var ollama = builder.AddContainer("ollama", "ollama/ollama", "latest")
-    .WithBindMount("./ollamaconfig", "/usr/config")
-    .WithVolume("ollama", "/root/.ollama")
-    .WithHttpEndpoint(11434, 11434, "ollama")
-    .WithEnvironment("OLLAMA_DEBUG", "1")
-    .WithContainerRuntimeArgs("--gpus=all"); 
+var ollama = builder
+    .AddOllama("ollama", port: 50000)
+    .AddModel("phi3")
+    .WithDefaultModel("phi3")
+    .WithContainerRuntimeArgs("--gpus=all")
+    //.WithOpenWebUI(
+    //    configureContainer: (res) =>
+    //    {
+    //        res.WithContainerName("Phi3OpenApi")
+    //        .WithEndpoint(
+    //            "http",
+    //            callback: (epParam) => epParam.Port = 50000,
+    //            createIfNotExists: true);
+    //    })
+    .WithDataVolume();
 
 builder.Build().Run();

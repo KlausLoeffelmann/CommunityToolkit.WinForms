@@ -5,13 +5,12 @@ VisualStudioVersion = 17.13.35429.394
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalLLms", "LocalLLms\LocalLLms.csproj", "{D88440E7-3424-4EAB-9D73-70F61FA8C809}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LlmHost", "LlmHost\LlmHost.csproj", "{4DC84890-08AC-4277-9B61-6475A8FF200E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_solutionItems", "_solutionItems", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		NuGet.config = NuGet.config
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LlmHost", "LlmHost\LlmHost.csproj", "{8A2BBD5B-B8EF-43FD-92FF-1DAF0742FC89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +22,10 @@ Global
 		{D88440E7-3424-4EAB-9D73-70F61FA8C809}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D88440E7-3424-4EAB-9D73-70F61FA8C809}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D88440E7-3424-4EAB-9D73-70F61FA8C809}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DC84890-08AC-4277-9B61-6475A8FF200E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DC84890-08AC-4277-9B61-6475A8FF200E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DC84890-08AC-4277-9B61-6475A8FF200E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DC84890-08AC-4277-9B61-6475A8FF200E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A2BBD5B-B8EF-43FD-92FF-1DAF0742FC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A2BBD5B-B8EF-43FD-92FF-1DAF0742FC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A2BBD5B-B8EF-43FD-92FF-1DAF0742FC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A2BBD5B-B8EF-43FD-92FF-1DAF0742FC89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

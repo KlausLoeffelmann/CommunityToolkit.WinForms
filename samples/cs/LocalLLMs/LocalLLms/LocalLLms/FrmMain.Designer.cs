@@ -28,12 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "Form1";
+            _btnConnectLocal = new Button();
+            _txtOutput = new TextBox();
+            SuspendLayout();
+            // 
+            // _btnConnectLocal
+            // 
+            _btnConnectLocal.Location = new Point(287, 12);
+            _btnConnectLocal.Name = "_btnConnectLocal";
+            _btnConnectLocal.Size = new Size(238, 56);
+            _btnConnectLocal.TabIndex = 0;
+            _btnConnectLocal.Text = "Connect to loca Phi3";
+            _btnConnectLocal.UseVisualStyleBackColor = true;
+            _btnConnectLocal.Click += BtnConnectLocal_Click;
+            // 
+            // _txtOutput
+            // 
+            _txtOutput.Location = new Point(12, 95);
+            _txtOutput.Multiline = true;
+            _txtOutput.Name = "_txtOutput";
+            _txtOutput.Size = new Size(776, 343);
+            _txtOutput.TabIndex = 1;
+            // 
+            // FrmMain
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(_txtOutput);
+            Controls.Add(_btnConnectLocal);
+            Name = "FrmMain";
+            Text = "Form1";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Button _btnConnectLocal;
+        private TextBox _txtOutput;
     }
 }
