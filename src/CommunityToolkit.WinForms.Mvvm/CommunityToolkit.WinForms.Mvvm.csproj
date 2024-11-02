@@ -10,8 +10,8 @@
   <ItemGroup>
 	  <PackageReference Include="Azure.Identity" Version="1.13.1" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
-	  <PackageReference Include="Microsoft.SemanticKernel" Version="*" />
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-rtm.24515.15" />
+	  <PackageReference Include="Microsoft.SemanticKernel" Version="1.26.0" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-rtm.24516.5" />
   </ItemGroup>
 
   <ItemGroup>
