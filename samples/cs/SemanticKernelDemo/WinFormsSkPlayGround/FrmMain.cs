@@ -34,7 +34,7 @@ public partial class FrmMain : Form
 
         var toolWindowTasks = new Dictionary<Task, ToolStripMenuItem>();
 
-        var mainViewModel = new MainViewModel(null!);
+        var mainViewModel = new MainViewModel();
         DataContext = mainViewModel;
 
         _mainTabControl.AddTab("Main Page", new IntroClockDemo());

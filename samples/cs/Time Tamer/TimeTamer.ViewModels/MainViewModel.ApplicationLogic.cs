@@ -22,8 +22,6 @@ public partial class MainViewModel
 
     private void UpdateCurrentTime(object? state)
     {
-        if (_syncContextService is null || !_syncContextService.IsSyncContextAvailable) return;
-
         //_syncContextService
         //    .SyncContext!
         //    .Post(

@@ -19,7 +19,6 @@ internal static class Program
         ApplicationConfiguration.Initialize();
 
         Application.SetColorMode(SystemColorMode.System);
-        Application.SetDefaultVisualStylesMode(VisualStylesMode.Latest);
 
         // We're registering the ViewModels and the view here:
         RegisterView<ProjectViewModel>(() => new FrmManageProjects());

@@ -1,4 +1,4 @@
-﻿using DemoToolkit.Mvvm.DesktopGeneric;
+﻿using CommunityToolkit.DesktopGeneric.Mvvm;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
 

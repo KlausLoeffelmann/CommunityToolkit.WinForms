@@ -9,15 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.18.2" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.26.0" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2739.15" />
     <PackageReference Include="System.Speech" Version="9.0.0-rc.2.24459.11" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
-    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\ModernTabControl\ModernTabControl.csproj" />
-    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.ModernTabControl\CommunityToolkit.WinForms.ModernTabControl.csproj" />
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.Mvvm\CommunityToolkit.WinForms.Mvvm.csproj" />
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
     <ProjectReference Include="..\..\Time Tamer\TimeTamer.DataLayer\TaskTamer.DataLayer.csproj" />
     <ProjectReference Include="..\..\Time Tamer\TimeTamer.Generic\TaskTamer.Generic.csproj" />
     <ProjectReference Include="..\..\Time Tamer\TimeTamer.ViewModels\TaskTamer.ViewModels.csproj" />

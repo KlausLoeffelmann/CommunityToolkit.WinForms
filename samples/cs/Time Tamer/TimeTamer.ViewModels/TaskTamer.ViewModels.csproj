@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="*" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommunityToolkit.Mvvm.DesktopGeneric\DemoToolkit.Mvvm.DesktopGeneric.csproj" />
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.DesktopGeneric.Mvvm\CommunityToolkit.DesktopGeneric.Mvvm.csproj" />
     <ProjectReference Include="..\TimeTamer.DataLayer\TaskTamer.DataLayer.csproj" />
   </ItemGroup>
 

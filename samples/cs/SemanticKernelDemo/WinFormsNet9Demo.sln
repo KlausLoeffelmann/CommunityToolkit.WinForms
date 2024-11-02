@@ -6,7 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_solutionItems", "_solutionItems", "{8657AEBE-036C-43C6-B8CC-5A67005595BF}"
 	ProjectSection(SolutionItems) = preProject
 		.copilot-instructions.md = .copilot-instructions.md
-		.editorconfig = .editorconfig
+		..\..\..\.editorconfig = ..\..\..\.editorconfig
 		NuGet.config = NuGet.config
 	EndProjectSection
 EndProject
@@ -14,11 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConversationView", "Convers
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsSkPlayGround", "WinFormsSkPlayGround\WinFormsSkPlayGround.csproj", "{75A3D9A0-A231-43FC-B343-5DC93FAB8E5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.TypedInputExtenders", "..\..\..\src\CommunityToolkit.WinForms\TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj", "{D686390F-294F-42F7-957B-7C829D09B39E}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ControlsAndComponents", "ControlsAndComponents", "{F313AA26-114E-4FEF-94E9-5326DC4914AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernTabControl", "..\..\..\src\CommunityToolkit.WinForms\ModernTabControl\ModernTabControl.csproj", "{EC08F240-FBDC-4659-BAAF-EFAB9D37CDE0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TimeTamerData", "TimeTamerData", "{DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}"
 EndProject
@@ -28,13 +24,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTamer.DataLayer", "..\T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTamer.ViewModels", "..\Time Tamer\TimeTamer.ViewModels\TaskTamer.ViewModels.csproj", "{F00DC783-EC48-49DF-B2D9-5CE65C72A176}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoToolkit.Mvvm.DesktopGeneric", "..\Time Tamer\CommunityToolkit.Mvvm.DesktopGeneric\DemoToolkit.Mvvm.DesktopGeneric.csproj", "{8FA71462-BECB-4B5A-A599-130920F1C0F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.Mvvm", "..\..\..\src\CommunityToolkit.WinForms.Mvvm\CommunityToolkit.WinForms.Mvvm.csproj", "{74DEDD1F-D2E5-4B67-924B-C91E04E34524}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Temp", "Temp", "{1392F817-4D14-46D5-93E6-164D24A8505B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.Extensions.FormAndControlExtensions", "..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj", "{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoToolkit.Mvvm.WinForms", "..\Time Tamer\CommunityToolkit.Mvvm.WinForms\DemoToolkit.Mvvm.WinForms.csproj", "{60176752-8A79-4EFA-8914-64E1C102AE9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.ModernTabControl", "..\..\..\src\CommunityToolkit.WinForms.ModernTabControl\CommunityToolkit.WinForms.ModernTabControl.csproj", "{F56E7285-7155-4F81-B758-864847B2CD94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.Extensions.FormAndControlExtensions", "..\..\..\src\CommunityToolkit.WinForms\FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj", "{778BCAAC-8383-4A1F-BF1A-86F5CE7E8C54}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.TypedInputExtenders", "..\..\..\src\CommunityToolkit.WinForms.TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj", "{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.ComponentModel", "..\..\..\src\CommunityToolkit.WinForms.ComponentModel\CommunityToolkit.WinForms.ComponentModel.csproj", "{F51D4805-BFD7-4868-B0D0-3980AAA36DA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.DesktopGeneric.Mvvm", "..\..\..\src\CommunityToolkit.DesktopGeneric.Mvvm\CommunityToolkit.DesktopGeneric.Mvvm.csproj", "{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,14 +50,6 @@ Global
 		{75A3D9A0-A231-43FC-B343-5DC93FAB8E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75A3D9A0-A231-43FC-B343-5DC93FAB8E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75A3D9A0-A231-43FC-B343-5DC93FAB8E5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D686390F-294F-42F7-957B-7C829D09B39E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D686390F-294F-42F7-957B-7C829D09B39E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D686390F-294F-42F7-957B-7C829D09B39E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D686390F-294F-42F7-957B-7C829D09B39E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC08F240-FBDC-4659-BAAF-EFAB9D37CDE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC08F240-FBDC-4659-BAAF-EFAB9D37CDE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC08F240-FBDC-4659-BAAF-EFAB9D37CDE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC08F240-FBDC-4659-BAAF-EFAB9D37CDE0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F8095919-4F9B-4B2C-8E65-FC05979C942C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F8095919-4F9B-4B2C-8E65-FC05979C942C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8095919-4F9B-4B2C-8E65-FC05979C942C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -70,31 +62,44 @@ Global
 		{F00DC783-EC48-49DF-B2D9-5CE65C72A176}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F00DC783-EC48-49DF-B2D9-5CE65C72A176}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F00DC783-EC48-49DF-B2D9-5CE65C72A176}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FA71462-BECB-4B5A-A599-130920F1C0F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FA71462-BECB-4B5A-A599-130920F1C0F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FA71462-BECB-4B5A-A599-130920F1C0F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FA71462-BECB-4B5A-A599-130920F1C0F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60176752-8A79-4EFA-8914-64E1C102AE9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60176752-8A79-4EFA-8914-64E1C102AE9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60176752-8A79-4EFA-8914-64E1C102AE9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60176752-8A79-4EFA-8914-64E1C102AE9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{778BCAAC-8383-4A1F-BF1A-86F5CE7E8C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{778BCAAC-8383-4A1F-BF1A-86F5CE7E8C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{778BCAAC-8383-4A1F-BF1A-86F5CE7E8C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{778BCAAC-8383-4A1F-BF1A-86F5CE7E8C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74DEDD1F-D2E5-4B67-924B-C91E04E34524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74DEDD1F-D2E5-4B67-924B-C91E04E34524}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74DEDD1F-D2E5-4B67-924B-C91E04E34524}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74DEDD1F-D2E5-4B67-924B-C91E04E34524}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F56E7285-7155-4F81-B758-864847B2CD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F56E7285-7155-4F81-B758-864847B2CD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F56E7285-7155-4F81-B758-864847B2CD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F56E7285-7155-4F81-B758-864847B2CD94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F51D4805-BFD7-4868-B0D0-3980AAA36DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F51D4805-BFD7-4868-B0D0-3980AAA36DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F51D4805-BFD7-4868-B0D0-3980AAA36DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F51D4805-BFD7-4868-B0D0-3980AAA36DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D686390F-294F-42F7-957B-7C829D09B39E} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
-		{EC08F240-FBDC-4659-BAAF-EFAB9D37CDE0} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{F8095919-4F9B-4B2C-8E65-FC05979C942C} = {DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}
 		{D0C27C81-4AAB-4547-89F8-6B7EC7D32DD0} = {DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}
 		{F00DC783-EC48-49DF-B2D9-5CE65C72A176} = {DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}
-		{8FA71462-BECB-4B5A-A599-130920F1C0F8} = {DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}
-		{60176752-8A79-4EFA-8914-64E1C102AE9F} = {1392F817-4D14-46D5-93E6-164D24A8505B}
-		{778BCAAC-8383-4A1F-BF1A-86F5CE7E8C54} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
+		{74DEDD1F-D2E5-4B67-924B-C91E04E34524} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
+		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
+		{F56E7285-7155-4F81-B758-864847B2CD94} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
+		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
+		{F51D4805-BFD7-4868-B0D0-3980AAA36DA3} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
+		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DDAC88CF-BFAB-40D6-A461-0609CA7E6B3D}

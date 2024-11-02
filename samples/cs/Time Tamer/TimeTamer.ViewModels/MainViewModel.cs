@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using DemoToolkit.Mvvm.DesktopGeneric;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using TaskTamer.DataLayer.Models;
@@ -8,14 +7,11 @@ namespace TaskTamer.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private readonly ISyncContextService _syncContextService;
-
     private readonly System.Threading.Timer? _timer;
 
-    public MainViewModel(ISyncContextService syncContextService)
+    public MainViewModel()
     {
         _timer = new System.Threading.Timer(UpdateCurrentTime, null, 0, 1000);
-        _syncContextService = syncContextService;
         CurrentUser = UserViewModel.FromUser(User.GetCurrentUser());
         Projects = ProjectViewModel.GetActive();
 

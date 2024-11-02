@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Azure.Identity" Version="1.13.1" />
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
+	  <PackageReference Include="Microsoft.SemanticKernel" Version="*" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-rtm.24515.15" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CommunityToolkit.DesktopGeneric.Mvvm\CommunityToolkit.DesktopGeneric.Mvvm.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="AIControls\SemanticKernelBaseComponent.cs" />
+    <Compile Update="Components\PeriodicTimerComponent.cs" />
+    <Compile Update="Controls\BindableComboBox.cs" />
+    <Compile Update="Controls\ModernCommandButton.cs" />
+    <Compile Update="Controls\ModernEntry\ModernDateOffsetEntry.cs" />
+    <Compile Update="Controls\ModernEntry\ModernGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\ModernEntry\ModernStringEntry.cs" />
+    <Compile Update="Controls\ModernEntry\ModernTextEntry.cs" />
+    <Compile Update="Controls\ModernEntry\ModernTextEntry.IModernTextEntry.cs" />
+    <Compile Update="Controls\ModernEntry\ModernTextEntry.ModernTextEntryTextBox.cs" />
+    <Compile Update="Controls\SpinnerControl.cs" />
+  </ItemGroup>
+
+</Project>
