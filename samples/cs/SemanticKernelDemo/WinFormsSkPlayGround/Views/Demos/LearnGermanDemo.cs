@@ -1,13 +1,15 @@
-﻿using System.Speech.Synthesis;
+﻿using System.ComponentModel;
+using System.Diagnostics;
+using System.Speech.Synthesis;
 using static WinFormsSkPlayGround.Properties.Resources;
-using System.ComponentModel;
 
 namespace WinFormsSkPlayGround.Views;
 
 public partial class LearnGermanDemo : UserControl
 {
-    private CancellationTokenSource _cts = new CancellationTokenSource();
     private const string TestMethod = nameof(InvokeAsyncDemo);
+
+    private readonly CancellationTokenSource _cts = new();
 
     // The Oktoberfest support prompt!
     private const string systemPrompt =
@@ -34,7 +36,7 @@ public partial class LearnGermanDemo : UserControl
 
     private Task BtnAsyncReadPhoneticEnglishOutLoud_AsyncClick(object sender, EventArgs e)
     {
-        PromptBuilder builder = new PromptBuilder();
+        PromptBuilder builder = new();
         builder.AppendText(_txtPhoneticEnglish.Text);
         builder.Culture = new System.Globalization.CultureInfo("en-EN");
 
@@ -58,19 +60,13 @@ public partial class LearnGermanDemo : UserControl
 
     private async Task InvokeAsyncDemo()
     {
-        var someTaskAsync = async () =>
-        {
-            await Task.Delay(1000);
-            MessageBox.Show("Hello from the UI thread!");
-        };
-
         // If you want to have this func to be awaited,
         // return ValueTask and expect a cancellation token!
-        Func<CancellationToken, ValueTask> correctTaskAsync = async (token) =>
+        static async ValueTask correctTaskAsync(CancellationToken token)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1000, token);
             MessageBox.Show("Hello from the UI thread!");
-        };
+        }
 
         await _txtPhoneticEnglish.InvokeAsync(correctTaskAsync);
     }

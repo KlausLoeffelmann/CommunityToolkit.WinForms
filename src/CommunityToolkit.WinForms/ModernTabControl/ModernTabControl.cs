@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using CommunityToolkit.WinForms.Extensions.FormAndControlExtensions;
 
 namespace CommunityToolkit.WinForms.ModernTabControl;
 
@@ -85,32 +86,11 @@ public partial class ModernTabControl : Panel
         {
             CheckOnClick = true,
             AutoSize = true,
-            Padding = new Padding(20, 5, 10, 5)
+            Padding = new Padding(20, 5, 10, 5),
+            Tag = tabPage
         };
 
-        tabItem.Click += (sender, e) =>
-        {
-            // If the clicked item is selected, nothing changes.
-            if (sender is not ToolStripMenuItem senderItem
-                || senderItem == _currentItem)
-            {
-                return;
-            }
-
-            _currentItem = senderItem;
-
-            foreach (var item in _menuStrip.Items.OfType<ToolStripMenuItem>())
-            {
-                item.Checked = item == sender;
-            }
-
-            foreach (var page in _tabPages)
-            {
-                page.Visible = page == tabPage;
-            }
-
-            OnTabChanged(EventArgs.Empty);
-        };
+        tabItem.Click += TabItem_Clicked;
 
         _menuStrip.Items.Add(tabItem);
         Controls.Add(tabPage);
@@ -120,6 +100,40 @@ public partial class ModernTabControl : Panel
         {
             CurrentTabIndex = 0;
         }
+    }
+
+    private void TabItem_Clicked(object? sender, EventArgs e)
+    {
+        // If the clicked item is selected, nothing changes.
+        if (sender is not ToolStripMenuItem senderItem
+            || senderItem == _currentItem)
+        {
+            return;
+        }
+
+        ScrollableControl? previousPage = null;
+        ScrollableControl currentPage;
+
+        if (_currentItem is not null)
+        {
+            _currentItem.Checked = false;
+            previousPage = (ScrollableControl)_currentItem.Tag!;
+        }
+
+        _currentItem = (ToolStripMenuItem)sender;
+        _currentItem.Checked = true;
+
+        currentPage = (ScrollableControl)_currentItem.Tag! ?? throw new NullReferenceException();
+        currentPage.BringToFront();
+        currentPage.Visible = true;
+
+        if (previousPage is not null)
+        {
+            previousPage.SendToBack();
+            previousPage.Visible = false;
+        }
+
+        OnTabChanged(EventArgs.Empty);
     }
 
     protected virtual void OnTabChanged(EventArgs empty) 

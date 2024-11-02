@@ -4,12 +4,8 @@ using Microsoft.Extensions.Logging;
 
 namespace SemanticKernelDemo;
 
-#region Prompt:
-// Can you refactor this class by translating the German phrases in to English?
-#endregion
-
 /// <summary>
-/// Stellt einen Host für eine WinForms-Anwendung dar.
+///  Represents a host for a WinForms application.
 /// </summary>
 public class WinFormsHost : IHost
 {
@@ -20,11 +16,10 @@ public class WinFormsHost : IHost
     private static IHost? s_host;
 
     /// <summary>
-    /// Initialisiert eine neue Instanz der <see cref="WinFormsHost"/>-Klasse.
+    ///  Initializes a new instance of the <see cref="WinFormsHost"/> class.
     /// </summary>
-    /// <param name="host">Der innere Host.</param>
-    /// <param name="colorMode">Der Systemfarbmodus.</param>
-    /// <param name="visualStylesMode">Der visuelle Stilmodus.</param>
+    /// <param name="host">The inner host.</param>
+    /// <param name="colorMode">The system color mode.</param>
     private WinFormsHost(
         IHost host,
         SystemColorMode colorMode)
@@ -34,24 +29,23 @@ public class WinFormsHost : IHost
     }
 
     /// <summary>
-    /// Ruft die vom Host bereitgestellten Dienste ab.
+    ///  Gets the services provided by the host.
     /// </summary>
     public IServiceProvider Services => _innerHost.Services;
 
     /// <summary>
-    /// Initialisiert den WinForms-Host.
+    ///  Initializes the WinForms host.
     /// </summary>
-    /// <param name="startFormType">Der Typ des Startformulars.</param>
-    /// <param name="colorMode">Der Systemfarbmodus. Standardmäßig ist <see cref="SystemColorMode.Classic"/>.</param>
-    /// <param name="visualStylesMode">Der visuelle Stilmodus. Standardmäßig ist <see cref="VisualStylesMode.Classic"/>.</param>
-    /// <returns>Der initialisierte <see cref="WinFormsHost"/>.</returns>
+    /// <param name="startFormType">The type of the start form.</param>
+    /// <param name="colorMode">The system color mode. Default is <see cref="SystemColorMode.Classic"/>.</param>
+    /// <returns>The initialized <see cref="WinFormsHost"/>.</returns>
     public static WinFormsHost Initialize(
         Type startFormType,
         SystemColorMode colorMode = SystemColorMode.Classic)
     {
         if (s_host is not null)
         {
-            s_host.Services.GetRequiredService<ILogger<WinFormsHost>>().LogWarning("Host bereits initialisiert");
+            s_host.Services.GetRequiredService<ILogger<WinFormsHost>>().LogWarning("Host already initialized");
             s_host.Dispose();
         }
 
@@ -72,10 +66,10 @@ public class WinFormsHost : IHost
     }
 
     /// <summary>
-    /// Startet den WinForms-Host asynchron.
+    ///  Starts the WinForms host asynchronously.
     /// </summary>
-    /// <param name="cancellationToken">Das Abbruchtoken.</param>
-    /// <returns>Ein <see cref="Task"/>, das die asynchrone Operation darstellt.</returns>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task StartAsync(CancellationToken cancellationToken = default)
     {
         Application.SetColorMode(_colorMode);
@@ -87,19 +81,19 @@ public class WinFormsHost : IHost
     }
 
     /// <summary>
-    /// Stoppt den WinForms-Host asynchron.
+    ///  Stops the WinForms host asynchronously.
     /// </summary>
-    /// <param name="cancellationToken">Das Abbruchtoken.</param>
-    /// <returns>Ein <see cref="Task"/>, das die asynchrone Operation darstellt.</returns>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task StopAsync(CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
     /// <summary>
-    /// Gibt die von <see cref="WinFormsHost"/> verwendeten Ressourcen frei.
+    ///  Releases the resources used by <see cref="WinFormsHost"/>.
     /// </summary>
-    /// <param name="disposing">Ein Wert, der angibt, ob das Objekt freigegeben wird.</param>
+    /// <param name="disposing">A value indicating whether the object is being disposed.</param>
     protected virtual void Dispose(bool disposing)
     {
         if (!disposedValue)
@@ -114,12 +108,12 @@ public class WinFormsHost : IHost
     }
 
     /// <summary>
-    /// Gibt die von <see cref="WinFormsHost"/> verwendeten Ressourcen frei.
+    ///  Releases the resources used by <see cref="WinFormsHost"/>.
     /// </summary>
     public void Dispose()
     {
-        // Ändern Sie diesen Code nicht.
-        // Fügen Sie den Bereinigungscode in der Methode 'Dispose(bool disposing)' ein.
+        // Do not change this code.
+        // Put cleanup code in the 'Dispose(bool disposing)' method.
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
