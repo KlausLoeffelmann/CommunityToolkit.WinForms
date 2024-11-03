@@ -1,8 +1,6 @@
-using System.Drawing.Imaging;
 using TaskTamer.ViewModels;
 using TaskTamer.WinForms.Views;
-
-using static DemoToolkit.Mvvm.WinForms.Services.IWinFormsStartService;
+using static CommunityToolkit.WinForms.Mvvm.IWinFormsStartService;
 
 namespace TaskTamer.WinForms;
 
@@ -22,7 +20,7 @@ internal static class Program
 
         // We're registering the ViewModels and the view here:
         RegisterView<ProjectViewModel>(() => new FrmManageProjects());
-        RegisterView<MainViewModel>(() => new FrmTaskTamerMain());
+        RegisterView<MainViewModel>(() => new FrmMain());
 
         // We're setting the start ViewModel here:
         SetStartViewModel<MainViewModel>();

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.DesktopGeneric.Mvvm;
+using CommunityToolkit.DesktopGeneric.Mvvm.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
@@ -29,6 +30,9 @@ public interface IWinFormsStartService : IApplicationStartService
 
         // Dialog Service
         Services.AddSingleton<IMvvmDialogService, WinFormsDialogService>();
+
+        // ViewModelFactory Service
+        Services.AddSingleton<IViewModelFactoryService, ViewModelFactory>();
     }
 
     public static void SetStartViewModel<TStartViewModel>()

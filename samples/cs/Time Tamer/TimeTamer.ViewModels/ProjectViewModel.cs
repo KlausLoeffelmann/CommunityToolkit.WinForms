@@ -42,7 +42,6 @@ public partial class ProjectViewModel : ObservableObject
             ProjectId = project.ProjectId,
             Name = project.Name,
             Description = project.Description,
-            Category = CategoryViewModel.FromCategory(project.Category),
             Owner = UserViewModel.FromUser(project.Owner),
             StartDate = project.StartDate,
             EndDate = project.EndDate,

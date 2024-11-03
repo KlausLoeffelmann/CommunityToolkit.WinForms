@@ -7,7 +7,7 @@ namespace TaskTamer.WinForms;
 // into account, since the Screen setting can - through Laptop docking -
 // change between sessions.
 
-partial class FrmTaskTamerMain
+partial class FrmMain
 {
     protected override void CreateHandle()
     {

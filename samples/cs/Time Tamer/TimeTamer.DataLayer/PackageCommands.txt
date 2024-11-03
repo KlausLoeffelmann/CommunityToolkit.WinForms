@@ -1,1 +1,1 @@
-﻿add-migration SyncFieldsRefactoring --startupproject TimeTamer-DataLayer
+﻿add-migration InitialSetup -startupproject TaskTamer.DataLayer

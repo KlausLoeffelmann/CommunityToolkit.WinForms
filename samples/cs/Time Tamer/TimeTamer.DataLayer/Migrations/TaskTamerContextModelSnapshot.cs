@@ -17,7 +17,7 @@ namespace TaskTamer.DataLayer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "9.0.0-rtm.24514.19")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -56,9 +56,6 @@ namespace TaskTamer.DataLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTimeOffset>("DateCreated")
                         .HasColumnType("datetimeoffset");
 
@@ -95,8 +92,6 @@ namespace TaskTamer.DataLayer.Migrations
 
                     b.HasKey("ProjectId");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("UserId");
 
                     b.ToTable("Projects");
@@ -111,7 +106,13 @@ namespace TaskTamer.DataLayer.Migrations
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTimeOffset?>("DataDeleted")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<DateTimeOffset>("DateCreated")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<DateTimeOffset?>("DateDone")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<DateTimeOffset>("DateLastModified")
@@ -134,6 +135,9 @@ namespace TaskTamer.DataLayer.Migrations
 
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("StartDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -204,17 +208,9 @@ namespace TaskTamer.DataLayer.Migrations
 
             modelBuilder.Entity("TaskTamer.DataLayer.Models.Project", b =>
                 {
-                    b.HasOne("TaskTamer.DataLayer.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TaskTamer.DataLayer.Models.User", "Owner")
                         .WithMany("Projects")
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Category");
 
                     b.Navigation("Owner");
                 });
@@ -222,7 +218,7 @@ namespace TaskTamer.DataLayer.Migrations
             modelBuilder.Entity("TaskTamer.DataLayer.Models.TaskItem", b =>
                 {
                     b.HasOne("TaskTamer.DataLayer.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("TaskItems")
                         .HasForeignKey("CategoryId");
 
                     b.HasOne("TaskTamer.DataLayer.Models.Project", "Project")
@@ -240,6 +236,11 @@ namespace TaskTamer.DataLayer.Migrations
                     b.Navigation("Owner");
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("TaskTamer.DataLayer.Models.Category", b =>
+                {
+                    b.Navigation("TaskItems");
                 });
 
             modelBuilder.Entity("TaskTamer.DataLayer.Models.Project", b =>

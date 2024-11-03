@@ -54,7 +54,6 @@ namespace TaskTamer.DataLayer.Migrations
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     EndDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -67,12 +66,6 @@ namespace TaskTamer.DataLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
-                    table.ForeignKey(
-                        name: "FK_Projects_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "CategoryId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Projects_Users_UserId",
                         column: x => x.UserId,
@@ -90,11 +83,14 @@ namespace TaskTamer.DataLayer.Migrations
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     ExternalReference = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     DateLastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    DataDeleted = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DateDone = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     SyncId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -117,11 +113,6 @@ namespace TaskTamer.DataLayer.Migrations
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Projects_CategoryId",
-                table: "Projects",
-                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_UserId",
@@ -151,10 +142,10 @@ namespace TaskTamer.DataLayer.Migrations
                 name: "TaskItems");
 
             migrationBuilder.DropTable(
-                name: "Projects");
+                name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Projects");
 
             migrationBuilder.DropTable(
                 name: "Users");

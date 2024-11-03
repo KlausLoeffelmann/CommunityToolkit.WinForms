@@ -1,8 +1,7 @@
 ﻿using CommunityToolkit.DesktopGeneric.Mvvm;
-using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
 
-namespace TaskTamer.ViewModels.Services;
+namespace CommunityToolkit.DesktopGeneric.Mvvm.Services;
 
 public class ViewModelFactory(IServiceProvider serviceProvider) : IViewModelFactoryService
 {

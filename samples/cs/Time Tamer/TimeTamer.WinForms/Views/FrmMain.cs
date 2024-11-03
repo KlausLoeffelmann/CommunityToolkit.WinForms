@@ -1,8 +1,8 @@
 ﻿namespace TaskTamer.WinForms;
 
-public partial class FrmTaskTamerMain : Form
+public partial class FrmMain : Form
 {
-    public FrmTaskTamerMain()
+    public FrmMain()
     {
         InitializeComponent();
     }

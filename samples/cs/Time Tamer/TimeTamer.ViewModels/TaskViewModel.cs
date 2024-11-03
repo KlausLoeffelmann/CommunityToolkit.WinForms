@@ -15,6 +15,9 @@ public partial class TaskViewModel : ObservableObject
     private ProjectViewModel? _project;
 
     [ObservableProperty]
+    private CategoryViewModel? _category;
+
+    [ObservableProperty]
     private string _name = null!;
 
     [ObservableProperty]
@@ -42,6 +45,7 @@ public partial class TaskViewModel : ObservableObject
             Name = taskItem.Name,
             Description = taskItem.Description,
             Project = ProjectViewModel.FromProject(taskItem.Project),
+            Category = CategoryViewModel.FromCategory(taskItem.Category),
             Owner = UserViewModel.FromUser(taskItem.Owner),
             DueDate = taskItem.DueDate,
             Status = taskItem.Status,

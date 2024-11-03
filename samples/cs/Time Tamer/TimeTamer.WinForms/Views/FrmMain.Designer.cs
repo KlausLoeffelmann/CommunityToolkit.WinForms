@@ -1,9 +1,10 @@
-﻿using DemoToolkit.Mvvm.WinForms.Controls;
+﻿using CommunityToolkit.WinForms.GridView;
+using DemoToolkit.Mvvm.WinForms.Controls;
 using DemoToolkit.Mvvm.WinForms.Controls.ModernEntry;
 
 namespace TaskTamer.WinForms
 {
-    partial class FrmTaskTamerMain
+    partial class FrmMain
     {
         /// <summary>
         ///  Required designer variable.
@@ -43,20 +44,18 @@ namespace TaskTamer.WinForms
             exportToolStripMenuItem = new ToolStripMenuItem();
             importToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripSeparator();
-            quitToolStripMenuItem = new ToolStripMenuItem();
+            _tsmFileQuit = new ToolStripMenuItem();
             baseDataToolStripMenuItem = new ToolStripMenuItem();
-            categoriesToolStripMenuItem = new ToolStripMenuItem();
-            prToolStripMenuItem = new ToolStripMenuItem();
+            _tsmCategories = new ToolStripMenuItem();
+            _tsmEditProjects = new ToolStripMenuItem();
             toolStripMenuItem2 = new ToolStripSeparator();
-            usersToolStripMenuItem = new ToolStripMenuItem();
+            _tsmEditUsers = new ToolStripMenuItem();
             toolStripMenuItem3 = new ToolStripMenuItem();
-            orderByDueDateToolStripMenuItem = new ToolStripMenuItem();
-            orderByLastModifiedToolStripMenuItem = new ToolStripMenuItem();
-            orderByStatusToolStripMenuItem = new ToolStripMenuItem();
-            testsToolStripMenuItem = new ToolStripMenuItem();
-            _demoInvokeAsyncMenuItem = new ToolStripMenuItem();
+            _tsmOrderByDueDate = new ToolStripMenuItem();
+            _tskOrderByLastModified = new ToolStripMenuItem();
+            _tsmOrderByStatus = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
-            optionsToolStripMenuItem = new ToolStripMenuItem();
+            _tsmToolsOptions = new ToolStripMenuItem();
             _tasksGridView = new GridView();
             _taskViewItem = new TaskTamer9.WinForms.Views.TaskViewItem();
             _taskVmSource = new BindingSource(components);
@@ -64,17 +63,17 @@ namespace TaskTamer.WinForms
             _semanticKernelComponent = new DemoToolkit.Mvvm.WinForms.AI.SemanticKernelBaseComponent();
             groupBox1 = new GroupBox();
             tableLayoutPanel1 = new TableLayoutPanel();
+            panel2 = new Panel();
+            label3 = new Label();
+            _txtNotes = new TextBox();
             panel1 = new Panel();
+            comboBox1 = new ComboBox();
+            label2 = new Label();
             textBox1 = new TextBox();
             label4 = new Label();
             _txtDateDue = new TextBox();
             label1 = new Label();
             _txtTodoItemText = new TextBox();
-            panel2 = new Panel();
-            label3 = new Label();
-            _txtNotes = new TextBox();
-            label2 = new Label();
-            comboBox1 = new ComboBox();
             _statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_mainVmSource).BeginInit();
             _mainMenuStrip.SuspendLayout();
@@ -83,8 +82,8 @@ namespace TaskTamer.WinForms
             ((System.ComponentModel.ISupportInitialize)_projectsSource).BeginInit();
             groupBox1.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            panel1.SuspendLayout();
             panel2.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // _statusStrip
@@ -118,7 +117,7 @@ namespace TaskTamer.WinForms
             // 
             _lblSelectedTasksProjectInfo.DataBindings.Add(new Binding("Text", _mainVmSource, "SelectedTask", true, DataSourceUpdateMode.Never));
             _lblSelectedTasksProjectInfo.Name = "_lblSelectedTasksProjectInfo";
-            _lblSelectedTasksProjectInfo.Size = new Size(1339, 31);
+            _lblSelectedTasksProjectInfo.Size = new Size(1097, 31);
             _lblSelectedTasksProjectInfo.Spring = true;
             _lblSelectedTasksProjectInfo.Text = "#SelectedTasksProjectSpring#";
             _lblSelectedTasksProjectInfo.TextAlign = ContentAlignment.MiddleLeft;
@@ -144,7 +143,7 @@ namespace TaskTamer.WinForms
             // 
             _mainMenuStrip.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             _mainMenuStrip.ImageScalingSize = new Size(20, 20);
-            _mainMenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, baseDataToolStripMenuItem, toolStripMenuItem3, testsToolStripMenuItem, toolsToolStripMenuItem });
+            _mainMenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, baseDataToolStripMenuItem, toolStripMenuItem3, toolsToolStripMenuItem });
             _mainMenuStrip.Location = new Point(0, 0);
             _mainMenuStrip.Name = "_mainMenuStrip";
             _mainMenuStrip.Padding = new Padding(13, 6, 6, 6);
@@ -154,7 +153,7 @@ namespace TaskTamer.WinForms
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportToolStripMenuItem, importToolStripMenuItem, toolStripMenuItem1, quitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportToolStripMenuItem, importToolStripMenuItem, toolStripMenuItem1, _tsmFileQuit });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 25);
             fileToolStripMenuItem.Text = "&File";
@@ -162,109 +161,96 @@ namespace TaskTamer.WinForms
             // exportToolStripMenuItem
             // 
             exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            exportToolStripMenuItem.Size = new Size(136, 26);
+            exportToolStripMenuItem.Size = new Size(180, 26);
             exportToolStripMenuItem.Text = "&Export...";
             // 
             // importToolStripMenuItem
             // 
             importToolStripMenuItem.Name = "importToolStripMenuItem";
-            importToolStripMenuItem.Size = new Size(136, 26);
+            importToolStripMenuItem.Size = new Size(180, 26);
             importToolStripMenuItem.Text = "&Import...";
             // 
             // toolStripMenuItem1
             // 
             toolStripMenuItem1.Name = "toolStripMenuItem1";
-            toolStripMenuItem1.Size = new Size(133, 6);
+            toolStripMenuItem1.Size = new Size(177, 6);
             // 
-            // quitToolStripMenuItem
+            // _tsmFileQuit
             // 
-            quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            quitToolStripMenuItem.Size = new Size(136, 26);
-            quitToolStripMenuItem.Text = "&Quit";
+            _tsmFileQuit.Name = "_tsmFileQuit";
+            _tsmFileQuit.Size = new Size(180, 26);
+            _tsmFileQuit.Text = "&Quit";
             // 
             // baseDataToolStripMenuItem
             // 
-            baseDataToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { categoriesToolStripMenuItem, prToolStripMenuItem, toolStripMenuItem2, usersToolStripMenuItem });
+            baseDataToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { _tsmCategories, _tsmEditProjects, toolStripMenuItem2, _tsmEditUsers });
             baseDataToolStripMenuItem.Name = "baseDataToolStripMenuItem";
             baseDataToolStripMenuItem.Size = new Size(48, 25);
             baseDataToolStripMenuItem.Text = "Edit";
             // 
-            // categoriesToolStripMenuItem
+            // _tsmCategories
             // 
-            categoriesToolStripMenuItem.Name = "categoriesToolStripMenuItem";
-            categoriesToolStripMenuItem.Size = new Size(163, 26);
-            categoriesToolStripMenuItem.Text = "Categories...";
+            _tsmCategories.Name = "_tsmCategories";
+            _tsmCategories.Size = new Size(180, 26);
+            _tsmCategories.Text = "Categories...";
             // 
-            // prToolStripMenuItem
+            // _tsmEditProjects
             // 
-            prToolStripMenuItem.Name = "prToolStripMenuItem";
-            prToolStripMenuItem.Size = new Size(163, 26);
-            prToolStripMenuItem.Text = "&Projects...";
+            _tsmEditProjects.Name = "_tsmEditProjects";
+            _tsmEditProjects.Size = new Size(180, 26);
+            _tsmEditProjects.Text = "&Projects...";
             // 
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(160, 6);
+            toolStripMenuItem2.Size = new Size(177, 6);
             // 
-            // usersToolStripMenuItem
+            // _tsmEditUsers
             // 
-            usersToolStripMenuItem.Name = "usersToolStripMenuItem";
-            usersToolStripMenuItem.Size = new Size(163, 26);
-            usersToolStripMenuItem.Text = "Users...";
+            _tsmEditUsers.Name = "_tsmEditUsers";
+            _tsmEditUsers.Size = new Size(180, 26);
+            _tsmEditUsers.Text = "Users...";
             // 
             // toolStripMenuItem3
             // 
-            toolStripMenuItem3.DropDownItems.AddRange(new ToolStripItem[] { orderByDueDateToolStripMenuItem, orderByLastModifiedToolStripMenuItem, orderByStatusToolStripMenuItem });
+            toolStripMenuItem3.DropDownItems.AddRange(new ToolStripItem[] { _tsmOrderByDueDate, _tskOrderByLastModified, _tsmOrderByStatus });
             toolStripMenuItem3.Name = "toolStripMenuItem3";
             toolStripMenuItem3.Size = new Size(56, 25);
             toolStripMenuItem3.Text = "View";
             // 
-            // orderByDueDateToolStripMenuItem
+            // _tsmOrderByDueDate
             // 
-            orderByDueDateToolStripMenuItem.DataBindings.Add(new Binding("Command", _mainVmSource, "SetSortOrderCommand", true));
-            orderByDueDateToolStripMenuItem.Name = "orderByDueDateToolStripMenuItem";
-            orderByDueDateToolStripMenuItem.Size = new Size(240, 26);
-            orderByDueDateToolStripMenuItem.Text = "Order by Due Date";
+            _tsmOrderByDueDate.DataBindings.Add(new Binding("Command", _mainVmSource, "SetSortOrderCommand", true));
+            _tsmOrderByDueDate.Name = "_tsmOrderByDueDate";
+            _tsmOrderByDueDate.Size = new Size(240, 26);
+            _tsmOrderByDueDate.Text = "Order by Due Date";
             // 
-            // orderByLastModifiedToolStripMenuItem
+            // _tskOrderByLastModified
             // 
-            orderByLastModifiedToolStripMenuItem.DataBindings.Add(new Binding("Command", _mainVmSource, "SetSortOrderCommand", true));
-            orderByLastModifiedToolStripMenuItem.Name = "orderByLastModifiedToolStripMenuItem";
-            orderByLastModifiedToolStripMenuItem.Size = new Size(240, 26);
-            orderByLastModifiedToolStripMenuItem.Text = "Order by Last Modified";
+            _tskOrderByLastModified.DataBindings.Add(new Binding("Command", _mainVmSource, "SetSortOrderCommand", true));
+            _tskOrderByLastModified.Name = "_tskOrderByLastModified";
+            _tskOrderByLastModified.Size = new Size(240, 26);
+            _tskOrderByLastModified.Text = "Order by Last Modified";
             // 
-            // orderByStatusToolStripMenuItem
+            // _tsmOrderByStatus
             // 
-            orderByStatusToolStripMenuItem.DataBindings.Add(new Binding("Command", _mainVmSource, "SetSortOrderCommand", true));
-            orderByStatusToolStripMenuItem.Name = "orderByStatusToolStripMenuItem";
-            orderByStatusToolStripMenuItem.Size = new Size(240, 26);
-            orderByStatusToolStripMenuItem.Text = "Order by Status";
-            // 
-            // testsToolStripMenuItem
-            // 
-            testsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { _demoInvokeAsyncMenuItem });
-            testsToolStripMenuItem.Name = "testsToolStripMenuItem";
-            testsToolStripMenuItem.Size = new Size(64, 25);
-            testsToolStripMenuItem.Text = "&Demo";
-            // 
-            // _demoInvokeAsyncMenuItem
-            // 
-            _demoInvokeAsyncMenuItem.Name = "_demoInvokeAsyncMenuItem";
-            _demoInvokeAsyncMenuItem.Size = new Size(214, 26);
-            _demoInvokeAsyncMenuItem.Text = "Async in WinForms";
+            _tsmOrderByStatus.DataBindings.Add(new Binding("Command", _mainVmSource, "SetSortOrderCommand", true));
+            _tsmOrderByStatus.Name = "_tsmOrderByStatus";
+            _tsmOrderByStatus.Size = new Size(240, 26);
+            _tsmOrderByStatus.Text = "Order by Status";
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { optionsToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { _tsmToolsOptions });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(57, 25);
             toolsToolStripMenuItem.Text = "&Tools";
             // 
-            // optionsToolStripMenuItem
+            // _tsmToolsOptions
             // 
-            optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            optionsToolStripMenuItem.Size = new Size(144, 26);
-            optionsToolStripMenuItem.Text = "&Options...";
+            _tsmToolsOptions.Name = "_tsmToolsOptions";
+            _tsmToolsOptions.Size = new Size(180, 26);
+            _tsmToolsOptions.Text = "&Options...";
             // 
             // _tasksGridView
             // 
@@ -337,6 +323,34 @@ namespace TaskTamer.WinForms
             tableLayoutPanel1.Size = new Size(1383, 213);
             tableLayoutPanel1.TabIndex = 0;
             // 
+            // panel2
+            // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panel2.Controls.Add(label3);
+            panel2.Controls.Add(_txtNotes);
+            panel2.Location = new Point(603, 55);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(777, 155);
+            panel2.TabIndex = 2;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(12, 16);
+            label3.Name = "label3";
+            label3.Size = new Size(65, 25);
+            label3.TabIndex = 0;
+            label3.Text = "Notes:";
+            // 
+            // _txtNotes
+            // 
+            _txtNotes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            _txtNotes.Location = new Point(12, 47);
+            _txtNotes.Multiline = true;
+            _txtNotes.Name = "_txtNotes";
+            _txtNotes.Size = new Size(746, 93);
+            _txtNotes.TabIndex = 1;
+            // 
             // panel1
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -350,6 +364,24 @@ namespace TaskTamer.WinForms
             panel1.Name = "panel1";
             panel1.Size = new Size(594, 155);
             panel1.TabIndex = 1;
+            // 
+            // comboBox1
+            // 
+            comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(151, 15);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(433, 33);
+            comboBox1.TabIndex = 1;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(22, 18);
+            label2.Name = "label2";
+            label2.Size = new Size(88, 25);
+            label2.TabIndex = 0;
+            label2.Text = "Category";
             // 
             // textBox1
             // 
@@ -397,53 +429,7 @@ namespace TaskTamer.WinForms
             _txtTodoItemText.Size = new Size(1363, 32);
             _txtTodoItemText.TabIndex = 0;
             // 
-            // panel2
-            // 
-            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel2.Controls.Add(label3);
-            panel2.Controls.Add(_txtNotes);
-            panel2.Location = new Point(603, 55);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(777, 155);
-            panel2.TabIndex = 2;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(12, 16);
-            label3.Name = "label3";
-            label3.Size = new Size(65, 25);
-            label3.TabIndex = 0;
-            label3.Text = "Notes:";
-            // 
-            // _txtNotes
-            // 
-            _txtNotes.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            _txtNotes.Location = new Point(12, 47);
-            _txtNotes.Multiline = true;
-            _txtNotes.Name = "_txtNotes";
-            _txtNotes.Size = new Size(746, 93);
-            _txtNotes.TabIndex = 1;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(22, 18);
-            label2.Name = "label2";
-            label2.Size = new Size(88, 25);
-            label2.TabIndex = 0;
-            label2.Text = "Category";
-            // 
-            // comboBox1
-            // 
-            comboBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(151, 15);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(433, 33);
-            comboBox1.TabIndex = 1;
-            // 
-            // FrmTaskTamerMain
+            // FrmMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -455,7 +441,7 @@ namespace TaskTamer.WinForms
             Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             MainMenuStrip = _mainMenuStrip;
             Margin = new Padding(4, 5, 4, 5);
-            Name = "FrmTaskTamerMain";
+            Name = "FrmMain";
             Text = "Task Tamer - .NET 9 RC1 Demo. And yes. It's WinForms.";
             _statusStrip.ResumeLayout(false);
             _statusStrip.PerformLayout();
@@ -468,10 +454,10 @@ namespace TaskTamer.WinForms
             groupBox1.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -484,28 +470,28 @@ namespace TaskTamer.WinForms
         private ToolStripMenuItem exportToolStripMenuItem;
         private ToolStripMenuItem importToolStripMenuItem;
         private ToolStripSeparator toolStripMenuItem1;
-        private ToolStripMenuItem quitToolStripMenuItem;
+        private ToolStripMenuItem _tsmFileQuit;
         private ToolStripMenuItem baseDataToolStripMenuItem;
-        private ToolStripMenuItem usersToolStripMenuItem;
+        private ToolStripMenuItem _tsmEditUsers;
         private ToolStripStatusLabel _lblDateTime;
         private ToolStripStatusLabel _lblCurrentUser;
-        private ToolStripMenuItem prToolStripMenuItem;
-        private ToolStripMenuItem categoriesToolStripMenuItem;
+        private ToolStripMenuItem _tsmEditProjects;
+        private ToolStripMenuItem _tsmCategories;
         private ToolStripMenuItem testsToolStripMenuItem;
         private ToolStripMenuItem _demoInvokeAsyncMenuItem;
         private ToolStripMenuItem toolsToolStripMenuItem;
-        private ToolStripMenuItem optionsToolStripMenuItem;
+        private ToolStripMenuItem _tsmToolsOptions;
         private ToolStripStatusLabel _lblSelectedTasksProjectInfo;
-        private DemoToolkit.Mvvm.WinForms.Controls.GridView _tasksGridView;
+        private GridView _tasksGridView;
         private TaskTamer9.WinForms.Views.TaskViewItem _taskItemView;
         private BindingSource _mainVmSource;
         private BindingSource _taskVmSource;
         private ToolStripSeparator toolStripMenuItem2;
         private BindingSource _projectsSource;
         private ToolStripMenuItem toolStripMenuItem3;
-        private ToolStripMenuItem orderByDueDateToolStripMenuItem;
-        private ToolStripMenuItem orderByLastModifiedToolStripMenuItem;
-        private ToolStripMenuItem orderByStatusToolStripMenuItem;
+        private ToolStripMenuItem _tsmOrderByDueDate;
+        private ToolStripMenuItem _tskOrderByLastModified;
+        private ToolStripMenuItem _tsmOrderByStatus;
         private ToolStripStatusLabel _lblSortOrder;
         private TaskTamer9.WinForms.Views.TaskViewItem _taskViewItem;
         private DemoToolkit.Mvvm.WinForms.AI.SemanticKernelBaseComponent _semanticKernelComponent;

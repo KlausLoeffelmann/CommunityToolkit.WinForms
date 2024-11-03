@@ -14,6 +14,7 @@ public partial class TaskItem
     public string Name { get; set; } = null!;
 
     [ForeignKey(nameof(Category.CategoryId))]
+    [InverseProperty(nameof(TaskTamerContext.TaskItems))]
     public Category? Category { get; set; }
 
     [ForeignKey(nameof(Project.ProjectId))]
@@ -26,6 +27,8 @@ public partial class TaskItem
     [InverseProperty(nameof(TaskTamerContext.TaskItems))]
     public User Owner { get; set; } = null!;
 
+    public DateTimeOffset? StartDate { get; set; }
+
     public DateTimeOffset? DueDate { get; set; }
 
     public TaskItemStatus Status { get; set; }
@@ -36,6 +39,16 @@ public partial class TaskItem
     public DateTimeOffset DateCreated { get; set; }
 
     public DateTimeOffset DateLastModified { get; set; }
+
+    public DateTimeOffset? DataDeleted { get; set; }
+
+    [NotMapped]
+    public bool IsDeleted => DataDeleted.HasValue;
+
+    public DateTimeOffset? DateDone { get; set; }
+
+    [NotMapped]
+    public bool IsDone => DateDone.HasValue;
 
     public Guid SyncId { get; set; }
 

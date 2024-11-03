@@ -14,9 +14,6 @@ public partial class Project
 
     public string? Description { get; set; }
 
-    [ForeignKey(nameof(Category.CategoryId))]
-    public Category Category { get; set; } = null!;
-
     [ForeignKey(nameof(User.UserId))]
     [InverseProperty(nameof(User.Projects))]
     public virtual User? Owner { get; set; }
@@ -45,7 +42,6 @@ public partial class Project
 
         return context.Projects
             .Where(p => p.Status != "Inactive")
-            .Include(p => p.Category)
             .ToArray();
     }
 }
