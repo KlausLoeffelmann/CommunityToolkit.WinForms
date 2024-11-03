@@ -1,8 +1,8 @@
 ﻿using System.Drawing.Drawing2D;
 
-namespace CommunityToolkit.WinForms.ModernTabControl;
+namespace CommunityToolkit.WinForms.FluentUI;
 
-public partial class ModernTabControl
+public partial class FluentTabControl
 {
     private class RoundedCornersRenderer : ToolStripProfessionalRenderer
     {

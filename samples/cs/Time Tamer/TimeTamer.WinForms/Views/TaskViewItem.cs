@@ -1,6 +1,7 @@
-﻿using CommunityToolkit.DesktopGeneric.Mvvm.ValueConverters;
-using CommunityToolkit.WinForms.GridView;
+﻿using CommunityToolkit.WinForms.GridView;
+using Microsoft.VisualBasic;
 using System.ComponentModel;
+using TaskTamer.DataLayer.Models;
 using TaskTamer.DTOs;
 using TaskTamer.ViewModels;
 
@@ -8,151 +9,181 @@ namespace TaskTamer9.WinForms.Views;
 
 public partial class TaskViewItem : GridViewItemTemplate
 {
-    private string _taskName;
-    private string? _taskDescription;
-    private string? _category;
-    private string? _project;
+    private const int FieldPadding = 10;
 
-    private TaskItemStatus _taskStatus;
-    private DateTimeOffset? _dueDate;
-    private DateTimeOffset _dateCreated;
-    private DateTimeOffset _dateLastModified;
+    private Font _taskNameFont = new("Segoe UI", 16, FontStyle.Bold);
+    private Font _taskDescriptionFont = new("Segoe UI", 14, FontStyle.Regular);
+    private Font _taskDetailsFont = new("Segoe UI", 11, FontStyle.Regular);
 
-    [Bindable(true)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string TaskName
+    private int _leadingOffset = 60;
+
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Browsable(true)]
+    public Font NameFont
     {
-        get => _taskName;
+        get => _taskNameFont;
         set
         {
-            SetProperty(ref _taskName, value);
-            OnTaskNameChanged();
+            if (_taskNameFont == value)
+                return;
+
+            _taskNameFont = value;
         }
     }
 
-    [Bindable(true)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public string? TaskDescription
+    [Bindable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [Browsable(true)]
+    public Font DescriptionFont
     {
-        get => _taskDescription;
+        get => _taskNameFont;
         set
         {
-            SetProperty(ref _taskDescription, value);
-            OnTaskDescriptionChanged();
+            if (_taskNameFont == value)
+                return;
+
+            _taskNameFont = value;
         }
     }
 
-    [Bindable(true)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [TypeConverter(typeof(CategoryToStringConverter))]
-    public string? Category
+    protected override Size GetPreferredSize(Size restrictedSize)
     {
-        get => _category;
-        set
+        // For simplicity, we just return a fixed size for the height.
+        // But we can as well calculate the height based on the content.
+        return new(restrictedSize.Width, 140);
+    }
+
+    protected override void OnPaintContent(object content, PaintEventArgs e, Rectangle clipBounds, bool isMouseOver)
+    {
+        // We can only render TaskViews.
+        if (content is not TaskViewModel taskView)
         {
-            SetProperty(ref _category, value);
-            OnCategoryChanged();
+            return;
         }
+
+        // Do we have a vertical scrollbar?
+        var hasVerticalScrollbar = e.ClipRectangle.Width < clipBounds.Width;
+
+        // Here we're painting the context of the TaskViewItem:
+        DrawBackground(e.Graphics, clipBounds, isMouseOver);
+        DrawTaskCheckedRadioButton(taskView, e.Graphics, clipBounds);
+        int taskNameHeight = DrawTaskName(taskView, e.Graphics, clipBounds);
+        DrawEllipsedTaskDescription(taskView, e.Graphics, clipBounds, taskNameHeight);
+
+        var dueDateWidth = DrawFieldValue($"Due: {taskView.DueDate}", e.Graphics, clipBounds, FieldPadding);
+        var categoryWidth = DrawFieldValue($"Cat: {taskView.Category}", e.Graphics, clipBounds, dueDateWidth);
+        var projectWidth = DrawFieldValue($"Prj: {taskView.Project}", e.Graphics, clipBounds, categoryWidth);
     }
 
-    // This is a custom TypeConverter that converts a CategoryViewModel to a string.
-    private class CategoryToStringConverter : ValueConverter<CategoryViewModel>
+    private void DrawBackground(Graphics graphics, Rectangle clipBounds, bool isMouseOver)
     {
-        protected override CategoryViewModel FromString(string value) 
-            => throw new NotImplementedException();
+        var backgroundColorBrush = isMouseOver
+            ? base.HighlightedBackgroundColorBrush
+            : base.ItemBackgroundColorBrush;
 
-        protected override string ToString(CategoryViewModel? value) 
-            => value is null ? "- - -" : value.Name;
+        graphics.FillRoundedRectangle(
+            backgroundColorBrush,
+            clipBounds,
+            new(10, 10));
     }
 
-    [Bindable(true)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [TypeConverter(typeof(ProjectToStringConverter))]
-    public string? Project
+    private void DrawTaskCheckedRadioButton(TaskViewModel taskView, Graphics graphics, Rectangle clipBounds)
     {
-        get => _project;
-        set
+        // Should be painted on the left side of the TaskViewItem.
+
+        // Let's get the ButtonState based on the TaskStatus:
+        var buttonState = (IsDarkMode ? ButtonState.Flat : ButtonState.Normal)
+            | taskView.Status switch
+            {
+                TaskItemStatus.Completed => ButtonState.Checked,
+                TaskItemStatus.Canceled => ButtonState.Inactive,
+                TaskItemStatus.NotStarted => ButtonState.Normal,
+                TaskItemStatus.InProgress => ButtonState.Pushed,
+                TaskItemStatus.Undefined => ButtonState.Inactive,
+                _ => ButtonState.Normal
+            };
+
+        Rectangle taskRadioButtonBounds = new(
+            x: clipBounds.Left + 10,
+            y: clipBounds.Top + 30,
+            width: 30,
+            height: 30);
+
+        ControlPaint.DrawRadioButton(
+            graphics,
+            taskRadioButtonBounds,
+            buttonState);
+    }
+
+    private int DrawTaskName(TaskViewModel taskView, Graphics graphics, Rectangle clipBounds)
+    {
+        // We need to draw it ellipsed if it's too long:
+        var taskNameSize = TextRenderer.MeasureText(taskView.Explanation, _taskNameFont);
+
+        RectangleF taskNameBounds = new(
+            x: clipBounds.Left + _leadingOffset,
+            y: clipBounds.Top + ContentPadding.Top,
+            width: clipBounds.Width - _leadingOffset,
+            height: taskNameSize.Height);
+
+        if (taskNameSize.Width > taskNameBounds.Width)
         {
-            SetProperty(ref _project, value);
-            OnProjectChanged();
+            TextRenderer.DrawText(
+                graphics,
+                taskView.Explanation,
+                _taskNameFont,
+                Rectangle.Round(taskNameBounds),
+                HighlightFontColor,
+                TextFormatFlags.EndEllipsis);
         }
-    }
-
-    // This is a custom TypeConverter that converts a ProjectViewModel to a string.
-    private class ProjectToStringConverter : ValueConverter<ProjectViewModel>
-    {
-        protected override ProjectViewModel FromString(string value)
-            => throw new NotImplementedException();
-
-        protected override string ToString(ProjectViewModel? value)
-            => value is null ? "- - -" : value.Name;
-    }
-
-    [Bindable(true)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public TaskItemStatus TaskStatus
-    {
-        get => _taskStatus;
-        set
+        else
         {
-            SetProperty(ref _taskStatus, value);
-            OnTaskStatusChanged();
+            var brush = new SolidBrush(HighlightFontColor);
+            graphics.DrawString(taskView.Explanation, _taskNameFont, brush, taskNameBounds);
         }
+
+        return taskNameSize.Height;
     }
 
-    [Bindable(true)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [TypeConverter(typeof(DueDateToStringConverter))]
-
-    public DateTimeOffset? DueDate
+    private void DrawEllipsedTaskDescription(TaskViewModel taskView, Graphics graphics, Rectangle clipBounds, int taskNameHeight)
     {
-        get => _dueDate;
-        set
-        {
-            SetProperty(ref _dueDate, value);
-            OnDueDateChanged();
-        }
+        Rectangle taskDescriptionBounds = new(
+            x: clipBounds.Left + 60,
+            y: clipBounds.Top + taskNameHeight + ContentPadding.Top + LineSpacing,
+            width: clipBounds.Width - 300,
+            height: (int)(_taskDescriptionFont.GetHeight() * 2) + 20);
+
+        // Now, we're measuring the multi-line height:
+        TextRenderer.DrawText(
+            graphics,
+            taskView.Notes,
+            _taskDescriptionFont,
+            taskDescriptionBounds,
+            StandardFontColor,
+            TextFormatFlags.WordEllipsis | TextFormatFlags.WordBreak);
     }
 
-    // This is a custom TypeConverter that converts a DateTimeOffset to a string.
-    private class DueDateToStringConverter : ValueConverter<DateTimeOffset>
+    private int DrawFieldValue(string value, Graphics graphics, Rectangle clipBounds, int offset)
     {
-        protected override DateTimeOffset FromString(string value)
-            => throw new NotImplementedException();
+        // We need to draw it ellipsed if it's too long:
+        var valueSize = TextRenderer.MeasureText(value, _taskDetailsFont);
+        offset += FieldPadding;
 
-        protected override string ToString(DateTimeOffset value)
-            => value.ToString("d");
-    }
+        RectangleF dueDateBounds = new(
+            x: clipBounds.Right - (offset + ContentPadding.Right + Padding.Right + Padding.Left + valueSize.Width + clipBounds.X),
+            y: clipBounds.Top + ContentPadding.Top,
+            width: valueSize.Width,
+            height: valueSize.Height);
 
-    [Bindable(true)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public DateTimeOffset DateCreated
-    {
-        get => _dateCreated;
-        set
-        {
-            SetProperty(ref _dateCreated, value);
-            OnDateCreatedChanged();
-        }
-    }
+        var brush = new SolidBrush(StandardFontColor);
 
-    [Bindable(true)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public DateTimeOffset DateLastModified
-    {
-        get => _dateLastModified;
-        set
-        {
-            SetProperty(ref _dateLastModified, value);
-            OnDateLastModifiedChanged();
-        }
+        graphics.DrawString(
+            value,
+            _taskDetailsFont,
+            brush,
+            dueDateBounds);
+
+        return valueSize.Width + offset;
     }
 }

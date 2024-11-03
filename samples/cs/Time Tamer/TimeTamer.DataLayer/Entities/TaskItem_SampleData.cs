@@ -17,7 +17,7 @@ public partial class TaskItem
         {
             // Check if sample tasks have been created
             if (context.TaskItems.FirstOrDefault(
-                task => task.Name == taskText.Name) is TaskItem task)
+                task => task.Explanation == taskText.Name) is TaskItem task)
             {
                 // Implement the logic to update the due dates of the tasks in the database
                 task.DueDate = CalculateNewDueDate(task.DueDate ?? DateTimeOffset.Now);
@@ -32,12 +32,12 @@ public partial class TaskItem
                 // Create new sample tasks
                 task = new()
                 {
-                    Name = taskText.Name,
+                    Explanation = taskText.Name,
                     DueDate  = dueDate,
                     DateCreated = created,
                     DateLastModified = modified,
                     Status= (TaskItemStatus) random.Next(1, 6),
-                    Description = taskText.Description,
+                    Notes = taskText.Description,
                     Owner = user,
                     Category = categories[random.Next(categories.Length)],
                     Project = projects[random.Next(projects.Length)]
@@ -217,7 +217,7 @@ public partial class TaskItem
         // Create new sample tasks
         TaskItem task = new()
         {
-            Name = newTaskName,
+            Explanation = newTaskName,
             DueDate = newTaskDueDate,
             DateCreated = DateTimeOffset.Now,
             DateLastModified = DateTimeOffset.Now,

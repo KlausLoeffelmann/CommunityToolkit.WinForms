@@ -15,6 +15,7 @@ public partial class MainViewModel
 
     private void InitViewModel()
     {
+        TaskTamerContext.EnsureDatabase();
         EnsureSampleData();
         CurrentDisplayTime = AssignCurrentDateAndTimeInCurrentCulture();
         Tasks = GetTasksForCurrentUser(SortOrder ?? SortOrderDueDate);
@@ -22,11 +23,7 @@ public partial class MainViewModel
 
     private void UpdateCurrentTime(object? state)
     {
-        //_syncContextService
-        //    .SyncContext!
-        //    .Post(
-        //        _ => CurrentDisplayTime = AssignCurrentDateAndTimeInCurrentCulture(),
-        //        state: null);
+        CurrentDisplayTime = AssignCurrentDateAndTimeInCurrentCulture();
     }
 
     private void EnsureSampleData()
@@ -37,6 +34,7 @@ public partial class MainViewModel
 
         // Getting Klaus:
         var currentUser = context.Users.First(user => user.FirstName == "Klaus");
+        CurrentUser = UserViewModel.FromUser(currentUser);
 
         Category.EnsureSampleCategoriesData(context);
         Project.EnsureSampleProjectsData(context, currentUser);

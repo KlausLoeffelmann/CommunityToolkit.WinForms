@@ -11,7 +11,7 @@ public partial class TaskItem
     public Guid TaskItemId { get; set; }
 
     [StringLength(255)]
-    public string Name { get; set; } = null!;
+    public string Explanation { get; set; } = null!;
 
     [ForeignKey(nameof(Category.CategoryId))]
     [InverseProperty(nameof(TaskTamerContext.TaskItems))]
@@ -21,11 +21,15 @@ public partial class TaskItem
     [InverseProperty(nameof(TaskTamerContext.TaskItems))]
     public virtual Project? Project { get; set; }
 
-    public string? Description { get; set; }
+    public string? Notes { get; set; }
 
     [ForeignKey(nameof(User.UserId))]
     [InverseProperty(nameof(TaskTamerContext.TaskItems))]
     public User Owner { get; set; } = null!;
+
+    public int Priority { get; set; }
+
+    public int PercentDone { get; set; }
 
     public DateTimeOffset? StartDate { get; set; }
 
@@ -69,7 +73,7 @@ public partial class TaskItem
             "DueDate" => [.. resultSet.OrderBy(task => task.DueDate)],
             "LastModified" => [.. resultSet.OrderBy(task => task.DateLastModified)],
             "Status" => [.. resultSet.OrderBy(task => task.Status)],
-            "Name" => [.. resultSet.OrderBy(task => task.Name)],
+            "Name" => [.. resultSet.OrderBy(task => task.Explanation)],
             _ => [.. resultSet.OrderBy(task => task.DueDate)]
         };
 

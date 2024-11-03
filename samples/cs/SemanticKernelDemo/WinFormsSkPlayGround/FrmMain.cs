@@ -1,10 +1,9 @@
 using CommunityToolkit.WinForms.ComponentModel;
 using CommunityToolkit.WinForms.Extensions;
-using CommunityToolkit.WinForms.ModernTabControl;
+using CommunityToolkit.WinForms.FluentUI;
 using TaskTamer.ViewModels;
 using WinFormsSkPlayGround;
 using WinFormsSkPlayGround.Views;
-using WinFormsSkPlayGround.Views.Demos;
 
 namespace SemanticKernelDemo;
 
@@ -39,7 +38,6 @@ public partial class FrmMain : Form
 
         _mainTabControl.AddTab("Main Page", new IntroClockDemo());
         _mainTabControl.AddTab("Simple Async", new SimpleAsyncDemo(this));
-        _mainTabControl.AddTab("Async Data Forms", new AsyncDataForms());
         _mainTabControl.AddTab("Async Rendering", new AsyncSpiralContainer());
         _mainTabControl.AddTab("Learn German!", new LearnGermanDemo());
         _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
@@ -56,7 +54,7 @@ public partial class FrmMain : Form
 
     private void _mainTabControl_TabChanged(object? sender, EventArgs e)
     {
-        if (sender is ModernTabControl tabControl
+        if (sender is FluentTabControl tabControl
             && tabControl.CurrentTab is AsyncSpiralContainer spiralDemo)
         {
             spiralDemo.KickOff();

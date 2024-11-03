@@ -28,13 +28,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.Extensions.FormAndControlExtensions", "..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj", "{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.ModernTabControl", "..\..\..\src\CommunityToolkit.WinForms.ModernTabControl\CommunityToolkit.WinForms.ModernTabControl.csproj", "{F56E7285-7155-4F81-B758-864847B2CD94}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.TypedInputExtenders", "..\..\..\src\CommunityToolkit.WinForms.TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj", "{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.ComponentModel", "..\..\..\src\CommunityToolkit.WinForms.ComponentModel\CommunityToolkit.WinForms.ComponentModel.csproj", "{F51D4805-BFD7-4868-B0D0-3980AAA36DA3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.DesktopGeneric.Mvvm", "..\..\..\src\CommunityToolkit.DesktopGeneric.Mvvm\CommunityToolkit.DesktopGeneric.Mvvm.csproj", "{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.FluentUI", "..\..\..\src\CommunityToolkit.WinForms.FluentUI\CommunityToolkit.WinForms.FluentUI.csproj", "{08410277-C1DA-4C6E-8371-4A687E0DEAB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,10 +70,6 @@ Global
 		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F56E7285-7155-4F81-B758-864847B2CD94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F56E7285-7155-4F81-B758-864847B2CD94}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F56E7285-7155-4F81-B758-864847B2CD94}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F56E7285-7155-4F81-B758-864847B2CD94}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,6 +82,10 @@ Global
 		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08410277-C1DA-4C6E-8371-4A687E0DEAB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08410277-C1DA-4C6E-8371-4A687E0DEAB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08410277-C1DA-4C6E-8371-4A687E0DEAB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08410277-C1DA-4C6E-8371-4A687E0DEAB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,7 +96,6 @@ Global
 		{F00DC783-EC48-49DF-B2D9-5CE65C72A176} = {DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}
 		{74DEDD1F-D2E5-4B67-924B-C91E04E34524} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
-		{F56E7285-7155-4F81-B758-864847B2CD94} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{F51D4805-BFD7-4868-B0D0-3980AAA36DA3} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}

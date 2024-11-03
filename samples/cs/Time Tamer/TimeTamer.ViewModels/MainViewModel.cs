@@ -12,10 +12,10 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel()
     {
         _timer = new System.Threading.Timer(UpdateCurrentTime, null, 0, 1000);
+        InitViewModel();
+
         CurrentUser = UserViewModel.FromUser(User.GetCurrentUser());
         Projects = ProjectViewModel.GetActive();
-
-        InitViewModel();
     }
 
     /// <summary>

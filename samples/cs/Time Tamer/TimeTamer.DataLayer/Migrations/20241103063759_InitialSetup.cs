@@ -78,11 +78,13 @@ namespace TaskTamer.DataLayer.Migrations
                 columns: table => new
                 {
                     TaskItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Explanation = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    PercentDone = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     DueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),

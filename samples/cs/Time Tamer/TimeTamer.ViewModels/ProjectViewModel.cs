@@ -30,6 +30,21 @@ public partial class ProjectViewModel : ObservableObject
     [ObservableProperty]
     private string? _status;
 
+    public Project ToProject() 
+        => new Project
+        {
+            ProjectId = ProjectId,
+            Name = Name,
+            Description = Description,
+            StartDate = StartDate,
+            EndDate = EndDate,
+            Owner = Owner?.ToUser(),
+            Status = Status
+        };
+
+    public override string ToString()
+        => $"{Name} ({Category})";
+
     public static ProjectViewModel? FromProject(Project? project)
     {
         if (project is null)
@@ -57,7 +72,4 @@ public partial class ProjectViewModel : ObservableObject
 
         return projectViewModels;
     }
-
-    public override string ToString() 
-        => $"{Name} ({Category})";
 }

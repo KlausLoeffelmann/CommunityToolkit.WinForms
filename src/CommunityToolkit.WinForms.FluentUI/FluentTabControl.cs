@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 
-namespace CommunityToolkit.WinForms.ModernTabControl;
+namespace CommunityToolkit.WinForms.FluentUI;
 
-public partial class ModernTabControl : Panel
+public partial class FluentTabControl : Panel
 {
     private readonly MenuStrip _menuStrip;   // Tab bar
     private readonly List<Panel> _tabPages;  // Tab pages
@@ -10,7 +10,7 @@ public partial class ModernTabControl : Panel
 
     public event EventHandler? TabChanged;
 
-    public ModernTabControl()
+    public FluentTabControl()
     {
         _menuStrip = new MenuStrip
         {

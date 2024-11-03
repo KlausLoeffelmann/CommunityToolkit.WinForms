@@ -118,20 +118,26 @@ namespace TaskTamer.DataLayer.Migrations
                     b.Property<DateTimeOffset>("DateLastModified")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset?>("DueDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Explanation")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ExternalReference")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PercentDone")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("ProjectId")
                         .HasColumnType("uniqueidentifier");

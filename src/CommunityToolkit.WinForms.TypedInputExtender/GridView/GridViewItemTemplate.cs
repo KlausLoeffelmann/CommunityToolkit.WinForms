@@ -6,10 +6,10 @@ namespace CommunityToolkit.WinForms.GridView;
 /// <summary>
 /// Represents a base class for the GridView item template.
 /// </summary>
-public abstract partial class GridViewItemTemplate : BindableComponent, INotifyPropertyChanged
+public abstract partial class GridViewItemTemplate : INotifyPropertyChanged
 {
-    private static readonly Padding DefaultPadding = new Padding(5, 5, 5, 0);
-    private static readonly Padding DefaultContentPadding = new Padding(5, 10, 5, 5);
+    private static readonly Padding DefaultPadding = new(5, 5, 5, 0);
+    private static readonly Padding DefaultContentPadding = new(5, 10, 5, 5);
 
     private const int DefaultLineSpacing = 10;
 
@@ -155,7 +155,7 @@ public abstract partial class GridViewItemTemplate : BindableComponent, INotifyP
     /// <param name="e">A <see cref="PaintEventArgs"/> that contains the event data.</param>
     /// <param name="clipBounds">The bounds of the clipping area.</param>
     /// <param name="isMouseOver">Indicates whether the mouse is over the GridView item.</param>
-    internal protected abstract void OnPaintContent(PaintEventArgs e, Rectangle clipBounds, bool isMouseOver);
+    internal protected abstract void OnPaintContent(object content, PaintEventArgs e, Rectangle clipBounds, bool isMouseOver);
 
     /// <summary>
     /// Sets the property value and raises the <see cref="PropertyChanged"/> event if the value has changed. 

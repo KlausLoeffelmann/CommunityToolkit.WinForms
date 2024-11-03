@@ -1,4 +1,5 @@
-﻿using SemanticKernelDemo.Controls;
+﻿using CommunityToolkit.WinForms.FluentUI;
+using SemanticKernelDemo.Controls;
 
 namespace SemanticKernelDemo
 {
@@ -50,7 +51,7 @@ namespace SemanticKernelDemo
             asyncDataEntryToolStripMenuItem = new ToolStripMenuItem();
             colorMeToolStripMenuItem = new ToolStripMenuItem();
             statusStrip2 = new StatusStrip();
-            _mainTabControl = new CommunityToolkit.WinForms.ModernTabControl.ModernTabControl();
+            _mainTabControl = new FluentTabControl();
             _menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -235,7 +236,7 @@ namespace SemanticKernelDemo
         private ToolStripMenuItem _tsmAsyncTimerDemo;
         private ToolStripMenuItem asyncToolStripMenuItem1;
         private ToolStripMenuItem asyncDataEntryToolStripMenuItem;
-        private CommunityToolkit.WinForms.ModernTabControl.ModernTabControl _mainTabControl;
+        private FluentTabControl _mainTabControl;
         private ToolStripMenuItem colorMeToolStripMenuItem;
     }
 }

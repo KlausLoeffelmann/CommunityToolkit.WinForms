@@ -14,8 +14,25 @@ public partial class CategoryViewModel : ObservableObject
     [ObservableProperty]
     private string? _description = default!;
 
-    public static CategoryViewModel FromCategory(Category category)
+    public override string ToString() => $"{Name}";
+
+    public Category ToCategory()
     {
+        return new Category
+        {
+            CategoryId = CategoryId,
+            Name = Name,
+            Description = Description
+        };
+    }
+
+    public static CategoryViewModel? FromCategory(Category? category)
+    {
+        if (category == null)
+        {
+            return null;
+        }
+
         return new CategoryViewModel
         {
             CategoryId = category.CategoryId,
@@ -23,6 +40,4 @@ public partial class CategoryViewModel : ObservableObject
             Description = category.Description
         };
     }
-
-    public override string ToString() => $"{Name}";
 }

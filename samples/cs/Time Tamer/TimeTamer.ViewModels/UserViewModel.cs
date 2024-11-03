@@ -17,6 +17,18 @@ public partial class UserViewModel : ObservableObject
     [ObservableProperty]
     private string _email = default!;
 
+    public override string ToString() 
+        => $"{FirstName} {LastName}";
+
+    public User ToUser()
+        => new()
+        {
+            UserId = UserId,
+            FirstName = FirstName,
+            LastName = LastName,
+            Email = Email
+        };
+
     public static UserViewModel? FromUser(User? user) 
         => user is null
             ? null

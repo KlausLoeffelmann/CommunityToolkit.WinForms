@@ -20,9 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FluentUI\CommunityToolkit.WinForms.FluentUI.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.Mvvm\CommunityToolkit.WinForms.Mvvm.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
-    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms\TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
     <ProjectReference Include="..\TimeTamer.Generic\TaskTamer.Generic.csproj" />
     <ProjectReference Include="..\TimeTamer.ViewModels\TaskTamer.ViewModels.csproj" />
   </ItemGroup>
