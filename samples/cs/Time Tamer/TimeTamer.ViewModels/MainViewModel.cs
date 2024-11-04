@@ -11,7 +11,12 @@ public partial class MainViewModel : ObservableObject
 
     public MainViewModel()
     {
-        _timer = new System.Threading.Timer(UpdateCurrentTime, null, 0, 1000);
+        _timer = new System.Threading.Timer(
+            callback: async (state) => await UpdateCurrentTimeAsync(),
+            state: null,
+            dueTime: 0,
+            period: 1000);
+
         InitViewModel();
 
         CurrentUser = UserViewModel.FromUser(User.GetCurrentUser());

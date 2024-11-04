@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.WinForms.GridView;
-using Microsoft.VisualBasic;
 using System.ComponentModel;
-using TaskTamer.DataLayer.Models;
+using System.Globalization;
 using TaskTamer.DTOs;
 using TaskTamer.ViewModels;
+using TaskTamer9.WinForms.ValueConverter;
 
 namespace TaskTamer9.WinForms.Views;
 
@@ -68,15 +68,19 @@ public partial class TaskViewItem : GridViewItemTemplate
         // Here we're painting the context of the TaskViewItem:
         DrawBackground(e.Graphics, clipBounds, isMouseOver);
         DrawTaskCheckedRadioButton(taskView, e.Graphics, clipBounds);
+
         int taskNameHeight = DrawTaskName(taskView, e.Graphics, clipBounds);
         DrawEllipsedTaskDescription(taskView, e.Graphics, clipBounds, taskNameHeight);
+
+        string priorityString = (string)ValueConverters.PriorityToString.Convert(taskView.Priority, typeof(string), null, CultureInfo.CurrentCulture);
+        string percentDoneString = (string)ValueConverters.TaskPercentDoneToString.Convert(taskView.PercentDone, typeof(string), null, CultureInfo.CurrentCulture);
 
         _ = DrawFieldValue($"Due: {taskView.DueDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, FieldPadding);
         _ = DrawFieldValue($"Start: {taskView.StartDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, 330);
         _ = DrawFieldValue($"Cat: {taskView.Category}", e.Graphics, clipBounds, 530);
         _ = DrawFieldValue($"Prj: {taskView.Project}", e.Graphics, clipBounds, 700);
-        _ = DrawFieldValue($"Prt: {taskView.Priority}", e.Graphics, clipBounds, 1100);
-        _ = DrawFieldValue($"%: {taskView.PercentDone: 000}", e.Graphics, clipBounds, 1200);
+        _ = DrawFieldValue($"Prt: {priorityString}", e.Graphics, clipBounds, 1100);
+        _ = DrawFieldValue($"%: {percentDoneString}", e.Graphics, clipBounds, 1200);
     }
 
     private void DrawBackground(Graphics graphics, Rectangle clipBounds, bool isMouseOver)

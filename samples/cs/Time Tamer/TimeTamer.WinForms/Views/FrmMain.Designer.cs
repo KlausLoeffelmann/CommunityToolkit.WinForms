@@ -76,7 +76,7 @@ namespace TaskTamer.WinForms
             _tasksGridView = new GridView();
             _tlpTodoItemDetails = new TableLayoutPanel();
             panel2 = new Panel();
-            _lblPrio = new Label();
+            _lblPriority = new Label();
             _prioTrackbar = new TrackBar();
             label6 = new Label();
             label3 = new Label();
@@ -98,6 +98,7 @@ namespace TaskTamer.WinForms
             fluentDecoratorPanel1 = new CommunityToolkit.WinForms.FluentUI.FluentDecoratorPanel();
             _txtNewTask = new TextBox();
             _btnNewTask = new Button();
+            _tsmAsyncFormExperiments = new ToolStripMenuItem();
             _statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_selectedTaskVmSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_mainVmSource).BeginInit();
@@ -221,41 +222,41 @@ namespace TaskTamer.WinForms
             // toolStripMenuItem4
             // 
             toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(163, 26);
+            toolStripMenuItem4.Size = new Size(180, 26);
             toolStripMenuItem4.Text = "Undo";
             // 
             // toolStripMenuItem5
             // 
             toolStripMenuItem5.Name = "toolStripMenuItem5";
-            toolStripMenuItem5.Size = new Size(163, 26);
+            toolStripMenuItem5.Size = new Size(180, 26);
             toolStripMenuItem5.Text = "Redo";
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(160, 6);
+            toolStripSeparator1.Size = new Size(177, 6);
             // 
             // _tsmCategories
             // 
             _tsmCategories.Name = "_tsmCategories";
-            _tsmCategories.Size = new Size(163, 26);
+            _tsmCategories.Size = new Size(180, 26);
             _tsmCategories.Text = "Categories...";
             // 
             // _tsmEditProjects
             // 
             _tsmEditProjects.Name = "_tsmEditProjects";
-            _tsmEditProjects.Size = new Size(163, 26);
+            _tsmEditProjects.Size = new Size(180, 26);
             _tsmEditProjects.Text = "&Projects...";
             // 
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(160, 6);
+            toolStripMenuItem2.Size = new Size(177, 6);
             // 
             // _tsmEditUsers
             // 
             _tsmEditUsers.Name = "_tsmEditUsers";
-            _tsmEditUsers.Size = new Size(163, 26);
+            _tsmEditUsers.Size = new Size(180, 26);
             _tsmEditUsers.Text = "Users...";
             // 
             // toolStripMenuItem3
@@ -285,7 +286,7 @@ namespace TaskTamer.WinForms
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { _tsmToolsOptions });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { _tsmAsyncFormExperiments, _tsmToolsOptions });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(57, 25);
             toolsToolStripMenuItem.Text = "&Tools";
@@ -293,7 +294,7 @@ namespace TaskTamer.WinForms
             // _tsmToolsOptions
             // 
             _tsmToolsOptions.Name = "_tsmToolsOptions";
-            _tsmToolsOptions.Size = new Size(144, 26);
+            _tsmToolsOptions.Size = new Size(251, 26);
             _tsmToolsOptions.Text = "&Options...";
             // 
             // _semanticKernelComponent
@@ -425,7 +426,7 @@ namespace TaskTamer.WinForms
             // panel2
             // 
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel2.Controls.Add(_lblPrio);
+            panel2.Controls.Add(_lblPriority);
             panel2.Controls.Add(_prioTrackbar);
             panel2.Controls.Add(label6);
             panel2.Controls.Add(label3);
@@ -435,16 +436,16 @@ namespace TaskTamer.WinForms
             panel2.Size = new Size(784, 214);
             panel2.TabIndex = 2;
             // 
-            // _lblPrio
+            // _lblPriority
             // 
-            _lblPrio.AutoSize = true;
-            _lblPrio.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Priority", true));
-            _lblPrio.Font = new Font("Cascadia Code SemiBold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            _lblPrio.Location = new Point(103, 11);
-            _lblPrio.Name = "_lblPrio";
-            _lblPrio.Size = new Size(56, 32);
-            _lblPrio.TabIndex = 1;
-            _lblPrio.Text = "---";
+            _lblPriority.AutoSize = true;
+            _lblPriority.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Priority", true));
+            _lblPriority.Font = new Font("Cascadia Code SemiBold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            _lblPriority.Location = new Point(103, 11);
+            _lblPriority.Name = "_lblPriority";
+            _lblPriority.Size = new Size(56, 32);
+            _lblPriority.TabIndex = 1;
+            _lblPriority.Text = "---";
             // 
             // _prioTrackbar
             // 
@@ -522,7 +523,6 @@ namespace TaskTamer.WinForms
             _lblPercentDoneValue.Size = new Size(62, 25);
             _lblPercentDoneValue.TabIndex = 7;
             _lblPercentDoneValue.Text = "- - -%";
-            _lblPercentDoneValue.TextChanged += _lblPercentDoneValue_TextChanged;
             // 
             // _chkDone
             // 
@@ -678,6 +678,12 @@ namespace TaskTamer.WinForms
             _btnNewTask.Text = "";
             _btnNewTask.UseVisualStyleBackColor = true;
             // 
+            // _tsmAsyncFormExperiments
+            // 
+            _tsmAsyncFormExperiments.Name = "_tsmAsyncFormExperiments";
+            _tsmAsyncFormExperiments.Size = new Size(251, 26);
+            _tsmAsyncFormExperiments.Text = "Async Form Experiments";
+            // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -763,7 +769,7 @@ namespace TaskTamer.WinForms
         private GridView _tasksGridView;
         private TableLayoutPanel _tlpTodoItemDetails;
         private Panel panel2;
-        private Label _lblPrio;
+        private Label _lblPriority;
         private TrackBar _prioTrackbar;
         private Label label6;
         private Label label3;
@@ -785,5 +791,6 @@ namespace TaskTamer.WinForms
         private CommunityToolkit.WinForms.FluentUI.FluentDecoratorPanel fluentDecoratorPanel1;
         private TextBox _txtNewTask;
         private Button _btnNewTask;
+        private ToolStripMenuItem _tsmAsyncFormExperiments;
     }
 }

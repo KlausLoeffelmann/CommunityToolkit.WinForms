@@ -101,8 +101,11 @@ public static class FormExtensions
 
         binding.Parse += Binding_Parse;
         binding.Format += Binding_Format;
-        control.Disposed += Control_Disposed;
+        control.CreateControl();
+        control.BindingContextChanged += BindingContextChanged;
+        var managerBase = binding.BindingManagerBase;
 
+        control.Disposed += Control_Disposed;
         return binding;
 
         void Binding_Format(object? sender, ConvertEventArgs e)
@@ -120,5 +123,11 @@ public static class FormExtensions
             binding.Parse -= Binding_Parse;
             binding.Format -= Binding_Format;
         }
+    }
+
+    private static void BindingContextChanged(object? sender, EventArgs e)
+    {
+        var control = (Control)sender!;
+        var context = control.BindingContext;
     }
 }

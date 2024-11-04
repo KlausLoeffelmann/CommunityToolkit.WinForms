@@ -21,7 +21,7 @@ public partial class MainViewModel
         Tasks = GetTasksForCurrentUser(SortOrder ?? SortOrderDueDate);
     }
 
-    private void UpdateCurrentTime(object? state)
+    private async Task UpdateCurrentTimeAsync()
     {
         CurrentDisplayTime = AssignCurrentDateAndTimeInCurrentCulture();
     }

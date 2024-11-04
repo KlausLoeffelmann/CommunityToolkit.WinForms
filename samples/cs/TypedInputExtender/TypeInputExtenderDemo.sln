@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35306.20
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ControlsAndComponents", "ControlsAndComponents", "{76F766EB-8FC8-40CF-8BBF-88102B8F6B53}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interop", "Interop", "{166EC1D3-D4D3-47DA-BDBB-B69EC849BEF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{AC129569-8288-4301-9889-06058A87E915}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_solutionItems", "_solutionItems", "{CFB1FA9B-905B-4C88-84B2-188E453A0780}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypedInputExtenderDemo", "EntryFormatterDemo\TypedInputExtenderDemo.csproj", "{E0B9618B-14C4-27D1-E180-A805E69AA754}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.TypedInputExtenders", "..\..\..\src\CommunityToolkit.WinForms.TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj", "{79251B21-D7B6-2293-C457-4C64A24E9A97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.Controls.ConsoleControl", "..\..\..\src\CommunityToolkit.WinForms.ConsoleControl\CommunityToolkit.WinForms.Controls.ConsoleControl.csproj", "{09B3745B-1D75-1371-46C4-2DFC7BFBF967}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.AsyncSupport", "..\..\..\src\CommunityToolkit.WinForms.AsyncSupport\CommunityToolkit.WinForms.AsyncSupport.csproj", "{63E92838-831F-C146-4336-EB98AE2335B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E0B9618B-14C4-27D1-E180-A805E69AA754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0B9618B-14C4-27D1-E180-A805E69AA754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0B9618B-14C4-27D1-E180-A805E69AA754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0B9618B-14C4-27D1-E180-A805E69AA754}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79251B21-D7B6-2293-C457-4C64A24E9A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79251B21-D7B6-2293-C457-4C64A24E9A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79251B21-D7B6-2293-C457-4C64A24E9A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79251B21-D7B6-2293-C457-4C64A24E9A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09B3745B-1D75-1371-46C4-2DFC7BFBF967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09B3745B-1D75-1371-46C4-2DFC7BFBF967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09B3745B-1D75-1371-46C4-2DFC7BFBF967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09B3745B-1D75-1371-46C4-2DFC7BFBF967}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63E92838-831F-C146-4336-EB98AE2335B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63E92838-831F-C146-4336-EB98AE2335B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63E92838-831F-C146-4336-EB98AE2335B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63E92838-831F-C146-4336-EB98AE2335B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E0B9618B-14C4-27D1-E180-A805E69AA754} = {AC129569-8288-4301-9889-06058A87E915}
+		{79251B21-D7B6-2293-C457-4C64A24E9A97} = {76F766EB-8FC8-40CF-8BBF-88102B8F6B53}
+		{09B3745B-1D75-1371-46C4-2DFC7BFBF967} = {76F766EB-8FC8-40CF-8BBF-88102B8F6B53}
+		{63E92838-831F-C146-4336-EB98AE2335B0} = {76F766EB-8FC8-40CF-8BBF-88102B8F6B53}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1EE0FF45-9F56-4F20-B89A-80F0D3FB5796}
+	EndGlobalSection
+EndGlobal

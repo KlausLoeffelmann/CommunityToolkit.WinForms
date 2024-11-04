@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FluentUI\CommunityToolkit.WinForms.FluentUI.csproj" />
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.Mvvm\CommunityToolkit.WinForms.Mvvm.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
     <ProjectReference Include="..\TimeTamer.Generic\TaskTamer.Generic.csproj" />
