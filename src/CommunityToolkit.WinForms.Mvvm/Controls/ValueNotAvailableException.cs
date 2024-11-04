@@ -1,6 +1,6 @@
-﻿namespace DemoToolkit.Mvvm.WinForms.Controls;
+﻿namespace CommunityToolbox.WinForms.Mvvm.Controls;
 
-    [Serializable]
+[Serializable]
 public class ValueNotAvailableException : Exception
 {
     public ValueNotAvailableException() { }

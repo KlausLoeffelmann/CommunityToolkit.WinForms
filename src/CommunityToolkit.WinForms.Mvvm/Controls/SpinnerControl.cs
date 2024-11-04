@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing.Text;
 
-namespace DemoToolkit.Mvvm.WinForms.Controls;
+namespace CommunityToolbox.WinForms.Mvvm.Controls;
 
 public class SpinnerControl : Label
 {

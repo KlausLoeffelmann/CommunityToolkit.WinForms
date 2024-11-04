@@ -23,7 +23,7 @@
     <Compile Update="AIControls\SemanticKernelBaseComponent.cs" />
     <Compile Update="Components\PeriodicTimerComponent.cs" />
     <Compile Update="Controls\BindableComboBox.cs" />
-    <Compile Update="Controls\ModernCommandButton.cs" />
+    <Compile Update="Controls\FluentCommandButton.cs" />
     <Compile Update="Controls\ModernEntry\ModernDateOffsetEntry.cs" />
     <Compile Update="Controls\ModernEntry\ModernGroupBox.cs">
       <SubType>Component</SubType>

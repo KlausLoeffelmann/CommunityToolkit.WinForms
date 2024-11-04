@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.WinForms.GridView;
+﻿using CommunityToolbox.WinForms.Mvvm.Controls;
+using CommunityToolkit.WinForms.GridView;
 
 namespace TaskTamer.WinForms
 {
@@ -31,7 +32,7 @@ namespace TaskTamer.WinForms
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            TaskTamer9.WinForms.Views.TaskViewItem taskViewItem1 = new TaskTamer9.WinForms.Views.TaskViewItem();
+            TaskTamer9.WinForms.Views.TaskViewItem taskViewItem2 = new TaskTamer9.WinForms.Views.TaskViewItem();
             _statusStrip = new StatusStrip();
             _lblSortOrder = new ToolStripStatusLabel();
             _lblSelectedTasksProjectInfo = new ToolStripStatusLabel();
@@ -75,13 +76,13 @@ namespace TaskTamer.WinForms
             _tasksGridView = new GridView();
             _tlpTodoItemDetails = new TableLayoutPanel();
             panel2 = new Panel();
-            label7 = new Label();
+            _lblPrio = new Label();
             _prioTrackbar = new TrackBar();
             label6 = new Label();
             label3 = new Label();
             _txtNotes = new TextBox();
             panel1 = new Panel();
-            _bcmbCategory = new DemoToolkit.Mvvm.WinForms.Controls.BindableComboBox();
+            _bcmbCategory = new BindableComboBox();
             _lblPercentDoneValue = new Label();
             _chkDone = new CheckBox();
             label5 = new Label();
@@ -94,10 +95,9 @@ namespace TaskTamer.WinForms
             _txtTodoItemText = new TextBox();
             groupBox1 = new GroupBox();
             tableLayoutPanel2 = new TableLayoutPanel();
-            panel3 = new Panel();
             fluentDecoratorPanel1 = new CommunityToolkit.WinForms.FluentUI.FluentDecoratorPanel();
-            textBox2 = new TextBox();
-            button1 = new Button();
+            _txtNewTask = new TextBox();
+            _btnNewTask = new Button();
             _statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_selectedTaskVmSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_mainVmSource).BeginInit();
@@ -110,7 +110,6 @@ namespace TaskTamer.WinForms
             ((System.ComponentModel.ISupportInitialize)_percentDoneSlider).BeginInit();
             groupBox1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
-            panel3.SuspendLayout();
             fluentDecoratorPanel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -149,7 +148,6 @@ namespace TaskTamer.WinForms
             // 
             _selectedTaskVmSource.DataMember = "SelectedTask";
             _selectedTaskVmSource.DataSource = _mainVmSource;
-            _selectedTaskVmSource.CurrentItemChanged += _selectedTaskVmSource_CurrentItemChanged;
             // 
             // _mainVmSource
             // 
@@ -392,18 +390,18 @@ namespace TaskTamer.WinForms
             _tasksGridView.AllowUserToDeleteRows = false;
             _tasksGridView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             _tasksGridView.BorderStyle = BorderStyle.None;
-            _tasksGridView.DataBindings.Add(new Binding("SelectedItem", _mainVmSource, "SelectedTask", true, DataSourceUpdateMode.Never));
+            _tasksGridView.DataBindings.Add(new Binding("SelectedItem", _mainVmSource, "SelectedTask", true, DataSourceUpdateMode.OnPropertyChanged));
             _tasksGridView.DataBindings.Add(new Binding("DataContext", _mainVmSource, "Tasks", true));
-            taskViewItem1.ContentPadding = new Padding(5);
-            taskViewItem1.DescriptionFont = new Font("Segoe UI", 16F, FontStyle.Bold);
-            taskViewItem1.NameFont = new Font("Segoe UI", 16F, FontStyle.Bold);
-            _tasksGridView.GridViewItemTemplate = taskViewItem1;
-            _tasksGridView.Location = new Point(4, 145);
+            taskViewItem2.ContentPadding = new Padding(5);
+            taskViewItem2.DescriptionFont = new Font("Segoe UI", 16F, FontStyle.Bold);
+            taskViewItem2.NameFont = new Font("Segoe UI", 16F, FontStyle.Bold);
+            _tasksGridView.GridViewItemTemplate = taskViewItem2;
+            _tasksGridView.Location = new Point(4, 60);
             _tasksGridView.Margin = new Padding(4);
             _tasksGridView.Name = "_tasksGridView";
             _tasksGridView.ReadOnly = true;
             _tasksGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            _tasksGridView.Size = new Size(1360, 387);
+            _tasksGridView.Size = new Size(1404, 358);
             _tasksGridView.TabIndex = 2;
             _tasksGridView.VirtualMode = true;
             // 
@@ -421,32 +419,32 @@ namespace TaskTamer.WinForms
             _tlpTodoItemDetails.RowCount = 2;
             _tlpTodoItemDetails.RowStyles.Add(new RowStyle());
             _tlpTodoItemDetails.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            _tlpTodoItemDetails.Size = new Size(1346, 102);
+            _tlpTodoItemDetails.Size = new Size(1390, 272);
             _tlpTodoItemDetails.TabIndex = 0;
             // 
             // panel2
             // 
             panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel2.Controls.Add(label7);
+            panel2.Controls.Add(_lblPrio);
             panel2.Controls.Add(_prioTrackbar);
             panel2.Controls.Add(label6);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(_txtNotes);
             panel2.Location = new Point(603, 55);
             panel2.Name = "panel2";
-            panel2.Size = new Size(740, 44);
+            panel2.Size = new Size(784, 214);
             panel2.TabIndex = 2;
             // 
-            // label7
+            // _lblPrio
             // 
-            label7.AutoSize = true;
-            label7.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Priority", true));
-            label7.Font = new Font("Cascadia Code SemiBold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label7.Location = new Point(103, 11);
-            label7.Name = "label7";
-            label7.Size = new Size(56, 32);
-            label7.TabIndex = 1;
-            label7.Text = "---";
+            _lblPrio.AutoSize = true;
+            _lblPrio.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Priority", true));
+            _lblPrio.Font = new Font("Cascadia Code SemiBold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            _lblPrio.Location = new Point(103, 11);
+            _lblPrio.Name = "_lblPrio";
+            _lblPrio.Size = new Size(56, 32);
+            _lblPrio.TabIndex = 1;
+            _lblPrio.Text = "---";
             // 
             // _prioTrackbar
             // 
@@ -484,7 +482,7 @@ namespace TaskTamer.WinForms
             _txtNotes.Location = new Point(99, 66);
             _txtNotes.Multiline = true;
             _txtNotes.Name = "_txtNotes";
-            _txtNotes.Size = new Size(622, 0);
+            _txtNotes.Size = new Size(666, 132);
             _txtNotes.TabIndex = 4;
             // 
             // panel1
@@ -502,12 +500,13 @@ namespace TaskTamer.WinForms
             panel1.Controls.Add(label1);
             panel1.Location = new Point(3, 55);
             panel1.Name = "panel1";
-            panel1.Size = new Size(594, 44);
+            panel1.Size = new Size(594, 214);
             panel1.TabIndex = 1;
             // 
             // _bcmbCategory
             // 
-            _bcmbCategory.DataBindings.Add(new Binding("SelectedBindingValue", _mainVmSource, "SelectedTask", true));
+            _bcmbCategory.DataBindings.Add(new Binding("DataContext", _mainVmSource, "Categories", true));
+            _bcmbCategory.DataBindings.Add(new Binding("SelectedBindingValue", _mainVmSource, "SelectedTask.Category", true));
             _bcmbCategory.FormattingEnabled = true;
             _bcmbCategory.Location = new Point(150, 14);
             _bcmbCategory.Name = "_bcmbCategory";
@@ -523,6 +522,7 @@ namespace TaskTamer.WinForms
             _lblPercentDoneValue.Size = new Size(62, 25);
             _lblPercentDoneValue.TabIndex = 7;
             _lblPercentDoneValue.Text = "- - -%";
+            _lblPercentDoneValue.TextChanged += _lblPercentDoneValue_TextChanged;
             // 
             // _chkDone
             // 
@@ -547,10 +547,13 @@ namespace TaskTamer.WinForms
             // 
             _percentDoneSlider.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _percentDoneSlider.DataBindings.Add(new Binding("Value", _selectedTaskVmSource, "PercentDone", true, DataSourceUpdateMode.OnPropertyChanged));
+            _percentDoneSlider.LargeChange = 10;
             _percentDoneSlider.Location = new Point(217, 163);
+            _percentDoneSlider.Maximum = 99;
             _percentDoneSlider.Name = "_percentDoneSlider";
             _percentDoneSlider.Size = new Size(323, 45);
             _percentDoneSlider.TabIndex = 8;
+            _percentDoneSlider.TickFrequency = 10;
             // 
             // label2
             // 
@@ -606,77 +609,74 @@ namespace TaskTamer.WinForms
             _txtTodoItemText.Location = new Point(10, 10);
             _txtTodoItemText.Margin = new Padding(10);
             _txtTodoItemText.Name = "_txtTodoItemText";
-            _txtTodoItemText.PlaceholderText = "New Todo Item";
-            _txtTodoItemText.Size = new Size(1326, 32);
+            _txtTodoItemText.PlaceholderText = "Todo Item Text";
+            _txtTodoItemText.Size = new Size(1370, 32);
             _txtTodoItemText.TabIndex = 0;
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(_tlpTodoItemDetails);
-            groupBox1.Location = new Point(4, 540);
+            groupBox1.Location = new Point(4, 426);
             groupBox1.Margin = new Padding(4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(4);
-            groupBox1.Size = new Size(1360, 141);
+            groupBox1.Size = new Size(1404, 311);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Todo-Item";
             // 
             // tableLayoutPanel2
             // 
+            tableLayoutPanel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tableLayoutPanel2.ColumnCount = 1;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Controls.Add(fluentDecoratorPanel1, 0, 0);
             tableLayoutPanel2.Controls.Add(groupBox1, 0, 2);
             tableLayoutPanel2.Controls.Add(_tasksGridView, 0, 1);
-            tableLayoutPanel2.Controls.Add(panel3, 0, 0);
-            tableLayoutPanel2.Location = new Point(20, 40);
+            tableLayoutPanel2.Location = new Point(0, 40);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
             tableLayoutPanel2.RowCount = 3;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 26.30597F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 73.69403F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 148F));
-            tableLayoutPanel2.Size = new Size(1368, 685);
+            tableLayoutPanel2.RowStyles.Add(new RowStyle());
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle());
+            tableLayoutPanel2.Size = new Size(1412, 741);
             tableLayoutPanel2.TabIndex = 5;
-            // 
-            // panel3
-            // 
-            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panel3.Controls.Add(fluentDecoratorPanel1);
-            panel3.Location = new Point(3, 3);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(1362, 135);
-            panel3.TabIndex = 4;
             // 
             // fluentDecoratorPanel1
             // 
-            fluentDecoratorPanel1.BorderStyleEx = CommunityToolkit.WinForms.FluentUI.FluentDecoratorPanel.BorderStyles.Modern;
+            fluentDecoratorPanel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             fluentDecoratorPanel1.BorderThickness = 1;
             fluentDecoratorPanel1.ControlPadding = 0;
-            fluentDecoratorPanel1.Controls.Add(textBox2);
-            fluentDecoratorPanel1.Controls.Add(button1);
-            fluentDecoratorPanel1.Location = new Point(66, 24);
+            fluentDecoratorPanel1.Controls.Add(_txtNewTask);
+            fluentDecoratorPanel1.Controls.Add(_btnNewTask);
+            fluentDecoratorPanel1.Location = new Point(3, 3);
             fluentDecoratorPanel1.Name = "fluentDecoratorPanel1";
             fluentDecoratorPanel1.Padding = new Padding(10);
-            fluentDecoratorPanel1.Size = new Size(1241, 76);
-            fluentDecoratorPanel1.TabIndex = 0;
-            fluentDecoratorPanel1.VerticalContentAlignment = CommunityToolkit.WinForms.FluentUI.FluentDecoratorPanel.VerticalContentAlignments.Center;
+            fluentDecoratorPanel1.Size = new Size(1406, 50);
+            fluentDecoratorPanel1.TabIndex = 4;
             // 
-            // textBox2
+            // _txtNewTask
             // 
-            textBox2.Location = new Point(1, 22);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(1207, 32);
-            textBox2.TabIndex = 0;
+            _txtNewTask.BorderStyle = BorderStyle.None;
+            _txtNewTask.DataBindings.Add(new Binding("Text", _mainVmSource, "NewTaskName", true));
+            _txtNewTask.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            _txtNewTask.Location = new Point(11, 9);
+            _txtNewTask.Name = "_txtNewTask";
+            _txtNewTask.PlaceholderText = "Add new task";
+            _txtNewTask.Size = new Size(1352, 32);
+            _txtNewTask.TabIndex = 0;
             // 
-            // button1
+            // _btnNewTask
             // 
-            button1.Location = new Point(1208, 22);
-            button1.Name = "button1";
-            button1.Size = new Size(32, 32);
-            button1.TabIndex = 1;
-            button1.Text = ">";
-            button1.UseVisualStyleBackColor = true;
+            _btnNewTask.DataBindings.Add(new Binding("Command", _mainVmSource, "AddTaskCommand", true));
+            _btnNewTask.Font = new Font("Segoe MDL2 Assets", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            _btnNewTask.Location = new Point(1363, 9);
+            _btnNewTask.Name = "_btnNewTask";
+            _btnNewTask.Size = new Size(32, 32);
+            _btnNewTask.TabIndex = 1;
+            _btnNewTask.Text = "";
+            _btnNewTask.UseVisualStyleBackColor = true;
             // 
             // FrmMain
             // 
@@ -708,7 +708,6 @@ namespace TaskTamer.WinForms
             ((System.ComponentModel.ISupportInitialize)_percentDoneSlider).EndInit();
             groupBox1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
-            panel3.ResumeLayout(false);
             fluentDecoratorPanel1.ResumeLayout(false);
             fluentDecoratorPanel1.PerformLayout();
             ResumeLayout(false);
@@ -764,13 +763,13 @@ namespace TaskTamer.WinForms
         private GridView _tasksGridView;
         private TableLayoutPanel _tlpTodoItemDetails;
         private Panel panel2;
-        private Label label7;
+        private Label _lblPrio;
         private TrackBar _prioTrackbar;
         private Label label6;
         private Label label3;
         private TextBox _txtNotes;
         private Panel panel1;
-        private DemoToolkit.Mvvm.WinForms.Controls.BindableComboBox _bcmbCategory;
+        private BindableComboBox _bcmbCategory;
         private Label _lblPercentDoneValue;
         private CheckBox _chkDone;
         private Label label5;
@@ -783,9 +782,8 @@ namespace TaskTamer.WinForms
         private TextBox _txtTodoItemText;
         private GroupBox groupBox1;
         private TableLayoutPanel tableLayoutPanel2;
-        private Panel panel3;
         private CommunityToolkit.WinForms.FluentUI.FluentDecoratorPanel fluentDecoratorPanel1;
-        private TextBox textBox2;
-        private Button button1;
+        private TextBox _txtNewTask;
+        private Button _btnNewTask;
     }
 }

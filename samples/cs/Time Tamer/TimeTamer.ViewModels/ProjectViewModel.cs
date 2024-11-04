@@ -42,6 +42,10 @@ public partial class ProjectViewModel : ObservableObject
             Status = Status
         };
 
+    // We need this for any ComboBox-Binding to work.
+    public override bool Equals(object? obj)
+        => obj is ProjectViewModel other && ProjectId == other.ProjectId;
+
     public override string ToString()
         => $"{Name} ({Category})";
 

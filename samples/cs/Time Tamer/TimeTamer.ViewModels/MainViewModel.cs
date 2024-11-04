@@ -16,6 +16,7 @@ public partial class MainViewModel : ObservableObject
 
         CurrentUser = UserViewModel.FromUser(User.GetCurrentUser());
         Projects = ProjectViewModel.GetActive();
+        Categories = CategoryViewModel.GetCategories();
     }
 
     /// <summary>
@@ -39,6 +40,9 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private ObservableCollection<ProjectViewModel>? _projects;
+
+    [ObservableProperty]
+    private ObservableCollection<CategoryViewModel> _categories;
 
     /// <summary>
     ///  Property, which will reflect the currently selected task in the MainView. This is a 2-way binding property.

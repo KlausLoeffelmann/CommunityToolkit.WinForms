@@ -1,4 +1,5 @@
-﻿using DemoToolkit.Mvvm.WinForms.AI;
+﻿using CommunityToolbox.WinForms.Mvvm.Controls;
+using DemoToolkit.Mvvm.WinForms.AI;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Diagnostics;

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using CommunityToolkit.WinForms.Extensions;
+using System.Diagnostics;
+using TaskTamer9.WinForms.ValueConverter;
 
 namespace TaskTamer.WinForms;
 
@@ -7,6 +9,8 @@ public partial class FrmMain : Form
     public FrmMain()
     {
         InitializeComponent();
+
+        _lblPercentDoneValue.AddBindingConverter(nameof(_lblPercentDoneValue.Text), new TaskPercentDoneToStringConverter());
     }
 
     // This is where we are setting up the Binding for this view.
@@ -18,8 +22,8 @@ public partial class FrmMain : Form
         _mainVmSource.DataSource = DataContext;
     }
 
-    private void _selectedTaskVmSource_CurrentItemChanged(object sender, EventArgs e)
+    private void _lblPercentDoneValue_TextChanged(object sender, EventArgs e)
     {
-        Debug.Print($"Selected Task changed to {_selectedTaskVmSource.Current}");
+        Debug.Print($"_lblPercentDoneValue_TextChanged: {((Label)sender).Text}");
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace DemoToolkit.Mvvm.WinForms.Controls;
+﻿namespace CommunityToolbox.WinForms.Mvvm.Controls;
 
-public class ModernCommandButton : Button
+public class FluentCommandButton : Button
 {
     private readonly Brush _standardForeColor;
     private readonly Brush _highLightedForeColor;
@@ -8,7 +8,7 @@ public class ModernCommandButton : Button
     private Font _iconFont = default!;
     private bool _requestHighlight;
 
-    public ModernCommandButton()
+    public FluentCommandButton()
     {
         _standardForeColor = new SolidBrush(ForeColor);
         _highLightedForeColor = new SolidBrush(SystemColors.HighlightText);

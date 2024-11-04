@@ -71,9 +71,12 @@ public partial class TaskViewItem : GridViewItemTemplate
         int taskNameHeight = DrawTaskName(taskView, e.Graphics, clipBounds);
         DrawEllipsedTaskDescription(taskView, e.Graphics, clipBounds, taskNameHeight);
 
-        var dueDateWidth = DrawFieldValue($"Due: {taskView.DueDate}", e.Graphics, clipBounds, FieldPadding);
-        var categoryWidth = DrawFieldValue($"Cat: {taskView.Category}", e.Graphics, clipBounds, dueDateWidth);
-        var projectWidth = DrawFieldValue($"Prj: {taskView.Project}", e.Graphics, clipBounds, categoryWidth);
+        _ = DrawFieldValue($"Due: {taskView.DueDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, FieldPadding);
+        _ = DrawFieldValue($"Start: {taskView.StartDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, 330);
+        _ = DrawFieldValue($"Cat: {taskView.Category}", e.Graphics, clipBounds, 530);
+        _ = DrawFieldValue($"Prj: {taskView.Project}", e.Graphics, clipBounds, 700);
+        _ = DrawFieldValue($"Prt: {taskView.Priority}", e.Graphics, clipBounds, 1100);
+        _ = DrawFieldValue($"%: {taskView.PercentDone: 000}", e.Graphics, clipBounds, 1200);
     }
 
     private void DrawBackground(Graphics graphics, Rectangle clipBounds, bool isMouseOver)

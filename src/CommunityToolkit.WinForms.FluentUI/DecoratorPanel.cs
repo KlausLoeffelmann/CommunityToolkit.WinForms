@@ -87,7 +87,7 @@ public partial class FluentDecoratorPanel : Panel
 
     protected override void OnPaddingChanged(EventArgs e)
     {
-        OnPaddingChanged(e);
+        base.OnPaddingChanged(e);
         PerformLayout();
         Invalidate();
     }

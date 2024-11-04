@@ -44,6 +44,10 @@ public partial class TaskViewModel : ObservableObject
     [ObservableProperty]
     private string? _externalReference;
 
+    // We need this for any ComboBox-Binding to work.
+    public override bool Equals(object? obj)
+        => obj is TaskViewModel other && TaskId == other.TaskId;
+
     override public string ToString() => Explanation;
 
     public TaskItem ToTaskItem()

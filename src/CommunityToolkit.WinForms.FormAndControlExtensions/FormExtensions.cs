@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using WinFormsDialogResult = System.Windows.Forms.DialogResult;
 using DialogResult = CommunityToolkit.DesktopGeneric.Mvvm.DialogResult;
+using CommunityToolkit.WinForms.ComponentModel;
+using System.Globalization;
 
 namespace CommunityToolkit.WinForms.Extensions;
 
@@ -85,5 +87,38 @@ public static class FormExtensions
         };
 
         return new ModalDialogResult<T>(dialogDataContext, dialogResult);
+    }
+
+    public static Binding AddBindingConverter(this Control control, string propertyName, IValueConverter valueConverter)
+    {
+        ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
+        ArgumentNullException.ThrowIfNull(valueConverter, nameof(valueConverter));
+
+        if (control.DataBindings[propertyName] is not Binding binding)
+        {
+            throw new InvalidOperationException($"No binding found for property '{propertyName}'.");
+        }
+
+        binding.Parse += Binding_Parse;
+        binding.Format += Binding_Format;
+        control.Disposed += Control_Disposed;
+
+        return binding;
+
+        void Binding_Format(object? sender, ConvertEventArgs e)
+        {
+            e.Value = valueConverter.Convert(e.Value, e.DesiredType!, null, CultureInfo.CurrentCulture);
+        }
+
+        void Binding_Parse(object? sender, ConvertEventArgs e)
+        {
+            e.Value = valueConverter.ConvertBack(e.Value, e.DesiredType!, null, CultureInfo.CurrentCulture);
+        }
+
+        void Control_Disposed(object? sender, EventArgs e)
+        {
+            binding.Parse -= Binding_Parse;
+            binding.Format -= Binding_Format;
+        }
     }
 }
