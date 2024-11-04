@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.WinForms.AsyncSupport;
-using System.Diagnostics;
 
 namespace CommunityToolkit.WinForms.TestsX;
 

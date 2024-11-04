@@ -59,10 +59,10 @@
             decimalFormatter4.CurrencySymbol = "$";
             decimalFormatter4.DecimalPlaces = 2;
             _decimalFormatterComponent.SetFormatterSettings(textBox1, decimalFormatter4);
-            textBox1.Location = new Point(39, 42);
-            textBox1.Margin = new Padding(4);
+            textBox1.Location = new Point(24, 26);
+            textBox1.Margin = new Padding(2, 2, 2, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(889, 39);
+            textBox1.Size = new Size(549, 27);
             textBox1.TabIndex = 0;
             _decimalFormatterComponent.SetValue(textBox1, new decimal(new int[] { 10, 0, 0, 0 }));
             // 
@@ -75,10 +75,10 @@
             decimalFormatter3.CurrencySymbol = "$";
             decimalFormatter3.DecimalPlaces = 2;
             _decimalFormatterComponent.SetFormatterSettings(textBox2, decimalFormatter3);
-            textBox2.Location = new Point(39, 114);
-            textBox2.Margin = new Padding(4);
+            textBox2.Location = new Point(24, 71);
+            textBox2.Margin = new Padding(2, 2, 2, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(889, 39);
+            textBox2.Size = new Size(549, 27);
             textBox2.TabIndex = 1;
             _decimalFormatterComponent.SetValue(textBox2, new decimal(new int[] { 20, 0, 0, 0 }));
             // 
@@ -91,10 +91,10 @@
             decimalFormatter2.CurrencySymbol = "$";
             decimalFormatter2.DecimalPlaces = 2;
             _decimalFormatterComponent.SetFormatterSettings(textBox3, decimalFormatter2);
-            textBox3.Location = new Point(39, 187);
-            textBox3.Margin = new Padding(4);
+            textBox3.Location = new Point(24, 117);
+            textBox3.Margin = new Padding(2, 2, 2, 2);
             textBox3.Name = "textBox3";
-            textBox3.Size = new Size(889, 39);
+            textBox3.Size = new Size(549, 27);
             textBox3.TabIndex = 2;
             _decimalFormatterComponent.SetValue(textBox3, new decimal(new int[] { 30, 0, 0, 0 }));
             // 
@@ -107,10 +107,10 @@
             decimalFormatter1.CurrencySymbol = "$";
             decimalFormatter1.DecimalPlaces = 2;
             _decimalFormatterComponent.SetFormatterSettings(textBox4, decimalFormatter1);
-            textBox4.Location = new Point(39, 260);
-            textBox4.Margin = new Padding(4);
+            textBox4.Location = new Point(24, 162);
+            textBox4.Margin = new Padding(2, 2, 2, 2);
             textBox4.Name = "textBox4";
-            textBox4.Size = new Size(889, 39);
+            textBox4.Size = new Size(549, 27);
             textBox4.TabIndex = 3;
             _decimalFormatterComponent.SetValue(textBox4, new decimal(new int[] { 40, 0, 0, 0 }));
             // 
@@ -120,28 +120,29 @@
             dataEntryPanel1.Controls.Add(textBox3);
             dataEntryPanel1.Controls.Add(textBox2);
             dataEntryPanel1.Controls.Add(textBox1);
-            dataEntryPanel1.Location = new Point(13, 13);
-            dataEntryPanel1.Margin = new Padding(4);
+            dataEntryPanel1.Location = new Point(8, 8);
+            dataEntryPanel1.Margin = new Padding(2, 2, 2, 2);
             dataEntryPanel1.Name = "dataEntryPanel1";
-            dataEntryPanel1.Size = new Size(968, 357);
+            dataEntryPanel1.Size = new Size(596, 223);
             dataEntryPanel1.TabIndex = 0;
             // 
             // consoleControl1
             // 
-            consoleControl1.Location = new Point(29, 398);
+            consoleControl1.Location = new Point(8, 249);
+            consoleControl1.Margin = new Padding(2, 2, 2, 2);
             consoleControl1.Name = "consoleControl1";
-            consoleControl1.Size = new Size(1365, 385);
+            consoleControl1.Size = new Size(861, 242);
             consoleControl1.TabIndex = 1;
             consoleControl1.Text = "";
             // 
             // FrmMain
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1430, 814);
+            ClientSize = new Size(880, 509);
             Controls.Add(consoleControl1);
             Controls.Add(dataEntryPanel1);
-            Margin = new Padding(4);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "FrmMain";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)_dateFormatterComponent).EndInit();
