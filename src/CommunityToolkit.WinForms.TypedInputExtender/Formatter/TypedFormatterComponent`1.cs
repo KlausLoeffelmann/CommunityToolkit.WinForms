@@ -185,7 +185,7 @@ public abstract partial class TypedFormatterComponent<T> :
     public async Task<bool> TryConvertToValueAsync(TextBox textBox, string? stringValue, CancellationToken token)
     {
         T? valueTemp;
-        ValueConvertEventArgs valueConvertEventArgs = new(textBox);
+        ValueConvertEventArgs valueConvertEventArgs = new(textBox, token);
 
         try
         {
@@ -197,7 +197,12 @@ public abstract partial class TypedFormatterComponent<T> :
                 ? default
                 : await temp.ConvertToValueAsync(stringValue, token);
         }
-        catch (System.Exception)
+        catch (OperationCanceledException)
+        {
+            // For Debugging purposes.
+            throw;
+        }
+        catch (Exception)
         {
             return false;
         }
@@ -234,7 +239,6 @@ public abstract partial class TypedFormatterComponent<T> :
             eArgs.Spinner.Top = eArgs.TextBox.Top + (eArgs.TextBox.Height - eArgs.Spinner.Height) / 2;
             eArgs.Spinner.Left = eArgs.TextBox.Right - eArgs.Spinner.Width;
             eArgs.Spinner.BringToFront();
-            eArgs.CancellationTokenSource = new CancellationTokenSource();
             eArgs.SpinnerTask = eArgs.Spinner.SpinAsync(eArgs.CancellationTokenSource.Token);
             parent.ResumeLayout();
         }

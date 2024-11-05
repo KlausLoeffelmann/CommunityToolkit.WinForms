@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.AsyncSupport", "..\..\..\src\CommunityToolkit.WinForms.AsyncSupport\CommunityToolkit.WinForms.AsyncSupport.csproj", "{63E92838-831F-C146-4336-EB98AE2335B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.Extensions.FormAndControlExtensions", "..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj", "{82035C8A-F716-4737-1E7C-FCCAD7E7DE9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{63E92838-831F-C146-4336-EB98AE2335B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63E92838-831F-C146-4336-EB98AE2335B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63E92838-831F-C146-4336-EB98AE2335B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82035C8A-F716-4737-1E7C-FCCAD7E7DE9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82035C8A-F716-4737-1E7C-FCCAD7E7DE9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82035C8A-F716-4737-1E7C-FCCAD7E7DE9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82035C8A-F716-4737-1E7C-FCCAD7E7DE9C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +59,7 @@ Global
 		{79251B21-D7B6-2293-C457-4C64A24E9A97} = {76F766EB-8FC8-40CF-8BBF-88102B8F6B53}
 		{09B3745B-1D75-1371-46C4-2DFC7BFBF967} = {76F766EB-8FC8-40CF-8BBF-88102B8F6B53}
 		{63E92838-831F-C146-4336-EB98AE2335B0} = {76F766EB-8FC8-40CF-8BBF-88102B8F6B53}
+		{82035C8A-F716-4737-1E7C-FCCAD7E7DE9C} = {76F766EB-8FC8-40CF-8BBF-88102B8F6B53}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1EE0FF45-9F56-4F20-B89A-80F0D3FB5796}

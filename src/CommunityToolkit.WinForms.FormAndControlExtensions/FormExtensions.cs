@@ -123,11 +123,24 @@ public static class FormExtensions
             binding.Parse -= Binding_Parse;
             binding.Format -= Binding_Format;
         }
+
+        void BindingContextChanged(object? sender, EventArgs e)
+        {
+            var control = (Control)sender!;
+            var context = control.BindingContext;
+        }
     }
 
-    private static void BindingContextChanged(object? sender, EventArgs e)
+    public static IEnumerable<Control> GetControlsRecursive(this Control control)
     {
-        var control = (Control)sender!;
-        var context = control.BindingContext;
+        foreach (Control childControl in control.Controls)
+        {
+            yield return childControl;
+
+            foreach (Control grandChildControl in childControl.GetControlsRecursive())
+            {
+                yield return grandChildControl;
+            }
+        }
     }
 }

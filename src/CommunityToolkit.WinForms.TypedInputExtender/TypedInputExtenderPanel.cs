@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 
 namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
@@ -160,9 +161,14 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
     {
         TextBox textBox = (TextBox)sender!;
         TypedInputExtenderProperties properties = _propertyStorage[textBox];
-        properties.CancellationTokenSource?.Cancel();
-        properties.CancellationTokenSource = new CancellationTokenSource();
 
+        if (properties.CancellationTokenSource is CancellationTokenSource tokenSource)
+        {
+            Debug.Print($"Cancelling previous token: {textBox.Name}");
+            tokenSource.Cancel();
+        }
+
+        properties.CancellationTokenSource = new CancellationTokenSource();
         properties.HasFocus = true;
         textBox.Text = properties.EditedValue;
 
@@ -210,8 +216,6 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
         TextBox textBox = (TextBox)sender!;
         TypedInputExtenderProperties properties = _propertyStorage[textBox];
 
-        properties.HasFocus = false;
-
         textBox.BackColor = properties.OriginalBackColor;
     }
 
@@ -256,34 +260,46 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
                     _toolTip.Show(properties.ErrorText, textBox);
                 }
             }
+            catch (OperationCanceledException)
+            {
+                // TODO: Clean-Up.
+                Debug.Print($"TryCommitInputAsync cancelled: {textBox.Name}");
+            }
             finally
             {
-                HandleFocusHighlight(textBox, properties, properties.HasFocus);
+                properties.HasFocus = false;
+
+                HandleFocusHighlight(
+                    textBox: textBox,
+                    properties: properties,
+                    savePreviousColorState: properties.HasFocus);
             }
         }
     }
 
     private static async Task<bool> TryCommitInputAsync(TypedInputExtenderProperties properties, TextBox textBox)
     {
-        if (properties.FormatterComponent is ITypedFormatterComponent dataEntryFormatter)
+        if (properties.FormatterComponent is not ITypedFormatterComponent dataEntryFormatter)
         {
-            if (await dataEntryFormatter.TryConvertToValueAsync(
-                textBox, 
-                properties.EditedValue,
-                properties.CancellationTokenSource?.Token ?? CancellationToken.None))
-            {
-                try
-                {
-                    properties.ChangingValueInternally = true;
-                    await SetObjectValueAsync(textBox, properties, dataEntryFormatter.GetValue(textBox));
-                }
-                finally
-                {
-                    properties.ChangingValueInternally = false;
-                }
+            return false;
+        }
 
-                return true;
+        if (await dataEntryFormatter.TryConvertToValueAsync(
+            textBox: textBox,
+            stringValue: properties.EditedValue,
+            token: properties.CancellationTokenSource?.Token ?? CancellationToken.None))
+        {
+            try
+            {
+                properties.ChangingValueInternally = true;
+                await SetObjectValueAsync(textBox, properties, dataEntryFormatter.GetValue(textBox));
             }
+            finally
+            {
+                properties.ChangingValueInternally = false;
+            }
+
+            return true;
         }
 
         return false;
@@ -297,9 +313,16 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
         }
         else
         {
-            textBox.Text = await properties.FormatterComponent!.ConvertToDisplayAsync(
-                textBox,
-                properties.CancellationTokenSource?.Token ?? CancellationToken.None);
+            var token = properties.CancellationTokenSource?.Token ?? CancellationToken.None;
+
+            string? textValue = await properties.FormatterComponent!.ConvertToDisplayAsync(
+                textBox: textBox,
+                token: token);
+
+            if (!token.IsCancellationRequested)
+            {
+                textBox.Text = textValue;
+            }
         }
     }
 }

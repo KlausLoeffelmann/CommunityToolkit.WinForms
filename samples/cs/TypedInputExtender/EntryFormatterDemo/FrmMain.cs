@@ -16,11 +16,3 @@ public partial class FrmMain : Form
         await consoleControl1.WriteLineAsync($"TextBox:{textBox.Name} - Old Value:{e.OldValue} - New Value:{e.Value}");
     }
 }
-
-public class DerivedTextBox : TextBox
-{
-    protected override void OnEnabledChanged(EventArgs e)
-    {
-        base.OnEnabledChanged(e);
-    }
-}

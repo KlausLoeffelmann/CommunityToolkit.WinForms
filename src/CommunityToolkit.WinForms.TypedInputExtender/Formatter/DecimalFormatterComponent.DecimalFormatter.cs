@@ -111,7 +111,7 @@ public partial class DecimalFormatterComponent
 
         public override async Task<decimal?> ConvertToValueAsync(string? stringValue, CancellationToken token)
         {
-            await Task.Delay(2000);
+            await Task.Delay(2000, token);
 
             decimal? result= stringValue is null 
                     ? null 
