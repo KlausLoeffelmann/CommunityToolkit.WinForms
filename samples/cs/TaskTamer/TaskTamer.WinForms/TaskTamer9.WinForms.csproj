@@ -24,8 +24,8 @@
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.Mvvm\CommunityToolkit.WinForms.Mvvm.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.TypedInputExtender\CommunityToolkit.WinForms.TypedInputExtenders.csproj" />
-    <ProjectReference Include="..\TimeTamer.Generic\TaskTamer.Generic.csproj" />
-    <ProjectReference Include="..\TimeTamer.ViewModels\TaskTamer.ViewModels.csproj" />
+    <ProjectReference Include="..\TaskTamer.Generic\TaskTamer.Generic.csproj" />
+    <ProjectReference Include="..\TaskTamer.ViewModels\TaskTamer.ViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

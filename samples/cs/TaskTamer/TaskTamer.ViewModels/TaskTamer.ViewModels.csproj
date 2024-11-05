@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.DesktopGeneric.Mvvm\CommunityToolkit.DesktopGeneric.Mvvm.csproj" />
-    <ProjectReference Include="..\TimeTamer.DataLayer\TaskTamer.DataLayer.csproj" />
+    <ProjectReference Include="..\TaskTamer.DataLayer\TaskTamer.DataLayer.csproj" />
   </ItemGroup>
 
 </Project>

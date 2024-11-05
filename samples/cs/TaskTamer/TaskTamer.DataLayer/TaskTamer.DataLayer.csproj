@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TimeTamer.Generic\TaskTamer.Generic.csproj" />
+    <ProjectReference Include="..\TaskTamer.Generic\TaskTamer.Generic.csproj" />
   </ItemGroup>
 
   <ItemGroup>
