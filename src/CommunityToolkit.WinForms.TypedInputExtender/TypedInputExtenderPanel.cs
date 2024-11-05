@@ -96,8 +96,14 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
         if (!properties.ChangingValueInternally && properties.FormatterComponent is not null)
         {
             properties.FormatterComponent.SetValue(textBox, properties.ValueInternal);
-            properties.EditedValue = await properties.FormatterComponent.InitializeEditedValueAsync(textBox);
-            await UpdateDisplayAsync(properties, textBox);
+
+            properties.EditedValue = await properties.FormatterComponent.InitializeEditedValueAsync(
+                textBox,
+                properties.CancellationTokenSource?.Token ?? CancellationToken.None);
+
+            await UpdateDisplayAsync(
+                properties, 
+                textBox);
         }
     }
 
@@ -154,6 +160,8 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
     {
         TextBox textBox = (TextBox)sender!;
         TypedInputExtenderProperties properties = _propertyStorage[textBox];
+        properties.CancellationTokenSource?.Cancel();
+        properties.CancellationTokenSource = new CancellationTokenSource();
 
         properties.HasFocus = true;
         textBox.Text = properties.EditedValue;
@@ -222,7 +230,15 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
                 {
                     try
                     {
-                        textBox.Text = await dataEntryFormatter.ConvertToDisplayAsync(textBox);
+                        var token = properties.CancellationTokenSource?.Token ?? CancellationToken.None;
+                        var convertedValue = await dataEntryFormatter.ConvertToDisplayAsync(
+                            textBox,
+                            token);
+
+                        if (!token.IsCancellationRequested)
+                        {
+                            textBox.Text = convertedValue;
+                        }
                     }
                     finally
                     {
@@ -251,7 +267,10 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
     {
         if (properties.FormatterComponent is ITypedFormatterComponent dataEntryFormatter)
         {
-            if (await dataEntryFormatter.TryConvertToValueAsync(textBox, properties.EditedValue))
+            if (await dataEntryFormatter.TryConvertToValueAsync(
+                textBox, 
+                properties.EditedValue,
+                properties.CancellationTokenSource?.Token ?? CancellationToken.None))
             {
                 try
                 {
@@ -278,7 +297,9 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
         }
         else
         {
-            textBox.Text = await properties.FormatterComponent!.ConvertToDisplayAsync(textBox);
+            textBox.Text = await properties.FormatterComponent!.ConvertToDisplayAsync(
+                textBox,
+                properties.CancellationTokenSource?.Token ?? CancellationToken.None);
         }
     }
 }

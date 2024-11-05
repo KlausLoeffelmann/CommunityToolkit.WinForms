@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
@@ -183,7 +182,7 @@ public abstract partial class TypedFormatterComponent<T> :
     /// <returns>
     /// <see langword="true"/> if the conversion succeeded and the value was assigned; otherwise, <see langword="false"/>.
     /// </returns>
-    public async Task<bool> TryConvertToValueAsync(TextBox textBox, string? stringValue)
+    public async Task<bool> TryConvertToValueAsync(TextBox textBox, string? stringValue, CancellationToken token)
     {
         T? valueTemp;
         ValueConvertEventArgs valueConvertEventArgs = new(textBox);
@@ -196,7 +195,7 @@ public abstract partial class TypedFormatterComponent<T> :
 
             valueTemp = temp is null
                 ? default
-                : await temp.ConvertToValueAsync(stringValue);
+                : await temp.ConvertToValueAsync(stringValue, token);
         }
         catch (System.Exception)
         {
@@ -212,7 +211,7 @@ public abstract partial class TypedFormatterComponent<T> :
         return true;
     }
 
-    protected virtual async void OnValueConverting(ValueConvertEventArgs eArgs)
+    protected virtual void OnValueConverting(ValueConvertEventArgs eArgs)
     {
         ValueConverting?.Invoke(this, eArgs);
 
@@ -251,7 +250,15 @@ public abstract partial class TypedFormatterComponent<T> :
         if (eArgs.IndicateBusy)
         {
             eArgs.CancellationTokenSource!.Cancel();
-            await eArgs.SpinnerTask!;
+
+            try
+            {
+                await eArgs.SpinnerTask!;
+            }
+            catch (OperationCanceledException)
+            {
+            }
+
             eArgs.TextBox.Parent?.Controls.Remove(eArgs.Spinner);
             eArgs.Spinner!.Dispose();
         }
@@ -264,13 +271,13 @@ public abstract partial class TypedFormatterComponent<T> :
     /// </summary>
     /// <param name="textBox">The <see cref="TextBox"/> to retrieve the value for.</param>
     /// <returns>A string representation of the value, or <see langword="null"/> if the conversion fails.</returns>
-    public Task<string?> ConvertToDisplayAsync(TextBox textBox)
+    public Task<string?> ConvertToDisplayAsync(TextBox textBox, CancellationToken token)
     {
         var formatterSettings = GetFormatterSettings(textBox);
 
         return formatterSettings is null
             ? Task.FromResult<string?>(null)
-            : formatterSettings.ConvertToDisplayAsync(GetValue(textBox));
+            : formatterSettings.ConvertToDisplayAsync(GetValue(textBox), token);
     }
 
     /// <summary>
@@ -280,13 +287,13 @@ public abstract partial class TypedFormatterComponent<T> :
     /// <returns>
     /// A string representation of the initial value, or <see langword="null"/> if the initialization fails.
     /// </returns>
-    public Task<string?> InitializeEditedValueAsync(TextBox textBox)
+    public Task<string?> InitializeEditedValueAsync(TextBox textBox, CancellationToken token)
     {
         var formatterSettings = GetFormatterSettings(textBox);
 
         return formatterSettings is null
             ? Task.FromResult<string?>(null)
-            : formatterSettings.InitializeEditedValueAsync(GetValue(textBox));
+            : formatterSettings.InitializeEditedValueAsync(GetValue(textBox), token);
     }
 
     /// <inheritdoc/>
@@ -317,10 +324,10 @@ public abstract partial class TypedFormatterComponent<T> :
         NotifyEndInit?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task<object?> TryGetValueAsync(string text)
+    public async Task<object?> TryGetValueAsync(string text, CancellationToken token)
     {
         var formatter = GetDefaultFormatterInstance();
-        object? value = await formatter.ConvertToValueAsync(text);
+        object? value = await formatter.ConvertToValueAsync(text, token);
         return value;
     }
 }

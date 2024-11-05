@@ -30,19 +30,19 @@ public partial class DateFormatterComponent
         [DefaultValue(DateTimeFormats.ShortDate)]
         public DateTimeFormats DateTimeFormat { get; set; } = DateTimeFormats.ShortDate;
 
-        public override Task<string?> ConvertToDisplayAsync(DateTime value)
+        public override Task<string?> ConvertToDisplayAsync(DateTime value, CancellationToken token)
         { 
             string? returnValue = value.ToString(GetFormatString());
             return Task.FromResult<string?>(returnValue);
         }
 
-        public override Task<DateTime> ConvertToValueAsync(string? stringValue) 
+        public override Task<DateTime> ConvertToValueAsync(string? stringValue, CancellationToken token) 
             => Task.FromResult(
                 string.IsNullOrEmpty(stringValue)
                     ? DateTime.Now
                     : DateTime.Parse(stringValue));
 
-        public override Task<string?> InitializeEditedValueAsync(DateTime value) 
+        public override Task<string?> InitializeEditedValueAsync(DateTime value, CancellationToken token) 
             => Task.FromResult<string?>(value.ToString());
 
         public string GetFormatString() 

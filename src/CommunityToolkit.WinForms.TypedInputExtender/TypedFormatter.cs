@@ -69,17 +69,17 @@ public abstract class TypedFormatter<T> : INotifyPropertyChanged, ITypedFormatte
     /// </summary>
     /// <param name="stringValue">The string representation of the value.</param>
     /// <returns>The converted value of type <typeparamref name="T"/>.</returns>
-    public abstract Task<T?> ConvertToValueAsync(string? stringValue);
+    public abstract Task<T?> ConvertToValueAsync(string? stringValue, CancellationToken token);
     /// <summary>
     /// Converts a value of type <typeparamref name="T"/> to its string representation.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <returns>The string representation of the value.</returns>
-    public abstract Task<string?> ConvertToDisplayAsync(T? value);
+    public abstract Task<string?> ConvertToDisplayAsync(T? value, CancellationToken token);
     /// <summary>
     /// Initializes the edited value of type <typeparamref name="T"/>.
     /// </summary>
     /// <param name="value">The value to initialize.</param>
     /// <returns>The initialized edited value as a string.</returns>
-    public abstract Task<string?> InitializeEditedValueAsync(T? value);
+    public abstract Task<string?> InitializeEditedValueAsync(T? value, CancellationToken token);
 }

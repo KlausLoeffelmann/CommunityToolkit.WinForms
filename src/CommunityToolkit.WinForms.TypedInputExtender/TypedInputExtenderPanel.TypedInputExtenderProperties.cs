@@ -24,5 +24,6 @@ public partial class TypedInputExtenderPanel
         internal object? ValueInternal { get; set; }
         internal bool CommitOnFocusedRead { get; set; }
         internal string? DebugName { get; set; }
+        internal CancellationTokenSource? CancellationTokenSource { get; set; }
     }
 }

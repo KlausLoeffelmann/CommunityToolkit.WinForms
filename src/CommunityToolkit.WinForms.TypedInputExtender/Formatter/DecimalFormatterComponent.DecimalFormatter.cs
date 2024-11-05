@@ -101,7 +101,7 @@ public partial class DecimalFormatterComponent
             set => SetProperty(ref _leadingZeros, value);
         }
 
-        public override Task<string?> ConvertToDisplayAsync(decimal? value)
+        public override Task<string?> ConvertToDisplayAsync(decimal? value, CancellationToken token)
         {
             return Task.FromResult<string?>(
                 value is null 
@@ -109,7 +109,7 @@ public partial class DecimalFormatterComponent
                     : value.Value.ToString(GetFormatString()));
         }
 
-        public override async Task<decimal?> ConvertToValueAsync(string? stringValue)
+        public override async Task<decimal?> ConvertToValueAsync(string? stringValue, CancellationToken token)
         {
             await Task.Delay(2000);
 
@@ -120,7 +120,7 @@ public partial class DecimalFormatterComponent
             return result;
         }
 
-        public override Task<string?> InitializeEditedValueAsync(decimal? value) => 
+        public override Task<string?> InitializeEditedValueAsync(decimal? value, CancellationToken token) => 
             Task.FromResult<string?>(value.ToString());
 
         public string? GetFormatString()

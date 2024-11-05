@@ -6,9 +6,9 @@ namespace CommunityToolkit.WinForms.TypedInputExtenders;
 public interface ITypedFormatter<T>
     : INotifyPropertyChanged
 {
-    Task<T?> ConvertToValueAsync(string? stringValue);
+    Task<T?> ConvertToValueAsync(string? stringValue, CancellationToken token);
 
-    Task<string?> ConvertToDisplayAsync(T? value);
+    Task<string?> ConvertToDisplayAsync(T? value, CancellationToken token);
 
-    Task<string?> InitializeEditedValueAsync(T? value);
+    Task<string?> InitializeEditedValueAsync(T? value, CancellationToken token);
 }
