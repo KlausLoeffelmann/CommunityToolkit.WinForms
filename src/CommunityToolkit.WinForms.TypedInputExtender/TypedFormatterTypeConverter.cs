@@ -5,7 +5,7 @@ namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
 public class TypedFormatterTypeConverter : TypeConverter
 {
-    private const string IDataEntryFormatterOfName = "IDataEntryFormatter`1";
+    private const string IDataEntryFormatterOfName = "ITypedFormatter`1";
     private const string FormattingPropertiesName = "(FormattingProperties)";
 
     public override bool GetPropertiesSupported(ITypeDescriptorContext? context) => true;

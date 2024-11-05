@@ -18,12 +18,12 @@ public delegate void ValueChangedEventHandler<T>(object? sender, ValueChangedEve
 /// <param name="value">The new value.</param>
 /// <param name="oldValue">The old value.</param>
 /// <param name="rawInput">The raw input that caused the change.</param>
-/// <param name="senderComponent">The <see cref="DataEntryFormatterComponent{T}"/> that raised the event.</param>
+/// <param name="senderComponent">The <see cref="TypedFormatterComponent{T}"/> that raised the event.</param>
 public class ValueChangedEventArgs<T>(
     T? value, 
     T? oldValue, 
     string rawInput, 
-    DataEntryFormatterComponent<T> senderComponent) : EventArgs
+    TypedFormatterComponent<T> senderComponent) : EventArgs
 {
 
     /// <summary>
@@ -42,7 +42,7 @@ public class ValueChangedEventArgs<T>(
     public string RawInput { get; } = rawInput;
 
     /// <summary>
-    ///  Gets the <see cref="DataEntryFormatterComponent{T}"/> that raised the event.
+    ///  Gets the <see cref="TypedFormatterComponent{T}"/> that raised the event.
     /// </summary>
-    public DataEntryFormatterComponent<T> SenderComponent { get; } = senderComponent;
+    public TypedFormatterComponent<T> SenderComponent { get; } = senderComponent;
 }

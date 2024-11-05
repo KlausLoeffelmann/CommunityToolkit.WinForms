@@ -34,15 +34,15 @@
             CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalFormatter1 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
             _dateFormatterComponent = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent();
             _decimalFormatterComponent = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent();
-            textBox1 = new TextBox();
+            textBox1 = new DerivedTextBox();
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             textBox4 = new TextBox();
-            dataEntryPanel1 = new CommunityToolkit.WinForms.TypedInputExtenders.TypedInputExtenderPanel();
+            typedInputPanel1 = new CommunityToolkit.WinForms.TypedInputExtenders.TypedInputExtenderPanel();
             consoleControl1 = new CommunityToolkit.WinForms.Controls.ConsoleControl();
             ((System.ComponentModel.ISupportInitialize)_dateFormatterComponent).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_decimalFormatterComponent).BeginInit();
-            dataEntryPanel1.SuspendLayout();
+            typedInputPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // _decimalFormatterComponent
@@ -51,16 +51,16 @@
             // 
             // textBox1
             // 
-            dataEntryPanel1.SetErrorColor(textBox1, null);
-            dataEntryPanel1.SetErrorText(textBox1, "");
-            dataEntryPanel1.SetFocusColor(textBox1, null);
-            dataEntryPanel1.SetFormatterComponent(textBox1, _decimalFormatterComponent);
+            typedInputPanel1.SetErrorColor(textBox1, null);
+            typedInputPanel1.SetErrorText(textBox1, "");
+            typedInputPanel1.SetFocusColor(textBox1, null);
+            typedInputPanel1.SetFormatterComponent(textBox1, _decimalFormatterComponent);
             decimalFormatter4.AllowFormular = true;
             decimalFormatter4.CurrencySymbol = "$";
             decimalFormatter4.DecimalPlaces = 2;
             _decimalFormatterComponent.SetFormatterSettings(textBox1, decimalFormatter4);
             textBox1.Location = new Point(24, 26);
-            textBox1.Margin = new Padding(2, 2, 2, 2);
+            textBox1.Margin = new Padding(2);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(549, 27);
             textBox1.TabIndex = 0;
@@ -68,15 +68,15 @@
             // 
             // textBox2
             // 
-            dataEntryPanel1.SetErrorColor(textBox2, null);
-            dataEntryPanel1.SetErrorText(textBox2, "");
-            dataEntryPanel1.SetFocusColor(textBox2, null);
-            dataEntryPanel1.SetFormatterComponent(textBox2, _decimalFormatterComponent);
+            typedInputPanel1.SetErrorColor(textBox2, null);
+            typedInputPanel1.SetErrorText(textBox2, "");
+            typedInputPanel1.SetFocusColor(textBox2, null);
+            typedInputPanel1.SetFormatterComponent(textBox2, _decimalFormatterComponent);
             decimalFormatter3.CurrencySymbol = "$";
             decimalFormatter3.DecimalPlaces = 2;
             _decimalFormatterComponent.SetFormatterSettings(textBox2, decimalFormatter3);
             textBox2.Location = new Point(24, 71);
-            textBox2.Margin = new Padding(2, 2, 2, 2);
+            textBox2.Margin = new Padding(2);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(549, 27);
             textBox2.TabIndex = 1;
@@ -84,15 +84,15 @@
             // 
             // textBox3
             // 
-            dataEntryPanel1.SetErrorColor(textBox3, null);
-            dataEntryPanel1.SetErrorText(textBox3, "");
-            dataEntryPanel1.SetFocusColor(textBox3, null);
-            dataEntryPanel1.SetFormatterComponent(textBox3, _decimalFormatterComponent);
+            typedInputPanel1.SetErrorColor(textBox3, null);
+            typedInputPanel1.SetErrorText(textBox3, "");
+            typedInputPanel1.SetFocusColor(textBox3, null);
+            typedInputPanel1.SetFormatterComponent(textBox3, _decimalFormatterComponent);
             decimalFormatter2.CurrencySymbol = "$";
             decimalFormatter2.DecimalPlaces = 2;
             _decimalFormatterComponent.SetFormatterSettings(textBox3, decimalFormatter2);
             textBox3.Location = new Point(24, 117);
-            textBox3.Margin = new Padding(2, 2, 2, 2);
+            textBox3.Margin = new Padding(2);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(549, 27);
             textBox3.TabIndex = 2;
@@ -100,36 +100,36 @@
             // 
             // textBox4
             // 
-            dataEntryPanel1.SetErrorColor(textBox4, null);
-            dataEntryPanel1.SetErrorText(textBox4, "");
-            dataEntryPanel1.SetFocusColor(textBox4, null);
-            dataEntryPanel1.SetFormatterComponent(textBox4, _decimalFormatterComponent);
+            typedInputPanel1.SetErrorColor(textBox4, null);
+            typedInputPanel1.SetErrorText(textBox4, "");
+            typedInputPanel1.SetFocusColor(textBox4, null);
+            typedInputPanel1.SetFormatterComponent(textBox4, _decimalFormatterComponent);
             decimalFormatter1.CurrencySymbol = "$";
             decimalFormatter1.DecimalPlaces = 2;
             _decimalFormatterComponent.SetFormatterSettings(textBox4, decimalFormatter1);
             textBox4.Location = new Point(24, 162);
-            textBox4.Margin = new Padding(2, 2, 2, 2);
+            textBox4.Margin = new Padding(2);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(549, 27);
             textBox4.TabIndex = 3;
             _decimalFormatterComponent.SetValue(textBox4, new decimal(new int[] { 40, 0, 0, 0 }));
             // 
-            // dataEntryPanel1
+            // typedInputPanel1
             // 
-            dataEntryPanel1.Controls.Add(textBox4);
-            dataEntryPanel1.Controls.Add(textBox3);
-            dataEntryPanel1.Controls.Add(textBox2);
-            dataEntryPanel1.Controls.Add(textBox1);
-            dataEntryPanel1.Location = new Point(8, 8);
-            dataEntryPanel1.Margin = new Padding(2, 2, 2, 2);
-            dataEntryPanel1.Name = "dataEntryPanel1";
-            dataEntryPanel1.Size = new Size(596, 223);
-            dataEntryPanel1.TabIndex = 0;
+            typedInputPanel1.Controls.Add(textBox4);
+            typedInputPanel1.Controls.Add(textBox3);
+            typedInputPanel1.Controls.Add(textBox2);
+            typedInputPanel1.Controls.Add(textBox1);
+            typedInputPanel1.Location = new Point(8, 8);
+            typedInputPanel1.Margin = new Padding(2);
+            typedInputPanel1.Name = "typedInputPanel1";
+            typedInputPanel1.Size = new Size(596, 223);
+            typedInputPanel1.TabIndex = 0;
             // 
             // consoleControl1
             // 
             consoleControl1.Location = new Point(8, 249);
-            consoleControl1.Margin = new Padding(2, 2, 2, 2);
+            consoleControl1.Margin = new Padding(2);
             consoleControl1.Name = "consoleControl1";
             consoleControl1.Size = new Size(861, 242);
             consoleControl1.TabIndex = 1;
@@ -141,14 +141,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(880, 509);
             Controls.Add(consoleControl1);
-            Controls.Add(dataEntryPanel1);
-            Margin = new Padding(2, 2, 2, 2);
+            Controls.Add(typedInputPanel1);
+            Margin = new Padding(2);
             Name = "FrmMain";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)_dateFormatterComponent).EndInit();
             ((System.ComponentModel.ISupportInitialize)_decimalFormatterComponent).EndInit();
-            dataEntryPanel1.ResumeLayout(false);
-            dataEntryPanel1.PerformLayout();
+            typedInputPanel1.ResumeLayout(false);
+            typedInputPanel1.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -156,8 +156,8 @@
 
         private CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent _dateFormatterComponent;
         private CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent _decimalFormatterComponent;
-        private CommunityToolkit.WinForms.TypedInputExtenders.TypedInputExtenderPanel dataEntryPanel1;
-        private TextBox textBox1;
+        private CommunityToolkit.WinForms.TypedInputExtenders.TypedInputExtenderPanel typedInputPanel1;
+        private DerivedTextBox textBox1;
         private TextBox textBox4;
         private TextBox textBox3;
         private TextBox textBox2;

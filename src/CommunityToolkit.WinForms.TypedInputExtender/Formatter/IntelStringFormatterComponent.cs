@@ -3,7 +3,7 @@
 namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
 public partial class IntelStringFormatterComponent
-    : DataEntryFormatterComponent<string?>
+    : TypedFormatterComponent<string?>
 {
     /// <summary> 
     /// Clean up any resources being used.

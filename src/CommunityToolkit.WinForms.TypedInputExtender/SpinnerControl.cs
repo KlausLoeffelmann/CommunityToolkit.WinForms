@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Text;
 
 namespace CommunityToolkit.WinForms.TypedInputExtenders;
@@ -10,26 +11,22 @@ public class SpinnerControl : Label
     private const string BootFontPath = "Boot\\Fonts_EX";
     private const string FontFileName = "segoe_slboot_EX.ttf";
 
-    // Just to know, how this works: This...
-    private char[] _simpleCharArray = CharSequence(65..96);
-    // ...would produce the following string:
-    // "ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-
-    // Well - there is a special Font in the Windows Folder, that - if we
+    // There is a special Font in the Windows Folder, that - if we
     // use a certain range of characters - will be doing something really cool!
-    // Keep that in mind, when you're trying this!
-    private char[] _charParts = CharSequence(0xE052..0xE0CB);
+    // You've seen it before - lots of times!
+    private static readonly char[] s_charParts = CharSequence(0xE052..0xE0CB);
+    private static readonly string s_pausingCharPart = $"{s_charParts[24]}";
 
-    private PrivateFontCollection _fontCollection;
+    private static PrivateFontCollection s_fontCollection = new();
+
     private bool _isSpinning;
     private CancellationTokenSource? _cancellationTokenSource;
+    private TaskCompletionSource _initializedCompletion = new();
 
     public SpinnerControl()
     {
         DoubleBuffered = true;
-        _fontCollection = new PrivateFontCollection();
         _isSpinning = false;
-        Text = "X";
 
         LoadBootFontFromBootFolder();
     }
@@ -38,25 +35,21 @@ public class SpinnerControl : Label
     // our new WinForms API: Control.InvokeAsync
     public async Task SpinAsync(CancellationToken cancellationToken)
     {
-        var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(20));
-
         try
         {
+            await _initializedCompletion.Task;
             int partCount = 0;
 
-            while (await timer.WaitForNextTickAsync(cancellationToken))
+            for (; ; )
             {
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
                 // New in .NET 9: Control.InvokeAsync
-                await InvokeAsync(
-                    callback: async () => await DrawSpinnerPartAsync(
-                        partCount: partCount++,
-                        cancellationToken: cancellationToken),
-                    cancellationToken: cancellationToken);
+                await InvokeAsync(() => Text = $"{s_charParts[partCount++]}");
+                await Task.Delay(20, cancellationToken);
 
-                partCount %= _charParts.Length;
+                partCount %= s_charParts.Length;
             }
         }
         catch (OperationCanceledException)
@@ -64,21 +57,7 @@ public class SpinnerControl : Label
         }
         finally
         {
-            timer?.Dispose();
-            Text = string.Empty;
-        }
-    }
-
-    private async ValueTask DrawSpinnerPartAsync(int partCount, CancellationToken cancellationToken)
-    {
-        Text = _charParts[partCount].ToString();
-
-        try
-        {
-            await Task.Delay(60, cancellationToken);
-        }
-        catch (OperationCanceledException)
-        {
+            Text = s_pausingCharPart;
         }
     }
 
@@ -90,11 +69,11 @@ public class SpinnerControl : Label
             .Select(i => (char)i)
             .ToArray();
 
-    private void LoadBootFontFromBootFolder()
+    private static void LoadBootFontFromBootFolder()
     {
         string windowsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
         string bootFolderPath = Path.Combine(windowsFolderPath, BootFontPath);
-        _fontCollection.AddFontFile(Path.Combine(bootFolderPath, FontFileName));
+        s_fontCollection.AddFontFile(Path.Combine(bootFolderPath, FontFileName));
     }
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -124,27 +103,40 @@ public class SpinnerControl : Label
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
             _cancellationTokenSource = null;
-            Text = " ";
+            Text = s_pausingCharPart;
 
             return;
         }
 
-        _cancellationTokenSource = new CancellationTokenSource();
+        _cancellationTokenSource = new();
         await SpinAsync(_cancellationTokenSource.Token);
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Bindable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [AllowNull]
+    public override string Text
+    {
+        get => base.Text;
+        set => base.Text = value;
     }
 
     protected override void OnCreateControl()
     {
         base.OnCreateControl();
-        Text = " ";
 
-        if (IsAncestorSiteInDesignMode)
-        {
-            return;
-        }
-
-        Font = new Font(_fontCollection.Families[0], Font.Size + 2);
+        Font = new Font(s_fontCollection.Families[0], Font.Size + 2);
         ForeColor = SystemColors.ControlText;
+        Text = s_pausingCharPart;
+        AutoSize = true;
+    }
+
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        _initializedCompletion.SetResult();
     }
 
     protected override void Dispose(bool disposing)
@@ -152,5 +144,4 @@ public class SpinnerControl : Label
         IsSpinning = false;
         base.Dispose(disposing);
     }
-
 }

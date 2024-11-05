@@ -3,7 +3,7 @@
 namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
 public partial class IntelDateFormatterComponent
-    : DataEntryFormatterComponent<DateTime>
+    : TypedFormatterComponent<DateTime>
 {
     /// <summary> 
     /// Clean up any resources being used.

@@ -1,6 +1,6 @@
 ﻿namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
-public partial class DateFormatterComponent : DataEntryFormatterComponent<DateTime>
+public partial class DateFormatterComponent : TypedFormatterComponent<DateTime>
 {
     /// <summary> 
     /// Clean up any resources being used.

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
@@ -9,7 +10,7 @@ namespace CommunityToolkit.WinForms.TypedInputExtenders;
 /// <typeparam name="T">The type of the value being formatted and converted.</typeparam>
 [ProvideProperty("FormatterSettings", typeof(TextBox))]
 [ProvideProperty("Value", typeof(TextBox))]
-public abstract partial class DataEntryFormatterComponent<T> :
+public abstract partial class TypedFormatterComponent<T> :
     BindableComponent, IExtenderProvider, ITypedFormatterComponent
 {
     /// <summary>
@@ -27,19 +28,22 @@ public abstract partial class DataEntryFormatterComponent<T> :
     /// </summary>
     public event ValueChangedEventHandler<T>? ValueChanged;
 
+    public event EventHandler<ValueConvertEventArgs>? ValueConverting;
+    public event EventHandler<ValueConvertEventArgs>? ValueConverted;
+
     private readonly Dictionary<Control, ITypedFormatter<T>> _propertyStorage = [];
     private readonly Dictionary<Control, T?> _valueStorage = [];
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataEntryFormatterComponent{T}"/> class.
+    /// Initializes a new instance of the <see cref="TypedFormatterComponent{T}"/> class.
     /// </summary>
-    public DataEntryFormatterComponent() { }
+    public TypedFormatterComponent() { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataEntryFormatterComponent{T}"/> class with the specified container.
+    /// Initializes a new instance of the <see cref="TypedFormatterComponent{T}"/> class with the specified container.
     /// </summary>
     /// <param name="container">The container to add the component to.</param>
-    public DataEntryFormatterComponent(IContainer container)
+    public TypedFormatterComponent(IContainer container)
         => container.Add(this);
 
     bool IExtenderProvider.CanExtend(object extendee)
@@ -182,12 +186,13 @@ public abstract partial class DataEntryFormatterComponent<T> :
     public async Task<bool> TryConvertToValueAsync(TextBox textBox, string? stringValue)
     {
         T? valueTemp;
+        ValueConvertEventArgs valueConvertEventArgs = new(textBox);
 
         try
         {
-            ITypedFormatter<T>? temp = GetFormatterSettings(textBox);
 
-            textBox.Enabled = false;
+            OnValueConverting(valueConvertEventArgs);
+            ITypedFormatter<T>? temp = GetFormatterSettings(textBox);
 
             valueTemp = temp is null
                 ? default
@@ -199,12 +204,59 @@ public abstract partial class DataEntryFormatterComponent<T> :
         }
         finally
         {
-            textBox.Enabled = true;
+            OnValueConverted(valueConvertEventArgs);
         }
 
         SetValue(textBox, valueTemp);
 
         return true;
+    }
+
+    protected virtual async void OnValueConverting(ValueConvertEventArgs eArgs)
+    {
+        ValueConverting?.Invoke(this, eArgs);
+
+        if (eArgs.TextBox.ReadOnly)
+        {
+            eArgs.PreventChangesWhileBusy = false;
+        }
+
+        if (eArgs.PreventChangesWhileBusy)
+        {
+            eArgs.TextBox.ReadOnly = true;
+        }
+
+        if (eArgs.IndicateBusy && eArgs.TextBox.Parent is ScrollableControl parent)
+        {
+            // We are putting a SpinnerControl at the end of the TextBox to indicate that the conversion is in progress.
+            parent.SuspendLayout();
+            eArgs.Spinner = new SpinnerControl();
+            parent.Controls.Add(eArgs.Spinner);
+            eArgs.Spinner.Top = eArgs.TextBox.Top + (eArgs.TextBox.Height - eArgs.Spinner.Height) / 2;
+            eArgs.Spinner.Left = eArgs.TextBox.Right - eArgs.Spinner.Width;
+            eArgs.Spinner.BringToFront();
+            eArgs.CancellationTokenSource = new CancellationTokenSource();
+            eArgs.SpinnerTask = eArgs.Spinner.SpinAsync(eArgs.CancellationTokenSource.Token);
+            parent.ResumeLayout();
+        }
+    }
+
+    protected virtual async void OnValueConverted(ValueConvertEventArgs eArgs)
+    {
+        if (eArgs.PreventChangesWhileBusy)
+        {
+            eArgs.TextBox.ReadOnly = false;
+        }
+
+        if (eArgs.IndicateBusy)
+        {
+            eArgs.CancellationTokenSource!.Cancel();
+            await eArgs.SpinnerTask!;
+            eArgs.TextBox.Parent?.Controls.Remove(eArgs.Spinner);
+            eArgs.Spinner!.Dispose();
+        }
+
+        ValueConverted?.Invoke(this, eArgs);
     }
 
     /// <summary>

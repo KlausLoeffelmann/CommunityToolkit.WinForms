@@ -1,6 +1,6 @@
 ﻿namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
-public partial class DecimalFormatterComponent : DataEntryFormatterComponent<Decimal?>
+public partial class DecimalFormatterComponent : TypedFormatterComponent<Decimal?>
 {
     public override decimal? GetValue(Control dataEntry)
     {

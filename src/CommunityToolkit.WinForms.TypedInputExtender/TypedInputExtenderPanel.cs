@@ -158,7 +158,7 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
         properties.HasFocus = true;
         textBox.Text = properties.EditedValue;
 
-        HandleFocusEmphasizing(textBox, properties, !properties.HasError);
+        HandleFocusHighlight(textBox, properties, !properties.HasError);
 
         switch (properties.FocusSelectionBehavior)
         {
@@ -176,7 +176,7 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
         }
     }
 
-    private void HandleFocusEmphasizing(TextBox textBox, TypedInputExtenderProperties properties, bool savePreviousColorState)
+    private static void HandleFocusHighlight(TextBox textBox, TypedInputExtenderProperties properties, bool savePreviousColorState)
     {
         if (savePreviousColorState)
         {
@@ -216,16 +216,13 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
 
         if (properties.FormatterComponent is ITypedFormatterComponent dataEntryFormatter)
         {
-            textBox.Enabled = false;
             try
             {
                 if (await TryCommitInputAsync(properties, textBox))
                 {
                     try
                     {
-                        textBox.Enabled = false;
                         textBox.Text = await dataEntryFormatter.ConvertToDisplayAsync(textBox);
-                        textBox.Enabled = true;
                     }
                     finally
                     {
@@ -245,8 +242,7 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
             }
             finally
             {
-                HandleFocusEmphasizing(textBox, properties, properties.HasFocus);
-                textBox.Enabled = true;
+                HandleFocusHighlight(textBox, properties, properties.HasFocus);
             }
         }
     }
