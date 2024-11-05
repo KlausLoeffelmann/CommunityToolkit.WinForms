@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTamer.ViewModels", "Tas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTamer9.WinForms", "TaskTamer.WinForms\TaskTamer9.WinForms.csproj", "{2F0309E2-FA57-5EB8-5602-A0953CB41493}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.AI", "..\..\..\src\CommunityToolkit.WinForms.AI\CommunityToolkit.WinForms.AI.csproj", "{6470421C-27C2-4F1E-AF98-718F8CAE849E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{2F0309E2-FA57-5EB8-5602-A0953CB41493}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F0309E2-FA57-5EB8-5602-A0953CB41493}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F0309E2-FA57-5EB8-5602-A0953CB41493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6470421C-27C2-4F1E-AF98-718F8CAE849E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6470421C-27C2-4F1E-AF98-718F8CAE849E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6470421C-27C2-4F1E-AF98-718F8CAE849E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6470421C-27C2-4F1E-AF98-718F8CAE849E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +104,7 @@ Global
 		{A8FB6861-3202-D81D-0728-3CF0368B620C} = {6CED1DF5-743C-47FC-B914-F8F901841B1D}
 		{C54739E5-7491-7BEE-2584-29E88F4F5545} = {6CED1DF5-743C-47FC-B914-F8F901841B1D}
 		{2F0309E2-FA57-5EB8-5602-A0953CB41493} = {4149F270-B10F-42DD-B47B-D7D51D5B8DBE}
+		{6470421C-27C2-4F1E-AF98-718F8CAE849E} = {390790CD-3C28-4DCB-875F-122C919A31D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42C79E63-FF99-45A0-95C6-4139A4F2B40C}
