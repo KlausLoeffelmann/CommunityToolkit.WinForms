@@ -38,6 +38,8 @@ namespace TaskTamer.WinForms
             _lblSelectedTasksProjectInfo = new ToolStripStatusLabel();
             _selectedTaskVmSource = new BindingSource(components);
             _mainVmSource = new BindingSource(components);
+            _tslSystemNotes = new ToolStripStatusLabel();
+            _tslLastEdited = new ToolStripStatusLabel();
             _lblCurrentUser = new ToolStripStatusLabel();
             _lblDateTime = new ToolStripStatusLabel();
             _mainMenuStrip = new MenuStrip();
@@ -88,8 +90,6 @@ namespace TaskTamer.WinForms
             _txtNewTask = new TextBox();
             _btnNewTask = new Button();
             _currentTimeProvider = new DemoToolkit.Mvvm.WinForms.Components.PeriodicTimerComponent();
-            _tslSystemNotes = new ToolStripStatusLabel();
-            _tslLastEdited = new ToolStripStatusLabel();
             _statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_selectedTaskVmSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_mainVmSource).BeginInit();
@@ -123,6 +123,7 @@ namespace TaskTamer.WinForms
             // _lblSortOrder
             // 
             _lblSortOrder.BackColor = Color.DeepSkyBlue;
+            _lblSortOrder.DataBindings.Add(new Binding("Text", _mainVmSource, "SortOrder", true));
             _lblSortOrder.Name = "_lblSortOrder";
             _lblSortOrder.Size = new Size(98, 31);
             _lblSortOrder.Text = "#SortOrder#";
@@ -144,8 +145,24 @@ namespace TaskTamer.WinForms
             // 
             _mainVmSource.DataSource = typeof(ViewModels.MainViewModel);
             // 
+            // _tslSystemNotes
+            // 
+            _tslSystemNotes.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "SystemLog", true));
+            _tslSystemNotes.Name = "_tslSystemNotes";
+            _tslSystemNotes.Size = new Size(736, 31);
+            _tslSystemNotes.Spring = true;
+            _tslSystemNotes.Text = "#SystemNotes#";
+            // 
+            // _tslLastEdited
+            // 
+            _tslLastEdited.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "DateCreated", true));
+            _tslLastEdited.Name = "_tslLastEdited";
+            _tslLastEdited.Size = new Size(99, 31);
+            _tslLastEdited.Text = "#LastEdited#";
+            // 
             // _lblCurrentUser
             // 
+            _lblCurrentUser.DataBindings.Add(new Binding("Text", _mainVmSource, "CurrentUser", true));
             _lblCurrentUser.Name = "_lblCurrentUser";
             _lblCurrentUser.Size = new Size(60, 31);
             _lblCurrentUser.Text = "#User#";
@@ -595,19 +612,6 @@ namespace TaskTamer.WinForms
             _currentTimeProvider.DataBindings.Add(new Binding("IsRunning", _mainVmSource, "IsTimerRunning", true));
             _currentTimeProvider.IntervalMs = 200;
             _currentTimeProvider.IsRunning = false;
-            // 
-            // _tslSystemNotes
-            // 
-            _tslSystemNotes.Name = "_tslSystemNotes";
-            _tslSystemNotes.Size = new Size(736, 31);
-            _tslSystemNotes.Spring = true;
-            _tslSystemNotes.Text = "#SystemNotes#";
-            // 
-            // _tslLastEdited
-            // 
-            _tslLastEdited.Name = "_tslLastEdited";
-            _tslLastEdited.Size = new Size(99, 31);
-            _tslLastEdited.Text = "#LastEdited#";
             // 
             // FrmMain
             // 
