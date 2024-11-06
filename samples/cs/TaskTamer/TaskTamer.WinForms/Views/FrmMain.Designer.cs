@@ -62,18 +62,6 @@ namespace TaskTamer.WinForms
             _tsmAsyncFormExperiments = new ToolStripMenuItem();
             _tsmToolsOptions = new ToolStripMenuItem();
             _semanticKernelComponent = new DemoToolkit.Mvvm.WinForms.AI.SemanticKernelBaseComponent();
-            taskIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            projectDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            categoryDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            explanationDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            notesDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            ownerDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            startDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            dueDateDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            priorityDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            percentDoneDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            statusDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            externalReferenceDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             _tasksGridView = new GridView();
             _tlpTodoItemDetails = new TableLayoutPanel();
             panel2 = new Panel();
@@ -310,90 +298,6 @@ namespace TaskTamer.WinForms
             // 
             _semanticKernelComponent.AssistantInstructions = "";
             // 
-            // taskIdDataGridViewTextBoxColumn
-            // 
-            taskIdDataGridViewTextBoxColumn.DataPropertyName = "TaskId";
-            taskIdDataGridViewTextBoxColumn.HeaderText = "TaskId";
-            taskIdDataGridViewTextBoxColumn.Name = "taskIdDataGridViewTextBoxColumn";
-            taskIdDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // projectDataGridViewTextBoxColumn
-            // 
-            projectDataGridViewTextBoxColumn.DataPropertyName = "Project";
-            projectDataGridViewTextBoxColumn.HeaderText = "Project";
-            projectDataGridViewTextBoxColumn.Name = "projectDataGridViewTextBoxColumn";
-            projectDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // categoryDataGridViewTextBoxColumn
-            // 
-            categoryDataGridViewTextBoxColumn.DataPropertyName = "Category";
-            categoryDataGridViewTextBoxColumn.HeaderText = "Category";
-            categoryDataGridViewTextBoxColumn.Name = "categoryDataGridViewTextBoxColumn";
-            categoryDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // explanationDataGridViewTextBoxColumn
-            // 
-            explanationDataGridViewTextBoxColumn.DataPropertyName = "Explanation";
-            explanationDataGridViewTextBoxColumn.HeaderText = "Explanation";
-            explanationDataGridViewTextBoxColumn.Name = "explanationDataGridViewTextBoxColumn";
-            explanationDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // notesDataGridViewTextBoxColumn
-            // 
-            notesDataGridViewTextBoxColumn.DataPropertyName = "Notes";
-            notesDataGridViewTextBoxColumn.HeaderText = "Notes";
-            notesDataGridViewTextBoxColumn.Name = "notesDataGridViewTextBoxColumn";
-            notesDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // ownerDataGridViewTextBoxColumn
-            // 
-            ownerDataGridViewTextBoxColumn.DataPropertyName = "Owner";
-            ownerDataGridViewTextBoxColumn.HeaderText = "Owner";
-            ownerDataGridViewTextBoxColumn.Name = "ownerDataGridViewTextBoxColumn";
-            ownerDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // startDateDataGridViewTextBoxColumn
-            // 
-            startDateDataGridViewTextBoxColumn.DataPropertyName = "StartDate";
-            startDateDataGridViewTextBoxColumn.HeaderText = "StartDate";
-            startDateDataGridViewTextBoxColumn.Name = "startDateDataGridViewTextBoxColumn";
-            startDateDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // dueDateDataGridViewTextBoxColumn
-            // 
-            dueDateDataGridViewTextBoxColumn.DataPropertyName = "DueDate";
-            dueDateDataGridViewTextBoxColumn.HeaderText = "DueDate";
-            dueDateDataGridViewTextBoxColumn.Name = "dueDateDataGridViewTextBoxColumn";
-            dueDateDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // priorityDataGridViewTextBoxColumn
-            // 
-            priorityDataGridViewTextBoxColumn.DataPropertyName = "Priority";
-            priorityDataGridViewTextBoxColumn.HeaderText = "Priority";
-            priorityDataGridViewTextBoxColumn.Name = "priorityDataGridViewTextBoxColumn";
-            priorityDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // percentDoneDataGridViewTextBoxColumn
-            // 
-            percentDoneDataGridViewTextBoxColumn.DataPropertyName = "PercentDone";
-            percentDoneDataGridViewTextBoxColumn.HeaderText = "PercentDone";
-            percentDoneDataGridViewTextBoxColumn.Name = "percentDoneDataGridViewTextBoxColumn";
-            percentDoneDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // statusDataGridViewTextBoxColumn
-            // 
-            statusDataGridViewTextBoxColumn.DataPropertyName = "Status";
-            statusDataGridViewTextBoxColumn.HeaderText = "Status";
-            statusDataGridViewTextBoxColumn.Name = "statusDataGridViewTextBoxColumn";
-            statusDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // externalReferenceDataGridViewTextBoxColumn
-            // 
-            externalReferenceDataGridViewTextBoxColumn.DataPropertyName = "ExternalReference";
-            externalReferenceDataGridViewTextBoxColumn.HeaderText = "ExternalReference";
-            externalReferenceDataGridViewTextBoxColumn.Name = "externalReferenceDataGridViewTextBoxColumn";
-            externalReferenceDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
             // _tasksGridView
             // 
             _tasksGridView.AllowUserToAddRows = false;
@@ -611,7 +515,7 @@ namespace TaskTamer.WinForms
             // 
             _txtTodoItemText.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             _tlpTodoItemDetails.SetColumnSpan(_txtTodoItemText, 2);
-            _txtTodoItemText.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Explanation", true));
+            _txtTodoItemText.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Description", true));
             _txtTodoItemText.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             _txtTodoItemText.Location = new Point(10, 10);
             _txtTodoItemText.Margin = new Padding(10);
@@ -775,18 +679,6 @@ namespace TaskTamer.WinForms
         private ToolStripSeparator toolStripSeparator1;
         private BindingSource _mainVmSource;
         private BindingSource _selectedTaskVmSource;
-        private DataGridViewTextBoxColumn taskIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn projectDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn categoryDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn explanationDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn notesDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn ownerDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn startDateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn dueDateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn priorityDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn percentDoneDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn statusDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn externalReferenceDataGridViewTextBoxColumn;
         private GridView _tasksGridView;
         private TableLayoutPanel _tlpTodoItemDetails;
         private Panel panel2;

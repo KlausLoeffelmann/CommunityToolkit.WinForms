@@ -6,6 +6,11 @@ public partial class TaskItem
 {
     public static void EnsureSampleTasksData(TaskTamerContext context, User user)
     {
+        if (context.TaskItems.FirstOrDefault() is not null)
+        {
+            return;
+        }
+
         (string Name, string Description, int categoryIndex, int projectIndex)[] sampleTasks = GenerateTasks();
 
         Project[] projects = [.. context.Projects];
@@ -15,59 +20,49 @@ public partial class TaskItem
 
         foreach ((string Name, string Description, int categoryIndex, int projectIndex) taskText in sampleTasks)
         {
-            // Check if sample tasks have been created
-            if (context.TaskItems.FirstOrDefault(
-                task => task.Description == taskText.Name) is TaskItem task)
+            DateTimeOffset now = DateTimeOffset.Now;
+            DateTimeOffset? dueDate = null;
+            DateTimeOffset? startDate = null;
+            int priority = random.Next(0, 4);
+
+            // No high-priorities for the sample data.
+            if (priority == 1)
             {
-                // Implement the logic to update the due dates of the tasks in the database
-                task.DueDate = CalculateNewDueDate(task.DueDate ?? DateTimeOffset.Now);
+                priority = 2;
             }
-            else
+
+            // Only some task have a due date, some just do not.
+            // And we can certainly have due-dates in the past!
+            if (random.Next(0, 30) < 10)
             {
-                DateTimeOffset now = DateTimeOffset.Now;
-                DateTimeOffset? dueDate = null;
-                DateTimeOffset? startDate = null;
-                int priority = random.Next(0, 4);
-
-                // No high-priorities for the sample data.
-                if (priority == 1)
-                {
-                    priority = 2;
-                }
-
-                // Only some task have a due date, some just do not.
-                // And we can certainly have due-dates in the past!
-                if (random.Next(0, 30) < 10)
-                {
-                    dueDate = now.AddDays(random.Next(15, 30)).AddHours(random.Next(24));
-                }
-
-                if (random.Next(0, 30) < 10)
-                {
-                    // If we have a due date, then the start date should be smaller than the due date:
-                    startDate = now.AddDays(-random.Next(1, 15)).AddHours(random.Next(24));
-                }
-
-                // Make sure that dateCreated and dateModified are plausible to dueDate and startDate:
-                DateTimeOffset dateCreated = startDate ?? now.AddDays(-random.Next(30, 90)).AddHours(random.Next(24));
-                DateTimeOffset dateModified = dateCreated.AddDays(random.Next(5, 25)).AddHours(random.Next(24));
-
-                // Create new sample tasks
-                task = new()
-                {
-                    Description = taskText.Name,
-                    StartDate = startDate,
-                    DueDate = dueDate,
-                    DateCreated = dateCreated,
-                    DateModified = dateModified,
-                    Status = TaskItemStatus.NotStarted,
-                    Notes = taskText.Description,
-                    Owner = user,
-                    Category = categories[random.Next(categories.Length)],
-                    Project = projects[random.Next(projects.Length)]
-                };
-                context.TaskItems.Add(task);
+                dueDate = now.AddDays(random.Next(15, 30)).AddHours(random.Next(24));
             }
+
+            if (random.Next(0, 30) < 10)
+            {
+                // If we have a due date, then the start date should be smaller than the due date:
+                startDate = now.AddDays(-random.Next(1, 15)).AddHours(random.Next(24));
+            }
+
+            // Make sure that dateCreated and dateModified are plausible to dueDate and startDate:
+            DateTimeOffset dateCreated = startDate ?? now.AddDays(-random.Next(30, 90)).AddHours(random.Next(24));
+            DateTimeOffset dateModified = dateCreated.AddDays(random.Next(5, 25)).AddHours(random.Next(24));
+
+            // Create new sample tasks
+            TaskItem task = new()
+            {
+                Description = taskText.Name,
+                StartDate = startDate,
+                DueDate = dueDate,
+                DateCreated = dateCreated,
+                DateModified = dateModified,
+                Status = TaskItemStatus.NotStarted,
+                Notes = taskText.Description,
+                Owner = user,
+                Priority = priority,
+                Category = categories[random.Next(categories.Length)],
+                Project = projects[random.Next(projects.Length)]
+            };
 
             context.TaskItems.Add(task);
         }
