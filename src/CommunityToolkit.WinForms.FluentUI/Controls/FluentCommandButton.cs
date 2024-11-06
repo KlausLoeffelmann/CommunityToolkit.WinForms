@@ -1,4 +1,4 @@
-﻿namespace CommunityToolbox.WinForms.Mvvm.Controls;
+﻿namespace CommunityToolkit.WinForms.FluentUI;
 
 public class FluentCommandButton : Button
 {

@@ -11,7 +11,6 @@ public class WinFormsHost : IHost
 {
     private bool disposedValue;
     private readonly IHost _innerHost;
-    private readonly SystemColorMode _colorMode;
 
     private static IHost? s_host;
 
@@ -21,11 +20,9 @@ public class WinFormsHost : IHost
     /// <param name="host">The inner host.</param>
     /// <param name="colorMode">The system color mode.</param>
     private WinFormsHost(
-        IHost host,
-        SystemColorMode colorMode)
+        IHost host)
     {
         _innerHost = host;
-        _colorMode = colorMode;
     }
 
     /// <summary>
@@ -40,8 +37,7 @@ public class WinFormsHost : IHost
     /// <param name="colorMode">The system color mode. Default is <see cref="SystemColorMode.Classic"/>.</param>
     /// <returns>The initialized <see cref="WinFormsHost"/>.</returns>
     public static WinFormsHost Initialize(
-        Type startFormType,
-        SystemColorMode colorMode = SystemColorMode.Classic)
+        Type startFormType)
     {
         if (s_host is not null)
         {
@@ -61,7 +57,7 @@ public class WinFormsHost : IHost
         var host = builder.Build();
         Application.ApplicationExit += (sender, args) => host.Dispose();
 
-        s_host = new WinFormsHost(host, colorMode);
+        s_host = new WinFormsHost(host);
         return (WinFormsHost)s_host;
     }
 
@@ -72,8 +68,6 @@ public class WinFormsHost : IHost
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public Task StartAsync(CancellationToken cancellationToken = default)
     {
-        Application.SetColorMode(_colorMode);
-
         var form = Services.GetRequiredService<Form>();
         Application.Run(form);
 

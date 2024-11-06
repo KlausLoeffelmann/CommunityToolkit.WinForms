@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="GridView\" />
+    <ProjectReference Include="..\CommunityToolkit.WinForms.FluentUI\CommunityToolkit.WinForms.FluentUI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

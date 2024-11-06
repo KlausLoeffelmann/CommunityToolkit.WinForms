@@ -189,7 +189,7 @@ public partial class SemanticKernelComponent : BindableComponent
             {
                 string rawValue = returnValueElement.GetString()!;
 
-                T? parsedValue = (T?) await Formatter.TryGetValueAsync(rawValue);
+                T? parsedValue = (T?) await Formatter.TryGetValueAsync(rawValue, CancellationToken.None);
 
                 return new ResponseValueResult<T>("OK", parsedValue);
             }

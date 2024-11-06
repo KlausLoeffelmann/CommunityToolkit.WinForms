@@ -16,14 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinFormsSkPlayGround", "Win
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ControlsAndComponents", "ControlsAndComponents", "{F313AA26-114E-4FEF-94E9-5326DC4914AD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TimeTamerData", "TimeTamerData", "{DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTamer.Generic", "..\Time Tamer\TimeTamer.Generic\TaskTamer.Generic.csproj", "{F8095919-4F9B-4B2C-8E65-FC05979C942C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTamer.DataLayer", "..\Time Tamer\TimeTamer.DataLayer\TaskTamer.DataLayer.csproj", "{D0C27C81-4AAB-4547-89F8-6B7EC7D32DD0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskTamer.ViewModels", "..\Time Tamer\TimeTamer.ViewModels\TaskTamer.ViewModels.csproj", "{F00DC783-EC48-49DF-B2D9-5CE65C72A176}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.Mvvm", "..\..\..\src\CommunityToolkit.WinForms.Mvvm\CommunityToolkit.WinForms.Mvvm.csproj", "{74DEDD1F-D2E5-4B67-924B-C91E04E34524}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.Extensions.FormAndControlExtensions", "..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj", "{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA}"
@@ -35,6 +27,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.DesktopGeneric.Mvvm", "..\..\..\src\CommunityToolkit.DesktopGeneric.Mvvm\CommunityToolkit.DesktopGeneric.Mvvm.csproj", "{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.FluentUI", "..\..\..\src\CommunityToolkit.WinForms.FluentUI\CommunityToolkit.WinForms.FluentUI.csproj", "{08410277-C1DA-4C6E-8371-4A687E0DEAB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunityToolkit.WinForms.AI", "..\..\..\src\CommunityToolkit.WinForms.AI\CommunityToolkit.WinForms.AI.csproj", "{1BB342A5-2A9D-4E4A-9CA3-F6EBE28116E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,18 +44,6 @@ Global
 		{75A3D9A0-A231-43FC-B343-5DC93FAB8E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75A3D9A0-A231-43FC-B343-5DC93FAB8E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75A3D9A0-A231-43FC-B343-5DC93FAB8E5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8095919-4F9B-4B2C-8E65-FC05979C942C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8095919-4F9B-4B2C-8E65-FC05979C942C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8095919-4F9B-4B2C-8E65-FC05979C942C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8095919-4F9B-4B2C-8E65-FC05979C942C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D0C27C81-4AAB-4547-89F8-6B7EC7D32DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D0C27C81-4AAB-4547-89F8-6B7EC7D32DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D0C27C81-4AAB-4547-89F8-6B7EC7D32DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D0C27C81-4AAB-4547-89F8-6B7EC7D32DD0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F00DC783-EC48-49DF-B2D9-5CE65C72A176}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F00DC783-EC48-49DF-B2D9-5CE65C72A176}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F00DC783-EC48-49DF-B2D9-5CE65C72A176}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F00DC783-EC48-49DF-B2D9-5CE65C72A176}.Release|Any CPU.Build.0 = Release|Any CPU
 		{74DEDD1F-D2E5-4B67-924B-C91E04E34524}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74DEDD1F-D2E5-4B67-924B-C91E04E34524}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74DEDD1F-D2E5-4B67-924B-C91E04E34524}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -86,19 +68,22 @@ Global
 		{08410277-C1DA-4C6E-8371-4A687E0DEAB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08410277-C1DA-4C6E-8371-4A687E0DEAB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08410277-C1DA-4C6E-8371-4A687E0DEAB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BB342A5-2A9D-4E4A-9CA3-F6EBE28116E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB342A5-2A9D-4E4A-9CA3-F6EBE28116E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB342A5-2A9D-4E4A-9CA3-F6EBE28116E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB342A5-2A9D-4E4A-9CA3-F6EBE28116E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{F8095919-4F9B-4B2C-8E65-FC05979C942C} = {DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}
-		{D0C27C81-4AAB-4547-89F8-6B7EC7D32DD0} = {DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}
-		{F00DC783-EC48-49DF-B2D9-5CE65C72A176} = {DBEAB94B-35C7-465C-9FEC-BB79A57B18EE}
 		{74DEDD1F-D2E5-4B67-924B-C91E04E34524} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{A0C98445-F1D2-48BC-B5D9-92B71C3A83CA} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{73F0E6D3-7AE1-4DB7-B8FF-572DF8CB5289} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{F51D4805-BFD7-4868-B0D0-3980AAA36DA3} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 		{87C01ACA-6505-4CEB-A7AC-CC8EF5FA2C76} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
+		{08410277-C1DA-4C6E-8371-4A687E0DEAB3} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
+		{1BB342A5-2A9D-4E4A-9CA3-F6EBE28116E4} = {F313AA26-114E-4FEF-94E9-5326DC4914AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DDAC88CF-BFAB-40D6-A461-0609CA7E6B3D}

@@ -15,7 +15,7 @@ public class SemanticKernelComponent<T> : BindableComponent
     private const string ParameterPromptCulture = "promptCulture";
     private const string ParameterPromptCurrentTime = "promptCurrentTime";
     private const string ParameterPromptValue = "promptValue";
-    private const string ParameterPromptDataType = "promptDataType";
+    private const string ParameterTypeJSonSchema = "promptDataType";
 
     /// <summary>
     ///  Gets or sets a Func that returns the API key to use for the OpenAI API. 
@@ -31,7 +31,7 @@ public class SemanticKernelComponent<T> : BindableComponent
     [DefaultValue("string")]
     [Category("AI")]
     [Description("Gets or sets the .NET type name, the LLM should generate parsable string results for.")]
-    public string? TypeJsonSchema { get; set; } = "string";
+    public string? JsonSchema { get; set; } = null;
 
     [Browsable(false)]
     [DefaultValue(null)]
@@ -53,26 +53,18 @@ public class SemanticKernelComponent<T> : BindableComponent
         string promptContent)
     {
         if (ApiKeyGetter is null)
-        {
             throw new InvalidOperationException("You have tried to request a prompt, but did not provide Func delegate to get the key.");
-        }
 
         if (string.IsNullOrWhiteSpace(GetAssistantInstructions()))
-        {
             throw new InvalidOperationException("You have tried to request a prompt, but did not provide general description, what the Assistant is suppose to do.");
-        }
 
         if (promptContent is null)
-        {
             throw new InvalidOperationException("You have tried to request a prompt, but did not provide one.");
-        }
 
         Initialize();
 
         if (_kernel == null)
-        {
             throw new InvalidOperationException("Semantic Kernel could not been initialized");
-        }
 
         return await GetResponseAsync(promptContent, promptTypeName);
     }
@@ -97,7 +89,7 @@ public class SemanticKernelComponent<T> : BindableComponent
                 [
                     new() { Name = ParameterAssistantInstructions, Description = "The general instructions for the role which the LLM should incorporate.", IsRequired = true },
                     new() { Name = ParameterPromptValue, Description = "The Parameters in the context of the Prompt.", IsRequired = true },
-                    new() { Name = ParameterPromptDataType, Description = "The DataType of the Prompt.", IsRequired = true },
+                    new() { Name = ParameterTypeJSonSchema, Description = "The JSon-Schema of the return type of the prompt.", IsRequired = true },
                     new() { Name = ParameterPromptCulture, Description = "The Culture of the Prompt.", IsRequired = true },
                     new() { Name = ParameterPromptCurrentTime, Description = "The Current Time of the Prompt.", IsRequired = true }
                 ],
@@ -105,20 +97,11 @@ public class SemanticKernelComponent<T> : BindableComponent
                 ExecutionSettings =
                 {
                     {
-                        "gpt-3.5-turbo",
+                        "gpt-4o",
                             new OpenAIPromptExecutionSettings()
                             {
-                                ModelId = "gpt-3.5-turbo",
-                                MaxTokens = 4000,
-                                Temperature = 0.2
-                            }
-                    },
-                    {
-                        "gpt-4-turbo",
-                            new OpenAIPromptExecutionSettings()
-                            {
-                                ModelId = "gpt-4-turbo",
-                                MaxTokens = 4000,
+                                ModelId = "gpt-4o",
+                                MaxTokens = 8000,
                                 Temperature = 0.2,
                                 Seed = 10,
                             }
@@ -132,17 +115,15 @@ public class SemanticKernelComponent<T> : BindableComponent
         string parameterPromptDataType)
     {
         if (_kernel is null || _kernelDataParserFunction is null)
-        {
             throw new InvalidOperationException("The Semantic Kernel has not been initialized.");
-        }
 
-        var completion = await _kernelDataParserFunction.InvokeAsync<ChatMessageContent>(
+        ChatMessageContent? completion = await _kernelDataParserFunction.InvokeAsync<ChatMessageContent>(
             kernel: _kernel,
             arguments: new()
             {
                 { ParameterAssistantInstructions, GetAssistantInstructions() },
                 { ParameterPromptValue, parameterPromptValue },
-                { ParameterPromptDataType, parameterPromptDataType },
+                { ParameterTypeJSonSchema, parameterPromptDataType },
                 { ParameterPromptCulture, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName },
                 { ParameterPromptCurrentTime, DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") }
             });
@@ -166,7 +147,7 @@ public class SemanticKernelComponent<T> : BindableComponent
             {
                 { ParameterAssistantInstructions, GetAssistantInstructions() },
                 { ParameterPromptValue, parameterPromptValue },
-                { ParameterPromptDataType, parameterPromptDataType },
+                { ParameterTypeJSonSchema, parameterPromptDataType },
                 { ParameterPromptCulture, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName },
                 { ParameterPromptCurrentTime, DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") }
             });
@@ -186,6 +167,4 @@ public class SemanticKernelComponent<T> : BindableComponent
     [Browsable(false)]
     public Kernel Kernel => _kernel
         ?? throw new InvalidOperationException($"Kernel is not initialized.");
-
 }
-#pragma warning restore SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

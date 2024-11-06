@@ -11,4 +11,17 @@
     <ProjectReference Include="..\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Controls\FluentCommandButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\SpinnerControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Containers\GridView\GridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Containers\GridView\GridView_ShadowingBaseProperties.cs" />
+  </ItemGroup>
+
 </Project>

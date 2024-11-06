@@ -1,5 +1,7 @@
 ﻿
 
+using CommunityToolkit.WinForms.FluentUI;
+
 namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
 public abstract partial class TypedFormatterComponent<T>

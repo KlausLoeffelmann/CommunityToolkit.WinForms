@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Reflection;
 
-namespace CommunityToolkit.WinForms.GridView;
+namespace CommunityToolkit.WinForms.FluentUI;
 
 public partial class GridViewItemTemplate
 {

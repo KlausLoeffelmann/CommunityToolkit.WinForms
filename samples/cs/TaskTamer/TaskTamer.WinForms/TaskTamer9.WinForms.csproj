@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.AI\CommunityToolkit.WinForms.AI.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FluentUI\CommunityToolkit.WinForms.FluentUI.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
     <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.Mvvm\CommunityToolkit.WinForms.Mvvm.csproj" />

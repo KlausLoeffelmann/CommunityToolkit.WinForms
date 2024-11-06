@@ -1,4 +1,4 @@
-﻿namespace CommunityToolkit.WinForms.GridView;
+﻿namespace CommunityToolkit.WinForms.FluentUI;
 
 internal static class GridViewExtension
 {

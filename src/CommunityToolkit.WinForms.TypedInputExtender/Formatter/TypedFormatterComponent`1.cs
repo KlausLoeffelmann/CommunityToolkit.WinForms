@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.WinForms.FluentUI;
+using System.ComponentModel;
 
 namespace CommunityToolkit.WinForms.TypedInputExtenders;
 

@@ -2,18 +2,22 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Drawing.Text;
 
-namespace CommunityToolkit.WinForms.TypedInputExtenders;
+namespace CommunityToolkit.WinForms.FluentUI;
 
+/// <summary>
+///  A control that displays a spinning animation using a special font.
+/// </summary>
 public class SpinnerControl : Label
 {
+    /// <summary>
+    ///  Occurs when the <see cref="IsSpinning"/> property has changed.
+    /// </summary>
     public event EventHandler? IsSpinningChanged;
 
     private const string BootFontPath = "Boot\\Fonts_EX";
     private const string FontFileName = "segoe_slboot_EX.ttf";
 
-    // There is a special Font in the Windows Folder, that - if we
-    // use a certain range of characters - will be doing something really cool!
-    // You've seen it before - lots of times!
+    // That's the whole magic, folks. It's amazingly simple!
     private static readonly char[] s_charParts = CharSequence(0xE052..0xE0CB);
     private static readonly string s_pausingCharPart = $"{s_charParts[24]}";
 
@@ -23,6 +27,9 @@ public class SpinnerControl : Label
     private CancellationTokenSource? _cancellationTokenSource;
     private TaskCompletionSource _initializedCompletion = new();
 
+    /// <summary>
+    ///  Initializes a new instance of the <see cref="SpinnerControl"/> class.
+    /// </summary>
     public SpinnerControl()
     {
         DoubleBuffered = true;
@@ -31,25 +38,30 @@ public class SpinnerControl : Label
         LoadBootFontFromBootFolder();
     }
 
-    // Using the "new" PeriodicTimer from .NET 6 and
-    // our new WinForms API: Control.InvokeAsync
+    // Starts the spinning animation asynchronously.
     public async Task SpinAsync(CancellationToken cancellationToken)
     {
+        if (IsSpinning)
+            return;
+
+        int partCount;
+
         try
         {
             await _initializedCompletion.Task;
-            int partCount = 0;
+            partCount = 0;
 
             for (; ; )
             {
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
-                // New in .NET 9: Control.InvokeAsync
-                await InvokeAsync(() => Text = $"{s_charParts[partCount++]}");
-                await Task.Delay(20, cancellationToken);
-
-                partCount %= s_charParts.Length;
+                // Now, this call could have come from whatever thread, so we need to
+                // make sure that we're on the UI thread. But we're also won't to be
+                // neither blocking for the invoking, nor do we want to block
+                // "inside" the invoking. So we're using the "InvokeAsync" method
+                // with the overload that takes a "Func<CancellationToken, ValueTask>".
+                await InvokeAsync(DrawSpinnerPartAsync, cancellationToken);
             }
         }
         catch (OperationCanceledException)
@@ -59,23 +71,45 @@ public class SpinnerControl : Label
         {
             Text = s_pausingCharPart;
         }
+
+        // This gets marshalled back to the UI thread...
+        async ValueTask DrawSpinnerPartAsync(CancellationToken cancellationToken)
+        {
+            Text = $"{s_charParts[partCount++]}";
+            partCount %= s_charParts.Length;
+
+            try
+            {
+                // ...but is awaited "inside" of the invoking process.
+                await Task.Delay(15, cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+        }
     }
 
     private static char[] CharSequence(Range range)
         => Enumerable
-            .Range(
-                start: range.Start.Value,
-                count: range.End.Value - range.Start.Value + 1)
-            .Select(i => (char)i)
-            .ToArray();
+        .Range(
+            start: range.Start.Value,
+            count: range.End.Value - range.Start.Value + 1)
+        .Select(i => (char)i)
+        .ToArray();
 
-    private static void LoadBootFontFromBootFolder()
+    /// <summary>
+    ///  Loads the special boot font from the boot folder.
+    /// </summary>
+    private void LoadBootFontFromBootFolder()
     {
         string windowsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
         string bootFolderPath = Path.Combine(windowsFolderPath, BootFontPath);
         s_fontCollection.AddFontFile(Path.Combine(bootFolderPath, FontFileName));
     }
 
+    /// <summary>
+    ///  Gets or sets a value indicating whether the spinner is spinning.
+    /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     [Bindable(true)]
     [Browsable(true)]
@@ -94,6 +128,10 @@ public class SpinnerControl : Label
         }
     }
 
+    /// <summary>
+    ///  Raises the <see cref="IsSpinningChanged"/> event.
+    /// </summary>
+    /// <param name="e">The event data.</param>
     protected async virtual void OnIsSpinningChanged(EventArgs e)
     {
         IsSpinningChanged?.Invoke(this, e);
@@ -108,7 +146,7 @@ public class SpinnerControl : Label
             return;
         }
 
-        _cancellationTokenSource = new();
+        _cancellationTokenSource = new CancellationTokenSource();
         await SpinAsync(_cancellationTokenSource.Token);
     }
 
@@ -132,7 +170,6 @@ public class SpinnerControl : Label
         Text = s_pausingCharPart;
         AutoSize = true;
     }
-
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);

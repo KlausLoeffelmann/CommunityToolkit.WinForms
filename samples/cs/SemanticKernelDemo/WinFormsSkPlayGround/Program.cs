@@ -15,13 +15,14 @@ internal static class Program
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
+        Application.SetColorMode(SystemColorMode.System);
 
         // WinFormsHost is using IHost of Microsoft.Extensions.Hosting and
         // provide DI, so we can easily communicate between different parts of the application.
         // for example between a Blazor component and a WinForms form.
         WinFormsHost = WinFormsHost.Initialize(
-            startFormType: typeof(FrmMain),
-            colorMode: SystemColorMode.System);
+            startFormType: typeof(FrmMain));
+
         WinFormsHost.Start();
     }
 }

@@ -20,11 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="AIControls\SemanticKernelBaseComponent.cs" />
     <Compile Update="Components\PeriodicTimerComponent.cs" />
     <Compile Update="Controls\BindableComboBox.cs" />
-    <Compile Update="Controls\FluentCommandButton.cs" />
-    <Compile Update="Controls\SpinnerControl.cs" />
   </ItemGroup>
 
 </Project>

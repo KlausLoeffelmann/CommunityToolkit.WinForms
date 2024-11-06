@@ -1,7 +1,6 @@
 using CommunityToolkit.WinForms.ComponentModel;
 using CommunityToolkit.WinForms.Extensions;
 using CommunityToolkit.WinForms.FluentUI;
-using TaskTamer.ViewModels;
 using WinFormsSkPlayGround;
 using WinFormsSkPlayGround.Views;
 
@@ -32,9 +31,6 @@ public partial class FrmMain : Form
         Bounds = bounds;
 
         var toolWindowTasks = new Dictionary<Task, ToolStripMenuItem>();
-
-        var mainViewModel = new MainViewModel();
-        DataContext = mainViewModel;
 
         _mainTabControl.AddTab("Main Page", new IntroClockDemo());
         _mainTabControl.AddTab("Simple Async", new SimpleAsyncDemo(this));

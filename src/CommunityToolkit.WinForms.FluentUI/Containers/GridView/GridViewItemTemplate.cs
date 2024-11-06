@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace CommunityToolkit.WinForms.GridView;
+namespace CommunityToolkit.WinForms.FluentUI;
 
 [ToolboxItem(false)] // Prevents the component from showing up in the toolbox
 /// <summary>

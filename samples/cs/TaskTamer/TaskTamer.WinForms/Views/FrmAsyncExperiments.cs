@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
 
-namespace TaskTamer9.WinForms.Views
+namespace TaskTamer9.WinForms.Views;
+
+public partial class FrmAsyncExperiments : Form
 {
-    public partial class FrmAsyncExperiments : Form
+    public FrmAsyncExperiments()
     {
-        public FrmAsyncExperiments()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+    }
+
+    private async void BtnTestSemanticKernel_Click(object sender, EventArgs e)
+    {
+        var test = new TypedInputKernelPlugin();
+        string? result = await test.RunAsync();
+        Debug.Print(result);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CommunityToolbox.WinForms.Mvvm.Controls;
-using CommunityToolkit.WinForms.GridView;
+using CommunityToolkit.WinForms.FluentUI;
 
 namespace TaskTamer.WinForms
 {
@@ -63,7 +63,6 @@ namespace TaskTamer.WinForms
             toolsToolStripMenuItem = new ToolStripMenuItem();
             _tsmAsyncFormExperiments = new ToolStripMenuItem();
             _tsmToolsOptions = new ToolStripMenuItem();
-            _semanticKernelComponent = new DemoToolkit.Mvvm.WinForms.AI.SemanticKernelBaseComponent();
             _tasksGridView = new GridView();
             _tlpTodoItemDetails = new TableLayoutPanel();
             panel2 = new Panel();
@@ -309,10 +308,6 @@ namespace TaskTamer.WinForms
             _tsmToolsOptions.Name = "_tsmToolsOptions";
             _tsmToolsOptions.Size = new Size(305, 30);
             _tsmToolsOptions.Text = "&Options...";
-            // 
-            // _semanticKernelComponent
-            // 
-            _semanticKernelComponent.AssistantInstructions = "";
             // 
             // _tasksGridView
             // 
@@ -697,7 +692,6 @@ namespace TaskTamer.WinForms
         private ToolStripMenuItem _tsmOrderByStatus;
         private ToolStripStatusLabel _tslSortOrder;
         private TaskTamer9.WinForms.Views.TaskViewItem _taskViewItem;
-        private DemoToolkit.Mvvm.WinForms.AI.SemanticKernelBaseComponent _semanticKernelComponent;
         private ToolStripMenuItem toolStripMenuItem4;
         private ToolStripMenuItem toolStripMenuItem5;
         private ToolStripSeparator toolStripSeparator1;

@@ -81,7 +81,7 @@ public partial class FluentTabControl : Panel
         tabPage.Controls.Add(tabContent);
         _tabPages.Add(tabPage);
 
-        var tabItem = new ToolStripMenuItem(tabPageTitle)
+        var tabMenueItem = new ToolStripMenuItem(tabPageTitle)
         {
             CheckOnClick = true,
             AutoSize = true,
@@ -89,15 +89,16 @@ public partial class FluentTabControl : Panel
             Tag = tabPage
         };
 
-        tabItem.Click += TabItem_Clicked;
+        tabMenueItem.Click += TabItem_Clicked;
 
-        _menuStrip.Items.Add(tabItem);
+        _menuStrip.Items.Add(tabMenueItem);
         Controls.Add(tabPage);
 
         // Select the first tab by default if this is the first tab added
         if (_menuStrip.Items.Count == 1)
         {
             CurrentTabIndex = 0;
+            _currentItem = tabMenueItem;
         }
     }
 
