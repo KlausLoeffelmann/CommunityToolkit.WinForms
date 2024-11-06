@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using TaskTamer.DataLayer.Models;
 
@@ -10,21 +11,17 @@ public partial class MainViewModel
     private const string SortOrderLastModified = "LastModified";
     private const string SortOrderStatus = "Status";
 
-    private static string AssignCurrentDateAndTimeInCurrentCulture()
-        => DateTime.Now.ToString("G", CultureInfo.CurrentCulture);
-
     private void InitViewModel()
     {
         TaskTamerContext.EnsureDatabase();
         EnsureSampleData();
-        CurrentDisplayTime = AssignCurrentDateAndTimeInCurrentCulture();
+        UpdateCurrentTime();
         Tasks = GetTasksForCurrentUser(SortOrder ?? SortOrderDueDate);
     }
 
-    private async Task UpdateCurrentTimeAsync()
-    {
-        CurrentDisplayTime = AssignCurrentDateAndTimeInCurrentCulture();
-    }
+    [RelayCommand]
+    private void UpdateCurrentTime() 
+        => CurrentDisplayTime = DateTime.Now.ToString("G", CultureInfo.CurrentCulture);
 
     private void EnsureSampleData()
     {

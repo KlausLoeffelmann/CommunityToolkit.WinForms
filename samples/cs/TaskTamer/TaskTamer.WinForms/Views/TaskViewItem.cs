@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.WinForms.GridView;
-using System.ComponentModel;
 using System.Globalization;
 using TaskTamer.DTOs;
 using TaskTamer.ViewModels;
@@ -10,42 +9,14 @@ namespace TaskTamer9.WinForms.Views;
 public partial class TaskViewItem : GridViewItemTemplate
 {
     private const int FieldPadding = 10;
+    private const int BaseFontSize = 11;
 
-    private Font _taskNameFont = new("Segoe UI", 16, FontStyle.Bold);
-    private Font _taskDescriptionFont = new("Segoe UI", 14, FontStyle.Regular);
-    private Font _taskDetailsFont = new("Segoe UI", 11, FontStyle.Regular);
+    private static Font _taskNameFont = new("Segoe UI", BaseFontSize+5, FontStyle.Bold);
+    private static Font _prioritySymbolFont = new("Segoe UI", BaseFontSize + 7, FontStyle.Bold);
+    private static readonly Font _taskDescriptionFont = new("Segoe UI", BaseFontSize + 3, FontStyle.Regular);
+    private static readonly Font _taskDetailsFont = new("Segoe UI", BaseFontSize, FontStyle.Regular);
 
-    private int _leadingOffset = 60;
-
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Browsable(true)]
-    public Font NameFont
-    {
-        get => _taskNameFont;
-        set
-        {
-            if (_taskNameFont == value)
-                return;
-
-            _taskNameFont = value;
-        }
-    }
-
-    [Bindable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Browsable(true)]
-    public Font DescriptionFont
-    {
-        get => _taskNameFont;
-        set
-        {
-            if (_taskNameFont == value)
-                return;
-
-            _taskNameFont = value;
-        }
-    }
+    private readonly int _leadingOffset = 60;
 
     protected override Size GetPreferredSize(Size restrictedSize)
     {
@@ -77,10 +48,7 @@ public partial class TaskViewItem : GridViewItemTemplate
 
         _ = DrawFieldValue($"Due: {taskView.DueDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, FieldPadding);
         _ = DrawFieldValue($"Start: {taskView.StartDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, 330);
-        _ = DrawFieldValue($"Cat: {taskView.Category}", e.Graphics, clipBounds, 530);
-        _ = DrawFieldValue($"Prj: {taskView.Project}", e.Graphics, clipBounds, 700);
-        _ = DrawFieldValue($"Prt: {priorityString}", e.Graphics, clipBounds, 1100);
-        _ = DrawFieldValue($"%: {percentDoneString}", e.Graphics, clipBounds, 1200);
+        _ = DrawFieldValue($"{taskView.Category}", e.Graphics, clipBounds, 650);
     }
 
     private void DrawBackground(Graphics graphics, Rectangle clipBounds, bool isMouseOver)
@@ -125,20 +93,50 @@ public partial class TaskViewItem : GridViewItemTemplate
 
     private int DrawTaskName(TaskViewModel taskView, Graphics graphics, Rectangle clipBounds)
     {
-        // We need to draw it ellipsed if it's too long:
-        var taskNameSize = TextRenderer.MeasureText(taskView.Explanation, _taskNameFont);
+        string prioritySymbol = (string)ValueConverters.PriorityToString.Convert(
+            value: taskView.Priority,
+            targetType: typeof(string),
+            parameter: false,
+            culture: CultureInfo.CurrentCulture);
 
-        RectangleF taskNameBounds = new(
+        // Determine the color based on priority
+        Color priorityColor = taskView.Priority switch
+        {
+            0 => Color.Green,
+            1 => Color.Red,
+            2 => Color.FromArgb(255, 255, 128, 128),
+            3 => Color.FromArgb(255, 128, 255, 128),
+            4 => Color.FromArgb(255, 64, 255, 128),
+            _ => Color.Black
+        };
+
+        // Measure the size of the priority symbol and task name
+        var prioritySymbolSize = TextRenderer.MeasureText(prioritySymbol, _prioritySymbolFont);
+        var taskNameSize = TextRenderer.MeasureText(taskView.Description, _taskNameFont);
+
+        // Calculate the bounds for the priority symbol and task name
+        RectangleF prioritySymbolBounds = new(
             x: clipBounds.Left + _leadingOffset,
             y: clipBounds.Top + ContentPadding.Top,
-            width: clipBounds.Width - _leadingOffset,
+            width: prioritySymbolSize.Width,
+            height: prioritySymbolSize.Height);
+
+        RectangleF taskNameBounds = new(
+            x: clipBounds.Left + _leadingOffset + prioritySymbolSize.Width,
+            y: clipBounds.Top + ContentPadding.Top,
+            width: clipBounds.Width - _leadingOffset - prioritySymbolSize.Width,
             height: taskNameSize.Height);
 
+        // Draw the priority symbol
+        var priorityBrush = new SolidBrush(priorityColor);
+        graphics.DrawString(prioritySymbol, _prioritySymbolFont, priorityBrush, prioritySymbolBounds);
+
+        // Draw the task name, ellipsed if too long
         if (taskNameSize.Width > taskNameBounds.Width)
         {
             TextRenderer.DrawText(
                 graphics,
-                taskView.Explanation,
+                taskView.Description,
                 _taskNameFont,
                 Rectangle.Round(taskNameBounds),
                 HighlightFontColor,
@@ -147,7 +145,7 @@ public partial class TaskViewItem : GridViewItemTemplate
         else
         {
             var brush = new SolidBrush(HighlightFontColor);
-            graphics.DrawString(taskView.Explanation, _taskNameFont, brush, taskNameBounds);
+            graphics.DrawString(taskView.Description, _taskNameFont, brush, taskNameBounds);
         }
 
         return taskNameSize.Height;

@@ -24,7 +24,7 @@ public partial class TaskViewModel
             {
                 if (value is TaskItem taskItem)
                 {
-                    return taskItem.Explanation;
+                    return taskItem.Description;
                 }
             }
             else if (destinationType == typeof(DateTimeOffset))

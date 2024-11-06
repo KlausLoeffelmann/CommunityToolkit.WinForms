@@ -8,6 +8,12 @@ namespace TaskTamer.ViewModels;
 [TypeConverter(typeof(TaskViewModelTypeConverter))]
 public partial class TaskViewModel : ObservableObject
 {
+    public TaskViewModel()
+    {
+        _dateCreated = DateTimeOffset.Now;
+        _dateModified = DateTimeOffset.Now;
+    }
+
     [ObservableProperty]
     private Guid _taskId;
 
@@ -18,7 +24,7 @@ public partial class TaskViewModel : ObservableObject
     private CategoryViewModel? _category;
 
     [ObservableProperty]
-    private string _explanation = null!;
+    private string _description = null!;
 
     [ObservableProperty]
     private string? _notes;
@@ -42,20 +48,31 @@ public partial class TaskViewModel : ObservableObject
     private TaskItemStatus _status;
 
     [ObservableProperty]
+    private string? _systemLog;
+
+    [ObservableProperty]
     private string? _externalReference;
+
+    [ObservableProperty]
+    private DateTimeOffset _dateCreated;
+
+    [ObservableProperty]
+    private DateTimeOffset _dateModified;
 
     // We need this for any ComboBox-Binding to work.
     public override bool Equals(object? obj)
         => obj is TaskViewModel other && TaskId == other.TaskId;
 
-    override public string ToString() => Explanation;
+    public override int GetHashCode()
+        => TaskId.GetHashCode();
 
-    public TaskItem ToTaskItem()
-    {
-        return new TaskItem
+    override public string ToString() => Description;
+
+    public TaskItem ToTaskItem() 
+        => new()
         {
             TaskItemId = TaskId,
-            Explanation = Explanation,
+            Description = Description,
             Notes = Notes,
             Project = Project?.ToProject(),
             Category = Category?.ToCategory(),
@@ -67,14 +84,12 @@ public partial class TaskViewModel : ObservableObject
             Status = Status,
             ExternalReference = ExternalReference
         };
-    }
 
-    public static TaskViewModel FromTaskItem(TaskItem taskItem)
-    {
-        return new TaskViewModel
+    public static TaskViewModel FromTaskItem(TaskItem taskItem) 
+        => new()
         {
             TaskId = taskItem.TaskItemId,
-            Explanation = taskItem.Explanation,
+            Description = taskItem.Description,
             Notes = taskItem.Notes,
             Project = ProjectViewModel.FromProject(taskItem.Project),
             Category = CategoryViewModel.FromCategory(taskItem.Category),
@@ -86,5 +101,4 @@ public partial class TaskViewModel : ObservableObject
             Status = taskItem.Status,
             ExternalReference = taskItem.ExternalReference
         };
-    }
 }

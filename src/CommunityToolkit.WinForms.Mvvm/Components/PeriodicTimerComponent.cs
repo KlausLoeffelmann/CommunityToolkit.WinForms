@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Input;
 
 namespace DemoToolkit.Mvvm.WinForms.Components;
 
@@ -7,15 +8,19 @@ public delegate Task AsyncEventHandler<TEventArgs>(object sender, TEventArgs e);
 /// <summary>
 ///  Represents a component that provides asynchronous periodic timer functionality.
 /// </summary>
-public class PeriodicTimerComponent : Component
+public class PeriodicTimerComponent : BindableComponent
 {
     private PeriodicTimer? _timer;
     private CancellationTokenSource? _cancellationTokenSource;
+    private SynchronizationContext _syncContext = SynchronizationContext.Current!;
+
+    private ICommand? _elapsedCommand;
 
     /// <summary>
     ///  Occurs when the timer engages.
     /// </summary>
     public event AsyncEventHandler<EngageEventArgs>? EngageAsync;
+    public event EventHandler? ElapsedCommandChanged;
 
     /// <summary>
     ///  Initializes a new instance of the <see cref="AsyncTimerComponent"/> class.
@@ -31,7 +36,27 @@ public class PeriodicTimerComponent : Component
     public int IntervalMs { get; set; } = 200;
 
     [Browsable(false)]
-    public bool IsRunning => _timer != null;
+    [Bindable(true)]
+    public bool IsRunning
+    {
+        get => _timer != null;
+        set
+        {
+            if (value == IsRunning)
+            {
+                return;
+            }
+
+            if (!value)
+            {
+                SignalCancellation();
+            }
+            else
+            {
+                _ = StartAsync();
+            }
+        }
+    }
 
     /// <summary>
     ///  Starts the timer asynchronously.
@@ -55,16 +80,29 @@ public class PeriodicTimerComponent : Component
 
         try
         {
-            while (await _timer.WaitForNextTickAsync(cancellationToken))
+            while (await _timer.WaitForNextTickAsync(cancellationToken).ConfigureAwait(false))
             {
                 if (EngageAsync != null)
                 {
                     await EngageAsync(this, new EngageEventArgs(cancellationToken));
                 }
+
+                // Execute the command on the main thread:
+                if (_elapsedCommand is not null
+                    && _elapsedCommand.CanExecute(ElapsedCommandParameter))
+                {
+                    _syncContext?.Post(
+                        d: _ => _elapsedCommand.Execute(ElapsedCommandParameter),
+                        state: null);
+                }
             }
         }
-        catch
+        catch(OperationCanceledException)
         {
+        }
+        catch(Exception ex)
+        {
+            Application.OnThreadException(ex);
         }
         finally
         {
@@ -86,4 +124,36 @@ public class PeriodicTimerComponent : Component
 
         throw new InvalidOperationException("No implicit cancellation token source available.");
     }
+
+    [Bindable(true)]
+    [Browsable(false)]
+    [Category("Behavior")]
+    [Description("Gets or sets the command to execute when the timer elapses.")]
+    [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden)]
+
+    public ICommand? ElapsedCommand
+    {
+        get => _elapsedCommand;
+        set
+        {
+            if (_elapsedCommand == value)
+            {
+                return;
+            }
+
+            _elapsedCommand = value;
+            OnElapsedCommandChanged();
+        }
+    }
+
+    [Bindable(true)]
+    [Browsable(false)]
+    [Category("Behavior")]
+    [Description("Gets or sets the command to execute when the timer elapses.")]
+    [DefaultValue(null)]
+
+    public object? ElapsedCommandParameter { get; set; }
+
+    protected virtual void OnElapsedCommandChanged()
+        => ElapsedCommandChanged?.Invoke(this, EventArgs.Empty);
 }

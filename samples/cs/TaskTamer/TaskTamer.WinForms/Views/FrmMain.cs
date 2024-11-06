@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.WinForms.Extensions;
 using TaskTamer9.WinForms.ValueConverter;
+using TaskTamer9.WinForms.Views;
 
 namespace TaskTamer.WinForms;
 
@@ -21,5 +22,11 @@ public partial class FrmMain : Form
         base.OnLoad(e);
 
         _mainVmSource.DataSource = DataContext;
+    }
+
+    private void TsmAsyncFormExperiments_Click(object sender, EventArgs e)
+    {
+        using FrmAsyncExperiments frm = new();
+        frm.ShowDialog();
     }
 }

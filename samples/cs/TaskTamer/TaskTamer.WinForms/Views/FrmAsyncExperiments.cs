@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TaskTamer9.WinForms.Views
 {
-    public partial class AsyncFormEntryExperiments : Form
+    public partial class FrmAsyncExperiments : Form
     {
-        public AsyncFormEntryExperiments()
+        public FrmAsyncExperiments()
         {
             InitializeComponent();
         }

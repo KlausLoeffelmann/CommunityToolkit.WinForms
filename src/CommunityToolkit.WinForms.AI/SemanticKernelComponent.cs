@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.Design;
-using System.ComponentModel;
-using System.Drawing.Design;
-using Microsoft.SemanticKernel;
+﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using System.ComponentModel;
 using System.Globalization;
 using System.Reflection;
 
@@ -19,31 +17,26 @@ public class SemanticKernelComponent<T> : BindableComponent
     private const string ParameterPromptValue = "promptValue";
     private const string ParameterPromptDataType = "promptDataType";
 
+    /// <summary>
+    ///  Gets or sets a Func that returns the API key to use for the OpenAI API. 
+    ///  Don't ever store the key in the source code! Rather put it for example in a environment variable, or even better,
+    ///  get it from a secure storage like Azure Key Vault.
+    /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Browsable(false)]
-    public string? ApiKey { get; set; }
+    public Func<string>? ApiKeyGetter { get; set; }
 
     [Bindable(true)]
     [Browsable(true)]
     [DefaultValue("string")]
     [Category("AI")]
     [Description("Gets or sets the .NET type name, the LLM should generate parsable string results for.")]
-    public string? PromptTypeName { get; set; } = "string";
+    public string? TypeJsonSchema { get; set; } = "string";
 
-    [Bindable(true)]
-    [Browsable(true)]
+    [Browsable(false)]
     [DefaultValue(null)]
-    [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
-    [Category("AI")]
-    [Description("Gets or sets the value which the LLM should process based on the Assistant Instructions.")]
     public string? PromptDataValue { get; set; }
 
-    [Bindable(true)]
-    [Browsable(true)]
-    [DefaultValue(null)]
-    [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
-    [Category("AI")]
-    [Description("Gets or sets the general instructions how to process requests, which are provided via the PromptTypeName and the PromptDataValue properties.")]
     protected virtual string GetAssistantInstructions()
     {
         // The Assistant-Instructions are in an MD file and setup to be compiled as an embedded resource.
@@ -59,9 +52,9 @@ public class SemanticKernelComponent<T> : BindableComponent
         string promptTypeName,
         string promptContent)
     {
-        if (ApiKey is null)
+        if (ApiKeyGetter is null)
         {
-            throw new InvalidOperationException("You have tried to request a prompt, but did not provide a key.");
+            throw new InvalidOperationException("You have tried to request a prompt, but did not provide Func delegate to get the key.");
         }
 
         if (string.IsNullOrWhiteSpace(GetAssistantInstructions()))
@@ -86,7 +79,7 @@ public class SemanticKernelComponent<T> : BindableComponent
 
     private void Initialize()
     {
-        var apiKey = ApiKey
+        var apiKey = ApiKeyGetter?.Invoke()
             ?? throw new InvalidOperationException("The AI:OpenAI:ApiKey environment variable is not set.");
 
         _kernel = Kernel.CreateBuilder()

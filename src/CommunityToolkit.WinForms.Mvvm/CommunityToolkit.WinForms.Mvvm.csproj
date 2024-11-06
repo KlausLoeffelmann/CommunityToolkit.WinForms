@@ -24,14 +24,6 @@
     <Compile Update="Components\PeriodicTimerComponent.cs" />
     <Compile Update="Controls\BindableComboBox.cs" />
     <Compile Update="Controls\FluentCommandButton.cs" />
-    <Compile Update="Controls\ModernEntry\ModernDateOffsetEntry.cs" />
-    <Compile Update="Controls\ModernEntry\ModernGroupBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Controls\ModernEntry\ModernStringEntry.cs" />
-    <Compile Update="Controls\ModernEntry\ModernTextEntry.cs" />
-    <Compile Update="Controls\ModernEntry\ModernTextEntry.IModernTextEntry.cs" />
-    <Compile Update="Controls\ModernEntry\ModernTextEntry.ModernTextEntryTextBox.cs" />
     <Compile Update="Controls\SpinnerControl.cs" />
   </ItemGroup>
 

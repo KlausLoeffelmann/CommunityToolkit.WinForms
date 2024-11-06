@@ -1,0 +1,11 @@
+[
+  {
+    "Name": "Default Debugging",
+    "Projects": [
+      {
+        "Path": "TaskTamer.WinForms\\TaskTamer9.WinForms.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

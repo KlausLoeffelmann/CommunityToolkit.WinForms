@@ -78,7 +78,7 @@ namespace TaskTamer.DataLayer.Migrations
                 columns: table => new
                 {
                     TaskItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Explanation = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ProjectId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -89,10 +89,11 @@ namespace TaskTamer.DataLayer.Migrations
                     DueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
                     ExternalReference = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    SystemLog = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateCreated = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    DateLastModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    DataDeleted = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DateDone = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DateModified = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    DateMarkedDeleted = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DateMarkedDone = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     SyncId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>

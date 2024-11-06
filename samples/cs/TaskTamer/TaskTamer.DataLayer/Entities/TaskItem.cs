@@ -11,7 +11,7 @@ public partial class TaskItem
     public Guid TaskItemId { get; set; }
 
     [StringLength(255)]
-    public string Explanation { get; set; } = null!;
+    public string Description { get; set; } = null!;
 
     [ForeignKey(nameof(Category.CategoryId))]
     [InverseProperty(nameof(TaskTamerContext.TaskItems))]
@@ -39,20 +39,21 @@ public partial class TaskItem
 
     [StringLength(255)]
     public string? ExternalReference { get; set; }
+    public string? SystemLog { get; set; }
 
     public DateTimeOffset DateCreated { get; set; }
 
-    public DateTimeOffset DateLastModified { get; set; }
+    public DateTimeOffset DateModified { get; set; }
 
-    public DateTimeOffset? DataDeleted { get; set; }
-
-    [NotMapped]
-    public bool IsDeleted => DataDeleted.HasValue;
-
-    public DateTimeOffset? DateDone { get; set; }
+    public DateTimeOffset? DateMarkedDeleted { get; set; }
 
     [NotMapped]
-    public bool IsDone => DateDone.HasValue;
+    public bool IsDeleted => DateMarkedDeleted.HasValue;
+
+    public DateTimeOffset? DateMarkedDone { get; set; }
+
+    [NotMapped]
+    public bool IsDone => DateMarkedDone.HasValue;
 
     public Guid SyncId { get; set; }
 
@@ -71,9 +72,9 @@ public partial class TaskItem
         resultSet = sortOrder switch
         {
             "DueDate" => [.. resultSet.OrderBy(task => task.DueDate)],
-            "LastModified" => [.. resultSet.OrderBy(task => task.DateLastModified)],
+            "LastModified" => [.. resultSet.OrderBy(task => task.DateModified)],
             "Status" => [.. resultSet.OrderBy(task => task.Status)],
-            "Name" => [.. resultSet.OrderBy(task => task.Explanation)],
+            "Name" => [.. resultSet.OrderBy(task => task.Description)],
             _ => [.. resultSet.OrderBy(task => task.DueDate)]
         };
 

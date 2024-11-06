@@ -12,7 +12,7 @@ using TaskTamer.DataLayer.Models;
 namespace TaskTamer.DataLayer.Migrations
 {
     [DbContext(typeof(TaskTamerContext))]
-    [Migration("20241103063759_InitialSetup")]
+    [Migration("20241106001213_InitialSetup")]
     partial class InitialSetup
     {
         /// <inheritdoc />
@@ -109,25 +109,25 @@ namespace TaskTamer.DataLayer.Migrations
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset?>("DataDeleted")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<DateTimeOffset>("DateCreated")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset?>("DateDone")
+                    b.Property<DateTimeOffset?>("DateMarkedDeleted")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset>("DateLastModified")
+                    b.Property<DateTimeOffset?>("DateMarkedDone")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<DateTimeOffset?>("DueDate")
+                    b.Property<DateTimeOffset>("DateModified")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Explanation")
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTimeOffset?>("DueDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("ExternalReference")
                         .HasMaxLength(255)
@@ -153,6 +153,9 @@ namespace TaskTamer.DataLayer.Migrations
 
                     b.Property<Guid>("SyncId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("SystemLog")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");

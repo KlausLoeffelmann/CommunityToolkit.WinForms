@@ -7,21 +7,14 @@ namespace TaskTamer.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private readonly System.Threading.Timer? _timer;
-
     public MainViewModel()
     {
-        _timer = new System.Threading.Timer(
-            callback: async (state) => await UpdateCurrentTimeAsync(),
-            state: null,
-            dueTime: 0,
-            period: 1000);
-
         InitViewModel();
 
         CurrentUser = UserViewModel.FromUser(User.GetCurrentUser());
         Projects = ProjectViewModel.GetActive();
         Categories = CategoryViewModel.GetCategories();
+        IsTimerRunning = true;
     }
 
     /// <summary>
@@ -29,6 +22,9 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     private string _currentDisplayTime = default!;
+
+    [ObservableProperty]
+    private bool _isTimerRunning;
 
     /// <summary>
     ///  Property, which will be bound to a StatusStrip label in the MainView, showing the current user's name.

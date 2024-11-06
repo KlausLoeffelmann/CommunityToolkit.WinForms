@@ -32,7 +32,7 @@ namespace TaskTamer.WinForms
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            TaskTamer9.WinForms.Views.TaskViewItem taskViewItem2 = new TaskTamer9.WinForms.Views.TaskViewItem();
+            TaskTamer9.WinForms.Views.TaskViewItem taskViewItem1 = new TaskTamer9.WinForms.Views.TaskViewItem();
             _statusStrip = new StatusStrip();
             _lblSortOrder = new ToolStripStatusLabel();
             _lblSelectedTasksProjectInfo = new ToolStripStatusLabel();
@@ -59,6 +59,7 @@ namespace TaskTamer.WinForms
             _tskOrderByLastModified = new ToolStripMenuItem();
             _tsmOrderByStatus = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
+            _tsmAsyncFormExperiments = new ToolStripMenuItem();
             _tsmToolsOptions = new ToolStripMenuItem();
             _semanticKernelComponent = new DemoToolkit.Mvvm.WinForms.AI.SemanticKernelBaseComponent();
             taskIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
@@ -98,7 +99,9 @@ namespace TaskTamer.WinForms
             fluentDecoratorPanel1 = new CommunityToolkit.WinForms.FluentUI.FluentDecoratorPanel();
             _txtNewTask = new TextBox();
             _btnNewTask = new Button();
-            _tsmAsyncFormExperiments = new ToolStripMenuItem();
+            _currentTimeProvider = new DemoToolkit.Mvvm.WinForms.Components.PeriodicTimerComponent();
+            _tslSystemNotes = new ToolStripStatusLabel();
+            _tslLastEdited = new ToolStripStatusLabel();
             _statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_selectedTaskVmSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_mainVmSource).BeginInit();
@@ -120,7 +123,7 @@ namespace TaskTamer.WinForms
             _statusStrip.GripMargin = new Padding(5);
             _statusStrip.GripStyle = ToolStripGripStyle.Visible;
             _statusStrip.ImageScalingSize = new Size(20, 20);
-            _statusStrip.Items.AddRange(new ToolStripItem[] { _lblSortOrder, _lblSelectedTasksProjectInfo, _lblCurrentUser, _lblDateTime });
+            _statusStrip.Items.AddRange(new ToolStripItem[] { _lblSortOrder, _lblSelectedTasksProjectInfo, _tslSystemNotes, _tslLastEdited, _lblCurrentUser, _lblDateTime });
             _statusStrip.Location = new Point(0, 784);
             _statusStrip.Margin = new Padding(0, 0, 3, 0);
             _statusStrip.Name = "_statusStrip";
@@ -140,8 +143,7 @@ namespace TaskTamer.WinForms
             // 
             _lblSelectedTasksProjectInfo.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Project", true));
             _lblSelectedTasksProjectInfo.Name = "_lblSelectedTasksProjectInfo";
-            _lblSelectedTasksProjectInfo.Size = new Size(1082, 31);
-            _lblSelectedTasksProjectInfo.Spring = true;
+            _lblSelectedTasksProjectInfo.Size = new Size(216, 31);
             _lblSelectedTasksProjectInfo.Text = "#SelectedTasksProjectSpring#";
             _lblSelectedTasksProjectInfo.TextAlign = ContentAlignment.MiddleLeft;
             // 
@@ -222,41 +224,41 @@ namespace TaskTamer.WinForms
             // toolStripMenuItem4
             // 
             toolStripMenuItem4.Name = "toolStripMenuItem4";
-            toolStripMenuItem4.Size = new Size(180, 26);
+            toolStripMenuItem4.Size = new Size(163, 26);
             toolStripMenuItem4.Text = "Undo";
             // 
             // toolStripMenuItem5
             // 
             toolStripMenuItem5.Name = "toolStripMenuItem5";
-            toolStripMenuItem5.Size = new Size(180, 26);
+            toolStripMenuItem5.Size = new Size(163, 26);
             toolStripMenuItem5.Text = "Redo";
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(177, 6);
+            toolStripSeparator1.Size = new Size(160, 6);
             // 
             // _tsmCategories
             // 
             _tsmCategories.Name = "_tsmCategories";
-            _tsmCategories.Size = new Size(180, 26);
+            _tsmCategories.Size = new Size(163, 26);
             _tsmCategories.Text = "Categories...";
             // 
             // _tsmEditProjects
             // 
             _tsmEditProjects.Name = "_tsmEditProjects";
-            _tsmEditProjects.Size = new Size(180, 26);
+            _tsmEditProjects.Size = new Size(163, 26);
             _tsmEditProjects.Text = "&Projects...";
             // 
             // toolStripMenuItem2
             // 
             toolStripMenuItem2.Name = "toolStripMenuItem2";
-            toolStripMenuItem2.Size = new Size(177, 6);
+            toolStripMenuItem2.Size = new Size(160, 6);
             // 
             // _tsmEditUsers
             // 
             _tsmEditUsers.Name = "_tsmEditUsers";
-            _tsmEditUsers.Size = new Size(180, 26);
+            _tsmEditUsers.Size = new Size(163, 26);
             _tsmEditUsers.Text = "Users...";
             // 
             // toolStripMenuItem3
@@ -291,10 +293,17 @@ namespace TaskTamer.WinForms
             toolsToolStripMenuItem.Size = new Size(57, 25);
             toolsToolStripMenuItem.Text = "&Tools";
             // 
+            // _tsmAsyncFormExperiments
+            // 
+            _tsmAsyncFormExperiments.Name = "_tsmAsyncFormExperiments";
+            _tsmAsyncFormExperiments.Size = new Size(260, 26);
+            _tsmAsyncFormExperiments.Text = "Async Form Experiments...";
+            _tsmAsyncFormExperiments.Click += TsmAsyncFormExperiments_Click;
+            // 
             // _tsmToolsOptions
             // 
             _tsmToolsOptions.Name = "_tsmToolsOptions";
-            _tsmToolsOptions.Size = new Size(251, 26);
+            _tsmToolsOptions.Size = new Size(260, 26);
             _tsmToolsOptions.Text = "&Options...";
             // 
             // _semanticKernelComponent
@@ -393,10 +402,8 @@ namespace TaskTamer.WinForms
             _tasksGridView.BorderStyle = BorderStyle.None;
             _tasksGridView.DataBindings.Add(new Binding("SelectedItem", _mainVmSource, "SelectedTask", true, DataSourceUpdateMode.OnPropertyChanged));
             _tasksGridView.DataBindings.Add(new Binding("DataContext", _mainVmSource, "Tasks", true));
-            taskViewItem2.ContentPadding = new Padding(5);
-            taskViewItem2.DescriptionFont = new Font("Segoe UI", 16F, FontStyle.Bold);
-            taskViewItem2.NameFont = new Font("Segoe UI", 16F, FontStyle.Bold);
-            _tasksGridView.GridViewItemTemplate = taskViewItem2;
+            taskViewItem1.ContentPadding = new Padding(5);
+            _tasksGridView.GridViewItemTemplate = taskViewItem1;
             _tasksGridView.Location = new Point(4, 60);
             _tasksGridView.Margin = new Padding(4);
             _tasksGridView.Name = "_tasksGridView";
@@ -678,11 +685,25 @@ namespace TaskTamer.WinForms
             _btnNewTask.Text = "";
             _btnNewTask.UseVisualStyleBackColor = true;
             // 
-            // _tsmAsyncFormExperiments
+            // _currentTimeProvider
             // 
-            _tsmAsyncFormExperiments.Name = "_tsmAsyncFormExperiments";
-            _tsmAsyncFormExperiments.Size = new Size(251, 26);
-            _tsmAsyncFormExperiments.Text = "Async Form Experiments";
+            _currentTimeProvider.DataBindings.Add(new Binding("ElapsedCommand", _mainVmSource, "UpdateCurrentTimeCommand", true));
+            _currentTimeProvider.DataBindings.Add(new Binding("IsRunning", _mainVmSource, "IsTimerRunning", true));
+            _currentTimeProvider.IntervalMs = 200;
+            _currentTimeProvider.IsRunning = false;
+            // 
+            // _tslSystemNotes
+            // 
+            _tslSystemNotes.Name = "_tslSystemNotes";
+            _tslSystemNotes.Size = new Size(736, 31);
+            _tslSystemNotes.Spring = true;
+            _tslSystemNotes.Text = "#SystemNotes#";
+            // 
+            // _tslLastEdited
+            // 
+            _tslLastEdited.Name = "_tslLastEdited";
+            _tslLastEdited.Size = new Size(99, 31);
+            _tslLastEdited.Text = "#LastEdited#";
             // 
             // FrmMain
             // 
@@ -792,5 +813,8 @@ namespace TaskTamer.WinForms
         private TextBox _txtNewTask;
         private Button _btnNewTask;
         private ToolStripMenuItem _tsmAsyncFormExperiments;
+        private DemoToolkit.Mvvm.WinForms.Components.PeriodicTimerComponent _currentTimeProvider;
+        private ToolStripStatusLabel _tslSystemNotes;
+        private ToolStripStatusLabel _tslLastEdited;
     }
 }

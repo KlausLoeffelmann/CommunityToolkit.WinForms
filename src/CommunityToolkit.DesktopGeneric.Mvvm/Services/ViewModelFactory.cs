@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.DesktopGeneric.Mvvm;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace CommunityToolkit.DesktopGeneric.Mvvm.Services;
 
