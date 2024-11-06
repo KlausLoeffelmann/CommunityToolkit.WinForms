@@ -32,16 +32,16 @@ namespace TaskTamer.WinForms
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            TaskTamer9.WinForms.Views.TaskViewItem taskViewItem1 = new TaskTamer9.WinForms.Views.TaskViewItem();
+            TaskTamer9.WinForms.Views.TaskViewItem taskViewItem2 = new TaskTamer9.WinForms.Views.TaskViewItem();
             _statusStrip = new StatusStrip();
-            _lblSortOrder = new ToolStripStatusLabel();
-            _lblSelectedTasksProjectInfo = new ToolStripStatusLabel();
-            _selectedTaskVmSource = new BindingSource(components);
+            _tslSortOrder = new ToolStripStatusLabel();
             _mainVmSource = new BindingSource(components);
+            _tslSelectedTasksProjectInfo = new ToolStripStatusLabel();
+            _selectedTaskVmSource = new BindingSource(components);
             _tslSystemNotes = new ToolStripStatusLabel();
             _tslLastEdited = new ToolStripStatusLabel();
-            _lblCurrentUser = new ToolStripStatusLabel();
-            _lblDateTime = new ToolStripStatusLabel();
+            _tslCurrentUser = new ToolStripStatusLabel();
+            _tslCurrentDateTime = new ToolStripStatusLabel();
             _mainMenuStrip = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             exportToolStripMenuItem = new ToolStripMenuItem();
@@ -91,8 +91,8 @@ namespace TaskTamer.WinForms
             _btnNewTask = new Button();
             _currentTimeProvider = new DemoToolkit.Mvvm.WinForms.Components.PeriodicTimerComponent();
             _statusStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)_selectedTaskVmSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)_mainVmSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)_selectedTaskVmSource).BeginInit();
             _mainMenuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_tasksGridView).BeginInit();
             _tlpTodoItemDetails.SuspendLayout();
@@ -111,7 +111,7 @@ namespace TaskTamer.WinForms
             _statusStrip.GripMargin = new Padding(5);
             _statusStrip.GripStyle = ToolStripGripStyle.Visible;
             _statusStrip.ImageScalingSize = new Size(20, 20);
-            _statusStrip.Items.AddRange(new ToolStripItem[] { _lblSortOrder, _lblSelectedTasksProjectInfo, _tslSystemNotes, _tslLastEdited, _lblCurrentUser, _lblDateTime });
+            _statusStrip.Items.AddRange(new ToolStripItem[] { _tslSortOrder, _tslSelectedTasksProjectInfo, _tslSystemNotes, _tslLastEdited, _tslCurrentUser, _tslCurrentDateTime });
             _statusStrip.Location = new Point(0, 784);
             _statusStrip.Margin = new Padding(0, 0, 3, 0);
             _statusStrip.Name = "_statusStrip";
@@ -120,30 +120,30 @@ namespace TaskTamer.WinForms
             _statusStrip.TabIndex = 4;
             _statusStrip.Text = "statusStrip1";
             // 
-            // _lblSortOrder
+            // _tslSortOrder
             // 
-            _lblSortOrder.BackColor = Color.DeepSkyBlue;
-            _lblSortOrder.DataBindings.Add(new Binding("Text", _mainVmSource, "SortOrder", true));
-            _lblSortOrder.Name = "_lblSortOrder";
-            _lblSortOrder.Size = new Size(98, 31);
-            _lblSortOrder.Text = "#SortOrder#";
+            _tslSortOrder.BackColor = Color.DeepSkyBlue;
+            _tslSortOrder.DataBindings.Add(new Binding("Text", _mainVmSource, "SortOrder", true));
+            _tslSortOrder.Name = "_tslSortOrder";
+            _tslSortOrder.Size = new Size(98, 31);
+            _tslSortOrder.Text = "#SortOrder#";
             // 
-            // _lblSelectedTasksProjectInfo
+            // _mainVmSource
             // 
-            _lblSelectedTasksProjectInfo.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Project", true));
-            _lblSelectedTasksProjectInfo.Name = "_lblSelectedTasksProjectInfo";
-            _lblSelectedTasksProjectInfo.Size = new Size(216, 31);
-            _lblSelectedTasksProjectInfo.Text = "#SelectedTasksProjectSpring#";
-            _lblSelectedTasksProjectInfo.TextAlign = ContentAlignment.MiddleLeft;
+            _mainVmSource.DataSource = typeof(ViewModels.MainViewModel);
+            // 
+            // _tslSelectedTasksProjectInfo
+            // 
+            _tslSelectedTasksProjectInfo.DataBindings.Add(new Binding("Text", _selectedTaskVmSource, "Project", true));
+            _tslSelectedTasksProjectInfo.Name = "_tslSelectedTasksProjectInfo";
+            _tslSelectedTasksProjectInfo.Size = new Size(216, 31);
+            _tslSelectedTasksProjectInfo.Text = "#SelectedTasksProjectSpring#";
+            _tslSelectedTasksProjectInfo.TextAlign = ContentAlignment.MiddleLeft;
             // 
             // _selectedTaskVmSource
             // 
             _selectedTaskVmSource.DataMember = "SelectedTask";
             _selectedTaskVmSource.DataSource = _mainVmSource;
-            // 
-            // _mainVmSource
-            // 
-            _mainVmSource.DataSource = typeof(ViewModels.MainViewModel);
             // 
             // _tslSystemNotes
             // 
@@ -160,22 +160,22 @@ namespace TaskTamer.WinForms
             _tslLastEdited.Size = new Size(99, 31);
             _tslLastEdited.Text = "#LastEdited#";
             // 
-            // _lblCurrentUser
+            // _tslCurrentUser
             // 
-            _lblCurrentUser.DataBindings.Add(new Binding("Text", _mainVmSource, "CurrentUser", true));
-            _lblCurrentUser.Name = "_lblCurrentUser";
-            _lblCurrentUser.Size = new Size(60, 31);
-            _lblCurrentUser.Text = "#User#";
+            _tslCurrentUser.DataBindings.Add(new Binding("Text", _mainVmSource, "CurrentUser", true));
+            _tslCurrentUser.Name = "_tslCurrentUser";
+            _tslCurrentUser.Size = new Size(60, 31);
+            _tslCurrentUser.Text = "#User#";
             // 
-            // _lblDateTime
+            // _tslCurrentDateTime
             // 
-            _lblDateTime.DataBindings.Add(new Binding("Text", _mainVmSource, "CurrentDisplayTime", true));
-            _lblDateTime.DisplayStyle = ToolStripItemDisplayStyle.Text;
-            _lblDateTime.Margin = new Padding(0, 3, 2, 2);
-            _lblDateTime.Name = "_lblDateTime";
-            _lblDateTime.Padding = new Padding(5);
-            _lblDateTime.Size = new Size(151, 31);
-            _lblDateTime.Text = "#DatePlaceholder#";
+            _tslCurrentDateTime.DataBindings.Add(new Binding("Text", _mainVmSource, "CurrentDisplayTime", true));
+            _tslCurrentDateTime.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            _tslCurrentDateTime.Margin = new Padding(0, 3, 2, 2);
+            _tslCurrentDateTime.Name = "_tslCurrentDateTime";
+            _tslCurrentDateTime.Padding = new Padding(5);
+            _tslCurrentDateTime.Size = new Size(151, 31);
+            _tslCurrentDateTime.Text = "#DatePlaceholder#";
             // 
             // _mainMenuStrip
             // 
@@ -323,8 +323,8 @@ namespace TaskTamer.WinForms
             _tasksGridView.BorderStyle = BorderStyle.None;
             _tasksGridView.DataBindings.Add(new Binding("SelectedItem", _mainVmSource, "SelectedTask", true, DataSourceUpdateMode.OnPropertyChanged));
             _tasksGridView.DataBindings.Add(new Binding("DataContext", _mainVmSource, "Tasks", true));
-            taskViewItem1.ContentPadding = new Padding(5);
-            _tasksGridView.GridViewItemTemplate = taskViewItem1;
+            taskViewItem2.ContentPadding = new Padding(5);
+            _tasksGridView.GridViewItemTemplate = taskViewItem2;
             _tasksGridView.Location = new Point(4, 60);
             _tasksGridView.Margin = new Padding(4);
             _tasksGridView.Name = "_tasksGridView";
@@ -628,8 +628,8 @@ namespace TaskTamer.WinForms
             Text = "Task Tamer - .NET 9 RC1 Demo. And yes. It's WinForms.";
             _statusStrip.ResumeLayout(false);
             _statusStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)_selectedTaskVmSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)_mainVmSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)_selectedTaskVmSource).EndInit();
             _mainMenuStrip.ResumeLayout(false);
             _mainMenuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)_tasksGridView).EndInit();
@@ -660,22 +660,22 @@ namespace TaskTamer.WinForms
         private ToolStripMenuItem _tsmFileQuit;
         private ToolStripMenuItem baseDataToolStripMenuItem;
         private ToolStripMenuItem _tsmEditUsers;
-        private ToolStripStatusLabel _lblDateTime;
-        private ToolStripStatusLabel _lblCurrentUser;
+        private ToolStripStatusLabel _tslCurrentDateTime;
+        private ToolStripStatusLabel _tslCurrentUser;
         private ToolStripMenuItem _tsmEditProjects;
         private ToolStripMenuItem _tsmCategories;
         private ToolStripMenuItem testsToolStripMenuItem;
         private ToolStripMenuItem _demoInvokeAsyncMenuItem;
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem _tsmToolsOptions;
-        private ToolStripStatusLabel _lblSelectedTasksProjectInfo;
+        private ToolStripStatusLabel _tslSelectedTasksProjectInfo;
         private TaskTamer9.WinForms.Views.TaskViewItem _taskItemView;
         private ToolStripSeparator toolStripMenuItem2;
         private ToolStripMenuItem toolStripMenuItem3;
         private ToolStripMenuItem _tsmOrderByDueDate;
         private ToolStripMenuItem _tskOrderByLastModified;
         private ToolStripMenuItem _tsmOrderByStatus;
-        private ToolStripStatusLabel _lblSortOrder;
+        private ToolStripStatusLabel _tslSortOrder;
         private TaskTamer9.WinForms.Views.TaskViewItem _taskViewItem;
         private DemoToolkit.Mvvm.WinForms.AI.SemanticKernelBaseComponent _semanticKernelComponent;
         private ToolStripMenuItem toolStripMenuItem4;

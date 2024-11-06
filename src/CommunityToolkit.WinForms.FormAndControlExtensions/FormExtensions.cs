@@ -89,23 +89,21 @@ public static class FormExtensions
         return new ModalDialogResult<T>(dialogDataContext, dialogResult);
     }
 
-    public static Binding AddBindingConverter(this Control control, string propertyName, IValueConverter valueConverter)
+    public static Binding AddBindingConverter(this IBindableComponent bindableComponent, string propertyName, IValueConverter valueConverter)
     {
         ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
         ArgumentNullException.ThrowIfNull(valueConverter, nameof(valueConverter));
 
-        if (control.DataBindings[propertyName] is not Binding binding)
+        if (bindableComponent.DataBindings[propertyName] is not Binding binding)
         {
             throw new InvalidOperationException($"No binding found for property '{propertyName}'.");
         }
 
         binding.Parse += Binding_Parse;
         binding.Format += Binding_Format;
-        control.CreateControl();
-        control.BindingContextChanged += BindingContextChanged;
         var managerBase = binding.BindingManagerBase;
 
-        control.Disposed += Control_Disposed;
+        bindableComponent.Disposed += Control_Disposed;
         return binding;
 
         void Binding_Format(object? sender, ConvertEventArgs e)
@@ -122,12 +120,6 @@ public static class FormExtensions
         {
             binding.Parse -= Binding_Parse;
             binding.Format -= Binding_Format;
-        }
-
-        void BindingContextChanged(object? sender, EventArgs e)
-        {
-            var control = (Control)sender!;
-            var context = control.BindingContext;
         }
     }
 

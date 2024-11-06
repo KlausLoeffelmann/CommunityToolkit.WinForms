@@ -10,9 +10,10 @@ public partial class FrmMain : Form
     {
         InitializeComponent();
 
-        // TypeDescriptor.AddProvider(new AsyncTypeDescriptionProvider(_lblDateTime), _lblDateTime);
         _lblPercentDoneValue.AddBindingConverter(nameof(_lblPercentDoneValue.Text), ValueConverters.TaskPercentDoneToString);
         _lblPriority.AddBindingConverter(nameof(_lblPriority.Text), ValueConverters.PriorityToString);
+        _tslSelectedTasksProjectInfo.AddBindingConverter(nameof(_tslSelectedTasksProjectInfo.Text), ValueConverters.ProjectVMToString);
+        _tslLastEdited.AddBindingConverter(nameof(_tslLastEdited.Text), ValueConverters.DateModifiedToString);
     }
 
     // This is where we are setting up the Binding for this view.

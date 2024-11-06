@@ -60,8 +60,8 @@ public partial class TaskItem
                 Notes = taskText.Description,
                 Owner = user,
                 Priority = priority,
-                Category = categories[random.Next(categories.Length)],
-                Project = projects[random.Next(projects.Length)]
+                Category = categories[taskText.categoryIndex],
+                Project = projects[taskText.projectIndex]
             };
 
             context.TaskItems.Add(task);

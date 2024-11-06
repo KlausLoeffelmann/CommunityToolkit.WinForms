@@ -82,7 +82,10 @@ public partial class TaskViewModel : ObservableObject
             Priority = Priority,
             PercentDone = PercentDone,
             Status = Status,
-            ExternalReference = ExternalReference
+            ExternalReference = ExternalReference,
+            DateCreated = DateCreated,
+            DateModified = DateModified,
+            SystemLog = SystemLog
         };
 
     public static TaskViewModel FromTaskItem(TaskItem taskItem) 
@@ -99,6 +102,9 @@ public partial class TaskViewModel : ObservableObject
             Priority = taskItem.Priority,
             PercentDone = taskItem.PercentDone,
             Status = taskItem.Status,
-            ExternalReference = taskItem.ExternalReference
+            ExternalReference = taskItem.ExternalReference,
+            DateCreated = taskItem.DateCreated,
+            DateModified = taskItem.DateModified,
+            SystemLog = taskItem.SystemLog
         };
 }
