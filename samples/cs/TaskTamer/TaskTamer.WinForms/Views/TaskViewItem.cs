@@ -9,7 +9,7 @@ namespace TaskTamer9.WinForms.Views;
 public partial class TaskViewItem : GridViewItemTemplate
 {
     private const int FieldPadding = 10;
-    private const int BaseFontSize = 11;
+    private const int BaseFontSize = 9;
 
     private static Font _taskNameFont = new("Segoe UI", BaseFontSize+5, FontStyle.Bold);
     private static Font _prioritySymbolFont = new("Segoe UI", BaseFontSize + 7, FontStyle.Bold);
@@ -22,7 +22,7 @@ public partial class TaskViewItem : GridViewItemTemplate
     {
         // For simplicity, we just return a fixed size for the height.
         // But we can as well calculate the height based on the content.
-        return new(restrictedSize.Width, 140);
+        return new(restrictedSize.Width, 120);
     }
 
     protected override void OnPaintContent(object content, PaintEventArgs e, Rectangle clipBounds, bool isMouseOver)
@@ -47,8 +47,8 @@ public partial class TaskViewItem : GridViewItemTemplate
         string percentDoneString = (string)ValueConverters.TaskPercentDoneToString.Convert(taskView.PercentDone, typeof(string), null, CultureInfo.CurrentCulture);
 
         _ = DrawFieldValue($"Due: {taskView.DueDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, FieldPadding);
-        _ = DrawFieldValue($"Start: {taskView.StartDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, 330);
-        _ = DrawFieldValue($"{taskView.Category}", e.Graphics, clipBounds, 650);
+        _ = DrawFieldValue($"Start: {taskView.StartDate:MM/dd/yy hh:mm}", e.Graphics, clipBounds, 230);
+        _ = DrawFieldValue($"{taskView.Category}", e.Graphics, clipBounds, 450);
     }
 
     private void DrawBackground(Graphics graphics, Rectangle clipBounds, bool isMouseOver)

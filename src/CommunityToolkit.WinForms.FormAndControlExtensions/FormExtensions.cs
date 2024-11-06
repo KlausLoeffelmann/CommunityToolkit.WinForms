@@ -101,6 +101,7 @@ public static class FormExtensions
 
         binding.Parse += Binding_Parse;
         binding.Format += Binding_Format;
+        
         var managerBase = binding.BindingManagerBase;
 
         bindableComponent.Disposed += Control_Disposed;
