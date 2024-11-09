@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.DesktopGeneric.Mvvm;
-using System.ComponentModel;
-using WinFormsDialogResult = System.Windows.Forms.DialogResult;
-using DialogResult = CommunityToolkit.DesktopGeneric.Mvvm.DialogResult;
 using CommunityToolkit.WinForms.ComponentModel;
+using System.ComponentModel;
 using System.Globalization;
+using DialogResult = CommunityToolkit.DesktopGeneric.Mvvm.DialogResult;
+using WinFormsDialogResult = System.Windows.Forms.DialogResult;
 
 namespace CommunityToolkit.WinForms.Extensions;
 
@@ -89,7 +89,19 @@ public static class FormExtensions
         return new ModalDialogResult<T>(dialogDataContext, dialogResult);
     }
 
-    public static Binding AddBindingConverter(this IBindableComponent bindableComponent, string propertyName, IValueConverter valueConverter)
+    /// <summary>
+    ///  Adds a value converter to an existing binding on a bindable component.
+    /// </summary>
+    /// <param name="bindableComponent">The bindable component to which the converter is added.</param>
+    /// <param name="propertyName">The name of the property that is bound.</param>
+    /// <param name="valueConverter">The value converter to be added to the binding.</param>
+    /// <returns>The binding with the added value converter.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> or <paramref name="valueConverter"/> is null.</exception>
+    /// <exception cref="InvalidOperationException">Thrown when no binding is found for the specified property.</exception>
+    public static Binding AddBindingConverter(
+        this IBindableComponent bindableComponent, 
+        string propertyName, 
+        IValueConverter valueConverter)
     {
         ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
         ArgumentNullException.ThrowIfNull(valueConverter, nameof(valueConverter));
@@ -124,13 +136,207 @@ public static class FormExtensions
         }
     }
 
-    public static IEnumerable<Control> GetControlsRecursive(this Control control)
+    /// <summary>
+    ///  Retrieves the direct child controls of the specified control.
+    /// </summary>
+    /// <param name="control">The control whose child controls are retrieved.</param>
+    /// <returns>An enumerable of child controls.</returns>
+    public static IEnumerable<Control> ChildControls(this Control control)
+        => control.Controls.Cast<Control>();
+
+    /// <summary>
+    ///  Retrieves the first child control of the specified type.
+    /// </summary>
+    /// <typeparam name="T">The type of child control to search for.</typeparam>
+    /// <param name="control">The control to search within.</param>
+    /// <returns>The first matching child control.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no child control is found.</exception>
+    public static T FirstChild<T>(this Control control) where T : Control
+        => (T)control.FirstChild(c => c is T);
+
+    /// <summary>
+    ///  Retrieves the first child control that matches the specified predicate.
+    /// </summary>
+    /// <param name="control">The control to search within.</param>
+    /// <param name="predicate">The condition to match.</param>
+    /// <returns>The first matching child control</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no child control is found.</exception>
+    public static Control FirstChild(this Control control, Func<Control, bool> predicate)
     {
-        foreach (Control childControl in control.Controls)
+        foreach (Control childControl in control.ChildControls())
+        {
+            if (predicate(childControl))
+            {
+                return childControl;
+            }
+        }
+
+        throw new InvalidOperationException("No child control found.");
+    }
+
+    /// <summary>
+    ///  Retrieves the first child control of the specified type, or the default value if none is found.
+    /// </summary>
+    /// <typeparam name="T">The type of child control to search for.</typeparam>
+    /// <param name="control">The control to search within.</param>
+    /// <returns>The first matching child control, or null if none is found.</returns>
+    public static T? FirstChildOrDefault<T>(this Control control) where T : Control
+        => control.FirstChildOrDefault(c => c is T) as T;
+
+    /// <summary>
+    ///  Retrieves the first child control that matches the specified predicate, or null if none is found.
+    /// </summary>
+    /// <param name="control">The control to search within.</param>
+    /// <param name="predicate">The condition to match.</param>
+    /// <returns>The first matching child control, or null if none is found.</returns>
+    public static Control? FirstChildOrDefault(this Control control, Func<Control, bool> predicate)
+    {
+        foreach (Control childControl in control.ChildControls())
+        {
+            if (predicate(childControl))
+            {
+                return childControl;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    ///  Enumerates the control's ascendant controls, up to the root of the control tree.
+    /// </summary>
+    /// <param name="control">The control to retrieve ascendants from.</param>
+    /// <returns>An enumerable of ascendant controls.</returns>
+    public static IEnumerable<Control> AscendantControls(this Control control)
+    {
+        Control? parent = control.Parent;
+        while (parent is not null)
+        {
+            yield return parent;
+            parent = parent.Parent;
+        }
+    }
+
+    /// <summary>
+    ///  Retrieves the root control in the control tree.
+    /// </summary>
+    /// <param name="control">The starting control.</param>
+    /// <returns>The root control.</returns>
+    public static Control Root(this Control control)
+    {
+        Control? parent = control.Parent;
+        while (parent is not null)
+        {
+            control = parent;
+            parent = parent.Parent;
+        }
+
+        return control;
+    }
+
+    /// <summary>
+    ///  Retrieves the first descendant control of the specified type.
+    /// </summary>
+    /// <typeparam name="T">The type of descendant control to search for.</typeparam>
+    /// <param name="control">The control to search within.</param>
+    /// <returns>The first matching descendant control, or null if none is found.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no descendant control is found.</exception>
+    public static T FirstDescendant<T>(this Control control)
+        where T : Control
+        => (T)control.FirstDescendant(c => c is T);
+
+    /// <summary>
+    ///  Retrieves the first descendant control that matches the specified predicate.
+    /// </summary>
+    /// <param name="control">The control to search within.</param>
+    /// <param name="predicate">The condition to match.</param>
+    /// <returns>The first matching descendant control.</returns>
+    /// <exception cref="InvalidOperationException">Thrown when no descendant control is found.</exception>
+    public static Control FirstDescendant(this Control control, Func<Control, bool> predicate)
+    {
+        foreach (Control childControl in control.ChildControls())
+        {
+            if (predicate(childControl))
+            {
+                return childControl;
+            }
+            Control? grandChildControl = childControl.FirstDescendantOrDefault(predicate);
+            if (grandChildControl is not null)
+            {
+                return grandChildControl;
+            }
+        }
+
+        throw new InvalidOperationException("No descendant control found.");
+    }
+
+    /// <summary>
+    ///  Retrieves the first descendant control of the specified type, or the default value if none is found.
+    /// </summary>
+    /// <typeparam name="T">The type of descendant control to search for.</typeparam>
+    /// <param name="control">The control to search within.</param>
+    /// <returns>The first matching descendant control, or null if none is found.</returns>
+    public static T? FirstDescendantOrDefault<T>(this Control control) where T : Control
+        => control.FirstDescendantOrDefault(c => c is T) as T;
+
+    /// <summary>
+    ///  Retrieves the first descendant control that matches the specified predicate, or null if none is found.
+    /// </summary>
+    /// <param name="control">The control to search within.</param>
+    /// <param name="predicate">The condition to match.</param>
+    /// <returns>The first matching descendant control, or null if none is found.</returns>
+    public static Control? FirstDescendantOrDefault(this Control control, Func<Control, bool> predicate)
+    {
+        foreach (Control childControl in control.ChildControls())
+        {
+            if (predicate(childControl))
+            {
+                return childControl;
+            }
+            Control? grandChildControl = childControl.FirstDescendantOrDefault(predicate);
+
+            if (grandChildControl is not null)
+            {
+                return grandChildControl;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    ///  Enumerates all descendant controls of the specified control.
+    /// </summary>
+    /// <param name="control">The control to retrieve descendants from.</param>
+    /// <returns>An enumerable of descendant controls.</returns>
+    public static IEnumerable<Control> DescendantControls(this Control control)
+    {
+        foreach (Control childControl in control.ChildControls())
         {
             yield return childControl;
 
-            foreach (Control grandChildControl in childControl.GetControlsRecursive())
+            foreach (Control grandChildControl in childControl.DescendantControls())
+            {
+                yield return grandChildControl;
+            }
+        }
+    }
+
+    /// <summary>
+    ///  Enumerates all descendant controls of the specified control that match the provided predicate.
+    /// </summary>
+    /// <param name="control">The control to retrieve descendants from.</param>
+    /// <param name="predicate">The condition to match descendants.</param>
+    /// <returns>An enumerable of descendant controls that match the predicate.</returns>
+    public static IEnumerable<Control> DescendantControls(this Control control, Func<Control, bool> predicate)
+    {
+        foreach (Control childControl in control.ChildControls())
+        {
+            if (predicate(childControl))
+            {
+                yield return childControl;
+            }
+            foreach (Control grandChildControl in childControl.DescendantControls(predicate))
             {
                 yield return grandChildControl;
             }

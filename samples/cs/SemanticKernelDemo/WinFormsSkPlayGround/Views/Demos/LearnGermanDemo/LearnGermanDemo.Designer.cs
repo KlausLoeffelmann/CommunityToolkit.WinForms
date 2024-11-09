@@ -28,7 +28,6 @@ partial class LearnGermanDemo
     /// </summary>
     private void InitializeComponent()
     {
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LearnGermanDemo));
         _mainLayoutPanel = new TableLayoutPanel();
         _lblEnterGermanText = new Label();
         _btnAsyncReadPhoneticEnglishOutLoud = new SemanticKernelDemo.Controls.AsyncButton();
@@ -37,7 +36,6 @@ partial class LearnGermanDemo
         _txtGermanTextPrompt = new SemanticKernelDemo.Controls.AsyncPromptControl();
         _cmbDeutscheTextBeispiele = new ComboBox();
         _btnAsyncPhoneticTranslate = new SemanticKernelDemo.Controls.AsyncButton();
-        _skPhoneticEnglish = new SemanticKernelDemo.SemanticKernel.SemanticKernelComponent();
         _mainLayoutPanel.SuspendLayout();
         SuspendLayout();
         // 
@@ -47,12 +45,12 @@ partial class LearnGermanDemo
         _mainLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
         _mainLayoutPanel.ColumnStyles.Add(new ColumnStyle());
         _mainLayoutPanel.Controls.Add(_lblEnterGermanText, 0, 0);
-        _mainLayoutPanel.Controls.Add(_btnAsyncReadPhoneticEnglishOutLoud, 1, 3);
         _mainLayoutPanel.Controls.Add(_txtPhoneticEnglish, 0, 6);
         _mainLayoutPanel.Controls.Add(_lblPhoneticEnglish, 0, 5);
         _mainLayoutPanel.Controls.Add(_txtGermanTextPrompt, 0, 3);
         _mainLayoutPanel.Controls.Add(_cmbDeutscheTextBeispiele, 0, 1);
-        _mainLayoutPanel.Controls.Add(_btnAsyncPhoneticTranslate, 1, 0);
+        _mainLayoutPanel.Controls.Add(_btnAsyncReadPhoneticEnglishOutLoud, 1, 6);
+        _mainLayoutPanel.Controls.Add(_btnAsyncPhoneticTranslate, 1, 3);
         _mainLayoutPanel.Dock = DockStyle.Fill;
         _mainLayoutPanel.Location = new Point(0, 0);
         _mainLayoutPanel.Margin = new Padding(4);
@@ -81,7 +79,7 @@ partial class LearnGermanDemo
         // _btnAsyncReadPhoneticEnglishOutLoud
         // 
         _btnAsyncReadPhoneticEnglishOutLoud.DialogResult = DialogResult.OK;
-        _btnAsyncReadPhoneticEnglishOutLoud.Location = new Point(911, 75);
+        _btnAsyncReadPhoneticEnglishOutLoud.Location = new Point(911, 393);
         _btnAsyncReadPhoneticEnglishOutLoud.Margin = new Padding(30, 4, 10, 10);
         _btnAsyncReadPhoneticEnglishOutLoud.Name = "_btnAsyncReadPhoneticEnglishOutLoud";
         _btnAsyncReadPhoneticEnglishOutLoud.Size = new Size(232, 57);
@@ -94,18 +92,18 @@ partial class LearnGermanDemo
         // 
         _txtPhoneticEnglish.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
         _txtPhoneticEnglish.Font = new Font("Segoe UI", 14.1428576F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        _txtPhoneticEnglish.Location = new Point(4, 395);
+        _txtPhoneticEnglish.Location = new Point(4, 393);
         _txtPhoneticEnglish.Margin = new Padding(4);
         _txtPhoneticEnglish.Multiline = true;
         _txtPhoneticEnglish.Name = "_txtPhoneticEnglish";
-        _txtPhoneticEnglish.Size = new Size(873, 275);
+        _txtPhoneticEnglish.Size = new Size(873, 277);
         _txtPhoneticEnglish.TabIndex = 5;
         // 
         // _lblPhoneticEnglish
         // 
         _lblPhoneticEnglish.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         _lblPhoneticEnglish.AutoSize = true;
-        _lblPhoneticEnglish.Location = new Point(4, 366);
+        _lblPhoneticEnglish.Location = new Point(4, 364);
         _lblPhoneticEnglish.Margin = new Padding(4, 12, 4, 0);
         _lblPhoneticEnglish.Name = "_lblPhoneticEnglish";
         _lblPhoneticEnglish.Size = new Size(156, 25);
@@ -116,11 +114,11 @@ partial class LearnGermanDemo
         // 
         _txtGermanTextPrompt.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
         _txtGermanTextPrompt.Font = new Font("Segoe UI", 14.1428576F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        _txtGermanTextPrompt.Location = new Point(4, 75);
+        _txtGermanTextPrompt.Location = new Point(4, 72);
         _txtGermanTextPrompt.Margin = new Padding(4);
         _txtGermanTextPrompt.Multiline = true;
         _txtGermanTextPrompt.Name = "_txtGermanTextPrompt";
-        _txtGermanTextPrompt.Size = new Size(873, 275);
+        _txtGermanTextPrompt.Size = new Size(873, 276);
         _txtGermanTextPrompt.TabIndex = 3;
         _txtGermanTextPrompt.Text = "Lerne Deutsch in nur 2 Minuten!\r\n\r\n";
         // 
@@ -138,7 +136,7 @@ partial class LearnGermanDemo
         // _btnAsyncPhoneticTranslate
         // 
         _btnAsyncPhoneticTranslate.DialogResult = DialogResult.OK;
-        _btnAsyncPhoneticTranslate.Location = new Point(911, 4);
+        _btnAsyncPhoneticTranslate.Location = new Point(911, 72);
         _btnAsyncPhoneticTranslate.Margin = new Padding(30, 4, 10, 10);
         _btnAsyncPhoneticTranslate.Name = "_btnAsyncPhoneticTranslate";
         _mainLayoutPanel.SetRowSpan(_btnAsyncPhoneticTranslate, 2);
@@ -147,12 +145,6 @@ partial class LearnGermanDemo
         _btnAsyncPhoneticTranslate.Text = "Phonetic Translation";
         _btnAsyncPhoneticTranslate.UseVisualStyleBackColor = true;
         _btnAsyncPhoneticTranslate.AsyncClick += BtnAsyncPhoneticTranslate_AsyncClick;
-        // 
-        // _skPhoneticEnglish
-        // 
-        _skPhoneticEnglish.AssistantInstructions = resources.GetString("_skPhoneticEnglish.AssistantInstructions");
-        _skPhoneticEnglish.Temperature = 1D;
-        _skPhoneticEnglish.TopP = 1D;
         // 
         // LearnGermanDemo
         // 
@@ -177,6 +169,5 @@ partial class LearnGermanDemo
     private Label _lblPhoneticEnglish;
     private SemanticKernelDemo.Controls.AsyncButton _btnAsyncPhoneticTranslate;
     private SemanticKernelDemo.Controls.AsyncButton _btnAsyncReadPhoneticEnglishOutLoud;
-    private SemanticKernelDemo.SemanticKernel.SemanticKernelComponent _skPhoneticEnglish;
     private ComboBox _cmbDeutscheTextBeispiele;
 }

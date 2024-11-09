@@ -1,9 +1,12 @@
-﻿using Microsoft.CognitiveServices.Speech;
+﻿using CommunityToolkit.WinForms.Extensions;
+using Microsoft.CognitiveServices.Speech;
 using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace WinFormsSkPlayGround.Views;
@@ -14,13 +17,6 @@ public partial class LearnGermanDemo : UserControl
     private const string OpenAiApiKeyLookupKey = "AI:OpenAi:ApiKey";
     private const string AzureSpeechSubscriptionKeyLookupKey = "AzureSpeech:SubscriptionKey";
     private const string AzureSpeechSubscriptionRegionLookupKey = "AzureSpeech:Region";
-
-    // The chat history. If you are using ChatGPT for example directly in the WebBrowser,
-    // this equals the chat history, so, the things you've said and the responses you've received.
-    private ChatHistory? _chatHistory;
-
-    // The kernel for the Semantic Kernel scenario. It bundles the connectors and services.
-    private Kernel? _kernel;
 
     // This is the system prompt that will be used for the OpenAI model execution.
     private const string SystemPrompt =
@@ -67,18 +63,48 @@ public partial class LearnGermanDemo : UserControl
         * If a word is a number, you should write it out, so "1" becomes "ains", "ain" or "ain-eh", depending on the context.
         """;
 
-    public LearnGermanDemo()
+    private const string SystemPromptExt = SystemPrompt +
+        """
+        In addition to all the above, also translate the given German string into English.
+
+        Return both results back as JSon.
+        """;
+    private StatusStrip? _statusStrip;
+
+    // The chat history. If you are using ChatGPT for example directly in the WebBrowser,
+    // this equals the chat history, so, the things you've said and the responses you've received.
+    private ChatHistory? _chatHistory;
+
+    // The kernel for the Semantic Kernel scenario. It bundles the connectors and services.
+    private Kernel? _kernel;
+    private Form _parentForm;
+
+    [AllowNull]
+    private ToolStripItem? _tslTimeElapsed;
+
+    public LearnGermanDemo(Form parentForm)
     {
+        ArgumentNullException.ThrowIfNull(parentForm);
+        _parentForm = parentForm;
+
         InitializeComponent();
 
-        _cmbDeutscheTextBeispiele.SelectedIndexChanged += 
+        _cmbDeutscheTextBeispiele.SelectedIndexChanged +=
             (s, e) => _txtGermanTextPrompt.Text = _cmbDeutscheTextBeispiele.Text;
+    }
+
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+
+        _statusStrip = _parentForm.FirstDescendant<StatusStrip>();
+        _ = _statusStrip.Items.Add("Duration of last round trip: ");
+        _tslTimeElapsed = _statusStrip.Items.Add(string.Empty);
     }
 
     // This is the method that will translate the German text into "phonetic English."
     private async Task BtnAsyncPhoneticTranslate_AsyncClick(object sender, EventArgs e)
     {
-        string systemPrompt = $"Today is {DateTime.Now:G}";
         string germanText = _txtGermanTextPrompt.Text;
 
         await InvokeAsync(() => _txtPhoneticEnglish.Clear());
@@ -105,10 +131,15 @@ public partial class LearnGermanDemo : UserControl
 
         _chatHistory.AddUserMessage(_txtGermanTextPrompt.Text);
 
+        Stopwatch stopwatch = Stopwatch.StartNew();
+
         var responses = await chatService.GetChatMessageContentsAsync(
             _chatHistory,
             kernel: _kernel,
             executionSettings: executionSettings);
+
+        stopwatch.Stop();
+        await InvokeAsync(() => _tslTimeElapsed.Text = $"{stopwatch.Elapsed:#,###} ms.");
 
         StringBuilder responseStringBuilder = new();
 
@@ -147,7 +178,7 @@ public partial class LearnGermanDemo : UserControl
         using var synthesizer = new SpeechSynthesizer(config);
 
         string ssmlText = $"""
-            <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+            < speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
                 <voice name="en-US-AshleyNeural">
                     {text}
                 </voice>
