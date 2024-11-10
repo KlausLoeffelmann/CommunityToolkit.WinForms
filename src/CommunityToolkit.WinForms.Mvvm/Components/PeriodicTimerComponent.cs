@@ -19,7 +19,7 @@ public class PeriodicTimerComponent : BindableComponent
     /// <summary>
     ///  Occurs when the timer engages.
     /// </summary>
-    public event AsyncEventHandler<EngageEventArgs>? EngageAsync;
+    public event AsyncEventHandler<AsyncEngageEventArgs>? AsyncEngage;
     public event EventHandler? ElapsedCommandChanged;
 
     /// <summary>
@@ -82,9 +82,9 @@ public class PeriodicTimerComponent : BindableComponent
         {
             while (await _timer.WaitForNextTickAsync(cancellationToken).ConfigureAwait(false))
             {
-                if (EngageAsync != null)
+                if (AsyncEngage != null)
                 {
-                    await EngageAsync(this, new EngageEventArgs(cancellationToken));
+                    await AsyncEngage(this, new AsyncEngageEventArgs(cancellationToken));
                 }
 
                 // Execute the command on the main thread:

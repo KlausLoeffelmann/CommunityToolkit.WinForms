@@ -4,7 +4,6 @@ using Microsoft.CognitiveServices.Speech;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -244,21 +243,5 @@ public partial class LearnGermanDemo : UserControl
 
             return sb.ToString();
         }
-    }
-
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public int TestProperty { get; set; }
-
-    private async Task InvokeAsyncDemo()
-    {
-        // If you want to have this func to be awaited,
-        // return ValueTask and expect a cancellation token!
-        static async ValueTask correctTaskAsync(CancellationToken token)
-        {
-            await Task.Delay(1000, token);
-            MessageBox.Show("Hello from the UI thread!");
-        }
-
-        await _txtPhoneticEnglish.InvokeAsync(correctTaskAsync);
     }
 }

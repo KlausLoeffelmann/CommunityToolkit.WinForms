@@ -1,9 +1,8 @@
-﻿using Microsoft.SemanticKernel;
+﻿using DemoToolkit.Mvvm.WinForms.Components;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Reflection;
 using System.Text;
 
 namespace CommunityToolkit.WinForms.AI;
@@ -11,6 +10,9 @@ namespace CommunityToolkit.WinForms.AI;
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 public class SemanticKernelComponent : BindableComponent
 {
+    public event AsyncEventHandler<AsyncRequestAssistantInstructionsEventArgs>? AsyncRequestAssistanceInstructions;
+    public event AsyncEventHandler<AsyncRequestExecutionSettingsEventArgs>? AsyncRequestExecutionSettings;
+
     // The chat history. If you are using ChatGPT for example directly in the WebBrowser,
     // this equals the chat history, so, the things you've said and the responses you've received.
     private ChatHistory? _chatHistory;
@@ -30,40 +32,21 @@ public class SemanticKernelComponent : BindableComponent
     [DefaultValue(null)]
     public string? PromptDataValue { get; set; }
 
-    private string GetAssistantInstructions()
-    {
-        if (ResourceStreamSource is null)
-            throw new InvalidOperationException("You have tried to request a prompt, but did not provide the resource string source for the prompt.");
-
-        // The Assistant-Instructions are in an MD file and setup to be compiled as an embedded resource.
-        // We need to get the resource stream and read the content:
-        Assembly assembly = typeof(SemanticKernelComponent).Assembly;
-
-        using Stream stream = assembly.GetManifestResourceStream(ResourceStreamSource)
-            ?? throw new NullReferenceException("The resource stream source returned null.");
-        using StreamReader reader = new(stream);
-
-        return reader.ReadToEnd();
-    }
-
-    public async Task<string?> RequestPromptResponseAsync(
+    public async Task<string?> RequestTextPromptResponseAsync(
         string valueToProcess)
     {
         if (string.IsNullOrWhiteSpace(valueToProcess))
             throw new InvalidOperationException("You requested to process a prompt, but did not provide any content to process.");
 
-        var (chatService, executionSettings) = GetOrCreateChatService();
+        if (ChatHistory is null)
+            throw new InvalidOperationException("You requested to process a prompt, but the ChatHistory is not set.");
 
-        OnSetupExecutionSettings(executionSettings);
-
-        Stopwatch stopwatch = Stopwatch.StartNew();
+        var (chatService, executionSettings) = await GetOrCreateChatServiceAsync();
 
         var responses = await chatService.GetChatMessageContentsAsync(
-            ChatHistory!,
+            ChatHistory,
             kernel: _kernel,
             executionSettings: executionSettings);
-
-        stopwatch.Stop();
 
         StringBuilder responseStringBuilder = new();
 
@@ -71,7 +54,7 @@ public class SemanticKernelComponent : BindableComponent
         // But we need to also add them to the chat history!
         foreach (ChatMessageContent response in responses)
         {
-            ChatHistory!.AddMessage(response.Role, response.ToString());
+            ChatHistory.AddMessage(response.Role, response.ToString());
             responseStringBuilder.Append(response);
         }
 
@@ -83,12 +66,18 @@ public class SemanticKernelComponent : BindableComponent
         if (string.IsNullOrWhiteSpace(valueToProcess))
             throw new InvalidOperationException("You requested to process a prompt, but did not provide any content to process.");
 
-        var (chatService, executionSettings) = GetOrCreateChatService();
+        if (ChatHistory is null)
+            throw new InvalidOperationException("You requested to process a prompt, but the ChatHistory is not set.");
 
-        OnSetupExecutionSettings(executionSettings);
+        var (chatService, executionSettings) = await GetOrCreateChatServiceAsync();
 
-        var responses = chatService.GetStreamingChatMessageContentsAsync(ChatHistory!, kernel: _kernel);
-        responses = ChatHistory!.AddStreamingMessageAsync((IAsyncEnumerable<OpenAIStreamingChatMessageContent>)responses);
+        var responses = chatService.GetStreamingChatMessageContentsAsync(
+            ChatHistory,
+            executionSettings: executionSettings,
+            kernel: _kernel);
+
+        responses = ChatHistory.AddStreamingMessageAsync(
+            (IAsyncEnumerable<OpenAIStreamingChatMessageContent>)responses);
 
         await foreach (var response in responses)
         {
@@ -101,16 +90,28 @@ public class SemanticKernelComponent : BindableComponent
         }
     }
 
-    protected virtual void OnSetupExecutionSettings(OpenAIPromptExecutionSettings executionSettings)
-    {
-    }
-
-    private (OpenAIChatCompletionService chatService, OpenAIPromptExecutionSettings executionSettings) GetOrCreateChatService()
+    private async Task<(OpenAIChatCompletionService chatService, OpenAIPromptExecutionSettings executionSettings)> GetOrCreateChatServiceAsync()
     {
         if (ApiKeyGetter is null)
             throw new InvalidOperationException("You have tried to request a prompt, but did not provide Func delegate to get the api key.");
 
-        if (string.IsNullOrWhiteSpace(GetAssistantInstructions()))
+        AsyncRequestAssistantInstructionsEventArgs eArgs = new(GetAssistantInstructions());
+        await OnRequestAssistantInstructionsAsync(eArgs);
+
+        OpenAIPromptExecutionSettings executionSettings = new();
+        executionSettings
+            .WithSystemPrompt(eArgs.AssistantInstructions)
+                    .WithDefaultModelParameters(
+                        MaxTokens: 8000,
+                        temperature: Temperature,
+                        topP: TopP,
+                        frequencyPenalty: _frequencyPenalty,
+                        presencePenalty: _presencePenalty);
+
+        AsyncRequestExecutionSettingsEventArgs settingsEventArgs = new(executionSettings);
+        await OnRequestExecutionSettingsAsync(settingsEventArgs);
+
+        if (string.IsNullOrWhiteSpace(eArgs.AssistantInstructions))
             throw new InvalidOperationException("You have tried to request a prompt, but did not provide general description, what the Assistant is suppose to do.");
 
         string apiKey = Environment.GetEnvironmentVariable(ApiKeyGetter.Invoke())
@@ -125,20 +126,22 @@ public class SemanticKernelComponent : BindableComponent
 
         _chatHistory ??= [];
 
-        OpenAIPromptExecutionSettings executionSettings = new();
-        executionSettings
-            .WithSystemPrompt(GetAssistantInstructions())
-                    .WithDefaultModelParameters(
-                        MaxTokens: 8000,
-                        temperature: Temperature,
-                        topP: TopP,
-                        frequencyPenalty: _frequencyPenalty,
-                        presencePenalty: _presencePenalty);
-
         var chatService = (OpenAIChatCompletionService)_kernel.GetRequiredService<IChatCompletionService>();
 
-        return (chatService, executionSettings);
+        return (chatService, settingsEventArgs.ExecutionSettings);
     }
+
+    protected virtual string GetAssistantInstructions() 
+        => "You are an Assistant for helping Developers with questions around .NET, C# and Visual Basic.";
+
+    protected virtual Task OnRequestAssistantInstructionsAsync(AsyncRequestAssistantInstructionsEventArgs eArgs) 
+        => AsyncRequestAssistanceInstructions?.Invoke(this, eArgs)
+            ?? Task.CompletedTask;
+
+
+    protected virtual Task OnRequestExecutionSettingsAsync(AsyncRequestExecutionSettingsEventArgs eArgs) 
+        => AsyncRequestExecutionSettings?.Invoke(this, eArgs)
+            ?? Task.CompletedTask;
 
     /// <summary>
     ///  Gets or sets a Func that returns the API key to use for the OpenAI API. 
