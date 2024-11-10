@@ -1,4 +1,6 @@
-﻿namespace WinFormsSkPlayGround.Views
+﻿using CommunityToolkit.WinForms.AI;
+
+namespace WinFormsSkPlayGround.Views
 {
     partial class AIPlayGroundView
     {
@@ -34,7 +36,7 @@
             panel1 = new Panel();
             editFloatingPointSlider1 = new Controls.EditFloatingPointSlider();
             label1 = new Label();
-            _semanticKernelConversation = new SemanticKernelDemo.SemanticKernel.SemanticKernelComponent();
+            _semanticKernelConversation = new SemanticKernelComponent();
             _toolTip = new ToolTip(components);
             _conversationView = new WinForms.ControlConcepts.ConversationView();
             _mainLayoutPanel.SuspendLayout();
@@ -108,7 +110,6 @@
             // 
             // _semanticKernelConversation
             // 
-            _semanticKernelConversation.AssistantInstructions = "";
             _semanticKernelConversation.Temperature = 1D;
             _semanticKernelConversation.TopP = 1D;
             // 
@@ -146,7 +147,7 @@
         private Panel panel1;
         private Label label1;
         private SemanticKernelDemo.Controls.AsyncPromptControl _promptControl;
-        private SemanticKernelDemo.SemanticKernel.SemanticKernelComponent _semanticKernelConversation;
+        private SemanticKernelComponent _semanticKernelConversation;
         private ToolTip _toolTip;
         private Controls.EditFloatingPointSlider editFloatingPointSlider1;
         private WinForms.ControlConcepts.ConversationView _conversationView;

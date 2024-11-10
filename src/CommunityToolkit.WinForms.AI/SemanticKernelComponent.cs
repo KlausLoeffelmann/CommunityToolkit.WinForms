@@ -1,21 +1,144 @@
 ﻿using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.ComponentModel;
-using System.Globalization;
+using System.Diagnostics;
 using System.Reflection;
+using System.Text;
 
 namespace CommunityToolkit.WinForms.AI;
 
-public class SemanticKernelComponent<T> : BindableComponent
+#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
+public class SemanticKernelComponent : BindableComponent
 {
-    private Kernel? _kernel;
-    private KernelFunction? _kernelDataParserFunction;
+    // The chat history. If you are using ChatGPT for example directly in the WebBrowser,
+    // this equals the chat history, so, the things you've said and the responses you've received.
+    private ChatHistory? _chatHistory;
 
-    private const string ParameterAssistantInstructions = "assistantInstructions";
-    private const string ParameterPromptCulture = "promptCulture";
-    private const string ParameterPromptCurrentTime = "promptCurrentTime";
-    private const string ParameterPromptValue = "promptValue";
-    private const string ParameterTypeJSonSchema = "promptDataType";
+    // The kernel for the Semantic Kernel scenario. It bundles the connectors and services.
+    private Kernel? _kernel;
+
+    // The parentForm, which we might need to invoke the UI thread.
+    private Form? _parentForm;
+    private double? _topP;
+    private double? _temperature;
+    private long? _seed;
+    private double? _presencePenalty;
+    private double? _frequencyPenalty;
+
+    [Browsable(false)]
+    [DefaultValue(null)]
+    public string? PromptDataValue { get; set; }
+
+    private string GetAssistantInstructions()
+    {
+        if (ResourceStreamSource is null)
+            throw new InvalidOperationException("You have tried to request a prompt, but did not provide the resource string source for the prompt.");
+
+        // The Assistant-Instructions are in an MD file and setup to be compiled as an embedded resource.
+        // We need to get the resource stream and read the content:
+        Assembly assembly = typeof(SemanticKernelComponent).Assembly;
+
+        using Stream stream = assembly.GetManifestResourceStream(ResourceStreamSource)
+            ?? throw new NullReferenceException("The resource stream source returned null.");
+        using StreamReader reader = new(stream);
+
+        return reader.ReadToEnd();
+    }
+
+    public async Task<string?> RequestPromptResponseAsync(
+        string valueToProcess)
+    {
+        if (string.IsNullOrWhiteSpace(valueToProcess))
+            throw new InvalidOperationException("You requested to process a prompt, but did not provide any content to process.");
+
+        var (chatService, executionSettings) = GetOrCreateChatService();
+
+        OnSetupExecutionSettings(executionSettings);
+
+        Stopwatch stopwatch = Stopwatch.StartNew();
+
+        var responses = await chatService.GetChatMessageContentsAsync(
+            ChatHistory!,
+            kernel: _kernel,
+            executionSettings: executionSettings);
+
+        stopwatch.Stop();
+
+        StringBuilder responseStringBuilder = new();
+
+        // We can have several responses, so we'll append them all to the text box.
+        // But we need to also add them to the chat history!
+        foreach (ChatMessageContent response in responses)
+        {
+            ChatHistory!.AddMessage(response.Role, response.ToString());
+            responseStringBuilder.Append(response);
+        }
+
+        return responseStringBuilder.ToString();
+    }
+
+    public async IAsyncEnumerable<string> RequestPromptResponseStreamAsync(string valueToProcess)
+    {
+        if (string.IsNullOrWhiteSpace(valueToProcess))
+            throw new InvalidOperationException("You requested to process a prompt, but did not provide any content to process.");
+
+        var (chatService, executionSettings) = GetOrCreateChatService();
+
+        OnSetupExecutionSettings(executionSettings);
+
+        var responses = chatService.GetStreamingChatMessageContentsAsync(ChatHistory!, kernel: _kernel);
+        responses = ChatHistory!.AddStreamingMessageAsync((IAsyncEnumerable<OpenAIStreamingChatMessageContent>)responses);
+
+        await foreach (var response in responses)
+        {
+            if (response.Content is null)
+            {
+                continue;
+            }
+
+            yield return response.Content;
+        }
+    }
+
+    protected virtual void OnSetupExecutionSettings(OpenAIPromptExecutionSettings executionSettings)
+    {
+    }
+
+    private (OpenAIChatCompletionService chatService, OpenAIPromptExecutionSettings executionSettings) GetOrCreateChatService()
+    {
+        if (ApiKeyGetter is null)
+            throw new InvalidOperationException("You have tried to request a prompt, but did not provide Func delegate to get the api key.");
+
+        if (string.IsNullOrWhiteSpace(GetAssistantInstructions()))
+            throw new InvalidOperationException("You have tried to request a prompt, but did not provide general description, what the Assistant is suppose to do.");
+
+        string apiKey = Environment.GetEnvironmentVariable(ApiKeyGetter.Invoke())
+            ?? throw new InvalidOperationException("The AI:OpenAI:ApiKey environment variable is not set.");
+
+        // We're using the GPT-4o model from OpenAI directory for our Semantic Kernel scenario.
+        var kernelBuilder = Kernel
+            .CreateBuilder()
+            .AddOpenAIChatCompletion(ModelName, apiKey);
+
+        _kernel = kernelBuilder.Build();
+
+        _chatHistory ??= [];
+
+        OpenAIPromptExecutionSettings executionSettings = new();
+        executionSettings
+            .WithSystemPrompt(GetAssistantInstructions())
+                    .WithDefaultModelParameters(
+                        MaxTokens: 8000,
+                        temperature: Temperature,
+                        topP: TopP,
+                        frequencyPenalty: _frequencyPenalty,
+                        presencePenalty: _presencePenalty);
+
+        var chatService = (OpenAIChatCompletionService)_kernel.GetRequiredService<IChatCompletionService>();
+
+        return (chatService, executionSettings);
+    }
 
     /// <summary>
     ///  Gets or sets a Func that returns the API key to use for the OpenAI API. 
@@ -33,138 +156,82 @@ public class SemanticKernelComponent<T> : BindableComponent
     [Description("Gets or sets the .NET type name, the LLM should generate parsable string results for.")]
     public string? JsonSchema { get; set; } = null;
 
-    [Browsable(false)]
+    /// <summary>
+    ///  Gets or sets the resource string source for the Assistant Instructions.
+    /// </summary>
     [DefaultValue(null)]
-    public string? PromptDataValue { get; set; }
+    public string? ResourceStreamSource { get; set; }
 
-    protected virtual string GetAssistantInstructions()
-    {
-        // The Assistant-Instructions are in an MD file and setup to be compiled as an embedded resource.
-        // We need to get the resource stream and read the content:
-        Assembly assembly = typeof(SemanticKernelComponent<T>).Assembly;
-        using Stream stream = assembly.GetManifestResourceStream("SemanticKernelComponent.AssistantInstructions.md")!;
-        using StreamReader reader = new(stream);
-
-        return reader.ReadToEnd();
-    }
-
-    public async Task<string?> RequestPromptProcessingAsync(
-        string promptTypeName,
-        string promptContent)
-    {
-        if (ApiKeyGetter is null)
-            throw new InvalidOperationException("You have tried to request a prompt, but did not provide Func delegate to get the key.");
-
-        if (string.IsNullOrWhiteSpace(GetAssistantInstructions()))
-            throw new InvalidOperationException("You have tried to request a prompt, but did not provide general description, what the Assistant is suppose to do.");
-
-        if (promptContent is null)
-            throw new InvalidOperationException("You have tried to request a prompt, but did not provide one.");
-
-        Initialize();
-
-        if (_kernel == null)
-            throw new InvalidOperationException("Semantic Kernel could not been initialized");
-
-        return await GetResponseAsync(promptContent, promptTypeName);
-    }
-
-    private void Initialize()
-    {
-        var apiKey = ApiKeyGetter?.Invoke()
-            ?? throw new InvalidOperationException("The AI:OpenAI:ApiKey environment variable is not set.");
-
-        _kernel = Kernel.CreateBuilder()
-                .AddOpenAIChatCompletion("gpt-4-turbo", apiKey)
-                .Build();
-
-        _kernelDataParserFunction = _kernel.CreateFunctionFromPrompt(
-            new PromptTemplateConfig()
-            {
-                Name = "AiComponentRequest",
-                Description = "Request assistance which prompt parameters configured by a WinForms Component.",
-                Template = GetAssistantInstructions(),
-                TemplateFormat = "semantic-kernel",
-                InputVariables =
-                [
-                    new() { Name = ParameterAssistantInstructions, Description = "The general instructions for the role which the LLM should incorporate.", IsRequired = true },
-                    new() { Name = ParameterPromptValue, Description = "The Parameters in the context of the Prompt.", IsRequired = true },
-                    new() { Name = ParameterTypeJSonSchema, Description = "The JSon-Schema of the return type of the prompt.", IsRequired = true },
-                    new() { Name = ParameterPromptCulture, Description = "The Culture of the Prompt.", IsRequired = true },
-                    new() { Name = ParameterPromptCurrentTime, Description = "The Current Time of the Prompt.", IsRequired = true }
-                ],
-
-                ExecutionSettings =
-                {
-                    {
-                        "gpt-4o",
-                            new OpenAIPromptExecutionSettings()
-                            {
-                                ModelId = "gpt-4o",
-                                MaxTokens = 8000,
-                                Temperature = 0.2,
-                                Seed = 10,
-                            }
-                    }
-                }
-            });
-    }
-
-    public async Task<string?> GetResponseAsync(
-        string parameterPromptValue,
-        string parameterPromptDataType)
-    {
-        if (_kernel is null || _kernelDataParserFunction is null)
-            throw new InvalidOperationException("The Semantic Kernel has not been initialized.");
-
-        ChatMessageContent? completion = await _kernelDataParserFunction.InvokeAsync<ChatMessageContent>(
-            kernel: _kernel,
-            arguments: new()
-            {
-                { ParameterAssistantInstructions, GetAssistantInstructions() },
-                { ParameterPromptValue, parameterPromptValue },
-                { ParameterTypeJSonSchema, parameterPromptDataType },
-                { ParameterPromptCulture, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName },
-                { ParameterPromptCurrentTime, DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") }
-            });
-
-        var result = completion?.Content;
-        return result;
-    }
-
-    public async IAsyncEnumerable<string> GetStreamingResponseAsync(
-        string parameterPromptValue,
-        string parameterPromptDataType)
-    {
-        if (_kernel is null || _kernelDataParserFunction is null)
-        {
-            throw new InvalidOperationException("The Semantic Kernel has not been initialized.");
-        }
-
-        var streamingCompletion = _kernelDataParserFunction.InvokeStreamingAsync<StreamingChatMessageContent>(
-            kernel: _kernel,
-            arguments: new()
-            {
-                { ParameterAssistantInstructions, GetAssistantInstructions() },
-                { ParameterPromptValue, parameterPromptValue },
-                { ParameterTypeJSonSchema, parameterPromptDataType },
-                { ParameterPromptCulture, CultureInfo.CurrentCulture.ThreeLetterISOLanguageName },
-                { ParameterPromptCurrentTime, DateTimeOffset.Now.ToString("yyyy-MM-ddTHH:mm:ssZ") }
-            });
-
-        await foreach (var part in streamingCompletion)
-        {
-            if (part.Content is null)
-            {
-                continue;
-            }
-
-            yield return part.Content;
-        }
-    }
-
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    /// <summary>
+    ///  Gets or sets the chat history for the Semantic Kernel scenario.
+    /// </summary>
     [Browsable(false)]
-    public Kernel Kernel => _kernel
-        ?? throw new InvalidOperationException($"Kernel is not initialized.");
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public ChatHistory? ChatHistory => _chatHistory;
+
+    /// <summary>
+    ///  Gets or sets the model name to use for chat completion.
+    /// </summary>
+    [DefaultValue("gpt-4o")]
+    public string ModelName { get; set; } = "gpt-4o";
+
+    /// <summary>
+    ///  Gets or sets the frequency penalty to apply during chat completion.
+    /// </summary>
+    /// <remarks>
+    ///  The frequency penalty is a value between 0 and 1 that penalizes the model for repeating the same response.
+    ///  A higher value will make the model less likely to repeat responses.
+    /// </remarks>
+    [DefaultValue(null)]
+    public double? FrequencyPenalty
+    {
+        get => _frequencyPenalty;
+        set => _frequencyPenalty = value;
+    }
+
+    /// <summary>
+    ///  Gets or sets the presence penalty to apply during chat completion.
+    /// </summary>
+    /// <remarks>
+    ///  The presence penalty is a value between 0 and 1 that penalizes the model for generating responses that are too long.
+    ///  A higher value will make the model more likely to generate shorter responses.
+    /// </remarks>
+    [DefaultValue(null)]
+    public double? PresencePenalty
+    {
+        get => _presencePenalty;
+        set => _presencePenalty = value;
+    }
+
+    /// <summary>
+    ///  Gets or sets the temperature value for chat completion.
+    /// </summary>
+    /// <remarks>
+    ///  The temperature value controls the randomness of the model's responses.
+    ///  A higher value will make the responses more random, while a lower value 
+    ///  will make them more deterministic.
+    /// </remarks>
+    [DefaultValue(null)]
+    public double? Temperature
+    {
+        get => _temperature;
+        set => _temperature = value;
+    }
+
+    /// <summary>
+    ///  Gets or sets the top-p value for chat completion.
+    /// </summary>
+    /// <remarks>
+    ///  The top-p value is a value between 0 and 1 that controls the diversity 
+    ///  of the model's responses.
+    ///  A higher value will make the responses more diverse, while a lower value 
+    ///  will make them more focused.
+    /// </remarks>
+    [DefaultValue(1)]
+    public double? TopP
+    {
+        get => _topP;
+        set => _topP = value;
+    }
 }
+#pragma warning restore SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

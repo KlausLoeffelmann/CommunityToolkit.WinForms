@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.WinForms.Extensions;
+﻿using CommunityToolkit.WinForms.AI;
+using CommunityToolkit.WinForms.Extensions;
 using Microsoft.CognitiveServices.Speech;
-using Microsoft.Extensions.AI;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
@@ -17,6 +17,7 @@ public partial class LearnGermanDemo : UserControl
     private const string OpenAiApiKeyLookupKey = "AI:OpenAi:ApiKey";
     private const string AzureSpeechSubscriptionKeyLookupKey = "AzureSpeech:SubscriptionKey";
     private const string AzureSpeechSubscriptionRegionLookupKey = "AzureSpeech:Region";
+    private char[] _separators = { ' ', '-', ',', '.', '?', '!' };
 
     // This is the system prompt that will be used for the OpenAI model execution.
     private const string SystemPrompt =
@@ -80,7 +81,7 @@ public partial class LearnGermanDemo : UserControl
     private Form _parentForm;
 
     [AllowNull]
-    private ToolStripItem? _tslTimeElapsed;
+    private ToolStripItem _tslTimeElapsed;
 
     public LearnGermanDemo(Form parentForm)
     {
@@ -125,7 +126,9 @@ public partial class LearnGermanDemo : UserControl
         _chatHistory ??= [];
 
         OpenAIPromptExecutionSettings executionSettings = new();
-        executionSettings.WithSystemPrompt(SystemPrompt);
+        executionSettings
+            .WithSystemPrompt(SystemPrompt)
+            .WithDefaultModelParameters(temperature: 0.1);
 
         var chatService = _kernel.GetRequiredService<IChatCompletionService>();
 
@@ -139,7 +142,7 @@ public partial class LearnGermanDemo : UserControl
             executionSettings: executionSettings);
 
         stopwatch.Stop();
-        await InvokeAsync(() => _tslTimeElapsed.Text = $"{stopwatch.Elapsed:#,###} ms.");
+        await InvokeAsync(() => _tslTimeElapsed.Text = $"{stopwatch.ElapsedMilliseconds:#,###} ms.");
 
         StringBuilder responseStringBuilder = new();
 
@@ -178,7 +181,7 @@ public partial class LearnGermanDemo : UserControl
         using var synthesizer = new SpeechSynthesizer(config);
 
         string ssmlText = $"""
-            < speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
+            <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="en-US">
                 <voice name="en-US-AshleyNeural">
                     {text}
                 </voice>
@@ -204,7 +207,7 @@ public partial class LearnGermanDemo : UserControl
             }
         }
 
-        static string AddSsmlAttributesToPreventSpelling(string input)
+        string AddSsmlAttributesToPreventSpelling(string input)
         {
             ReadOnlySpan<char> span = input.AsSpan();
             StringBuilder sb = new();
@@ -213,7 +216,9 @@ public partial class LearnGermanDemo : UserControl
 
             for (int i = 0; i < span.Length; i++)
             {
-                if (span[i] == ' ' || span[i] == '-')
+                char c = span[i];
+
+                if (_separators.Any((chr) => chr == c))
                 {
                     if (start < i)
                     {
@@ -223,8 +228,8 @@ public partial class LearnGermanDemo : UserControl
                         sb.Append("</say-as>");
                     }
 
-                    // Append the separator character only if it's a space.
-                    if (span[i] == ' ') sb.Append(span[i]);
+                    // Append the separator character only if it's not a dash.
+                    if (span[i] != '-') sb.Append(span[i]);
                     start = i + 1;
                 }
             }
@@ -257,61 +262,3 @@ public partial class LearnGermanDemo : UserControl
         await _txtPhoneticEnglish.InvokeAsync(correctTaskAsync);
     }
 }
-
-internal static class OpenAiOptionExtensions
-{
-    /// <summary>
-    ///  Configures the default parameters for the OpenAI model execution.
-    /// </summary>
-    /// <param name="settings">The settings object to configure.</param>
-    /// <param name="MaxTokens">The maximum number of tokens (words or parts of words) in the response. Default is 60.</param>
-    /// <param name="temperature">Controls the randomness of the response. Lower values make the response more focused and deterministic. Default is 0.7.</param>
-    /// <param name="topP">Controls the diversity of the response. Higher values make the response more diverse. Default is 1.0.</param>
-    /// <param name="frequencyPenalty">Penalizes new tokens based on their existing frequency in the text so far. Default is 0.0.</param>
-    /// <param name="presencePenalty">Penalizes new tokens based on whether they appear in the text so far. Default is 0.0.</param>
-    /// <param name="user">The user identifier for the request. Default is null.</param>
-    /// <returns>The configured <see cref="OpenAIPromptExecutionSettings"/> object.</returns>
-    public static OpenAIPromptExecutionSettings WithDefaultModelParameters(
-        this OpenAIPromptExecutionSettings settings,
-        int? MaxTokens = default,
-        double? temperature = default,
-        double? topP = default,
-        double? frequencyPenalty = default,
-        double? presencePenalty = default,
-        string? user = default)
-    {
-        settings.MaxTokens = MaxTokens ?? 60;
-        settings.Temperature = temperature ?? 0.7;
-        settings.TopP = topP ?? 1.0;
-        settings.FrequencyPenalty = frequencyPenalty ?? 0.0;
-        settings.PresencePenalty = presencePenalty ?? 0.0;
-        settings.User = user;
-
-        return settings;
-    }
-
-    public static OpenAIPromptExecutionSettings WithSystemPrompt(
-        this OpenAIPromptExecutionSettings settings,
-        string systemPrompt)
-    {
-        settings.ChatSystemPrompt = systemPrompt;
-        return settings;
-    }
-
-#pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-    public static OpenAIPromptExecutionSettings WithJsonReturnSchema(
-        this OpenAIPromptExecutionSettings settings,
-        string returnSchema,
-        string? schemaName,
-        string? schemaDescription)
-    {
-        ChatResponseFormat responseFormat = ChatResponseFormat.ForJsonSchema(
-            returnSchema,
-            schemaName,
-            schemaDescription);
-
-        settings.ResponseFormat = responseFormat;
-        return settings;
-    }
-}
-#pragma warning restore SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.

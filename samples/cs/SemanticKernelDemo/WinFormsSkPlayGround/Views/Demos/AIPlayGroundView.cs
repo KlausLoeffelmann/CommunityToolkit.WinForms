@@ -15,14 +15,17 @@ public partial class AIPlayGroundView : UserControl
 
     private async Task PromptControl_AsyncSendPrompt(object sender, EventArgs e)
     {
-        _semanticKernelConversation.ApiKey = Environment
-            .GetEnvironmentVariable(ApiKeyEnvironmentVarLookup);
+        _semanticKernelConversation.ApiKeyGetter =
+            () => Environment.GetEnvironmentVariable(ApiKeyEnvironmentVarLookup)
+                ?? throw new NullReferenceException("Could not retrieve Open AI ApiKey.");
 
         string textToSend = _promptControl.Text;
         _promptControl.Clear();
 
         _conversationView.AddConversationItem(textToSend, isResponse: false);
-        var responses = _conversationView.UpdateCurrentResponseAsync(_semanticKernelConversation.RequestResponseStreamAsync(textToSend));
+
+        var responses = _conversationView.UpdateCurrentResponseAsync(
+            _semanticKernelConversation.RequestPromptResponseStreamAsync(textToSend));
 
         await foreach (var response in responses)
         {
