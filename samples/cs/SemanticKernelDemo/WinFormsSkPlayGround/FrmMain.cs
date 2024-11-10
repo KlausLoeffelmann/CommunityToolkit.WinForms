@@ -3,6 +3,7 @@ using CommunityToolkit.WinForms.Extensions;
 using CommunityToolkit.WinForms.FluentUI;
 using WinFormsSkPlayGround;
 using WinFormsSkPlayGround.Views;
+using WinFormsSkPlayGround.Views.Demos;
 
 namespace SemanticKernelDemo;
 
@@ -36,6 +37,7 @@ public partial class FrmMain : Form
         _mainTabControl.AddTab("Simple Async", new SimpleAsyncDemo(this));
         _mainTabControl.AddTab("Async Rendering", new AsyncSpiralContainer());
         _mainTabControl.AddTab("Learn German!", new LearnGermanDemo(this));
+        _mainTabControl.AddTab("I.A.E.F", new IntelligentAsyncEntryFormsView());
         _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
 
         _mainTabControl.TabChanged += _mainTabControl_TabChanged;

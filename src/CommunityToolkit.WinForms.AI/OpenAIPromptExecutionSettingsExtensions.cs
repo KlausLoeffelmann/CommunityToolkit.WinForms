@@ -47,8 +47,8 @@ public static class OpenAIPromptExecutionSettingsExtensions
     public static OpenAIPromptExecutionSettings WithJsonReturnSchema(
         this OpenAIPromptExecutionSettings settings,
         string returnSchema,
-        string? schemaName,
-        string? schemaDescription)
+        string? schemaName = null,
+        string? schemaDescription = null)
     {
         ChatResponseFormat responseFormat = ChatResponseFormat.ForJsonSchema(
             returnSchema,

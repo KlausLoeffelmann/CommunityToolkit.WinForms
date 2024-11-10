@@ -25,6 +25,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Compononts\IntelDateFormatterComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Compononts\IntelDateFormatterComponent.IntelDateFormatter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Compononts\IntelStringFormatterComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Compononts\IntelStringFormatterComponent.IntelStringFormatter.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="PromptControlVersions\PromptControlV1.cs">
       <SubType>Component</SubType>
     </Compile>

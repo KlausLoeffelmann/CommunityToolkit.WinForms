@@ -11,16 +11,4 @@
     <ProjectReference Include="..\CommunityToolkit.WinForms.FluentUI\CommunityToolkit.WinForms.FluentUI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Formatter\IntelStringFormatterComponent.IntelStringFormatter.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Formatter\IntelStringFormatterComponent.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Formatter\IntelDateFormatterComponent.IntelDateFormatter.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
-
 </Project>

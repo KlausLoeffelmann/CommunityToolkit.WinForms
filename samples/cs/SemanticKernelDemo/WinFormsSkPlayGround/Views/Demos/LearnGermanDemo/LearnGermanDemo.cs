@@ -7,6 +7,7 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
+using System.Text.Json;
 
 namespace WinFormsSkPlayGround.Views;
 
@@ -16,7 +17,7 @@ public partial class LearnGermanDemo : UserControl
     private const string OpenAiApiKeyLookupKey = "AI:OpenAi:ApiKey";
     private const string AzureSpeechSubscriptionKeyLookupKey = "AzureSpeech:SubscriptionKey";
     private const string AzureSpeechSubscriptionRegionLookupKey = "AzureSpeech:Region";
-    private char[] _separators = { ' ', '-', ',', '.', '?', '!' };
+    private static readonly char[] s_separators = { ' ', '-', ',', '.', '?', '!' };
 
     // This is the system prompt that will be used for the OpenAI model execution.
     private const string SystemPrompt =
@@ -31,14 +32,15 @@ public partial class LearnGermanDemo : UserControl
         * Treat 'ch' as in 'ich' as "sh". Samples: 'ich' becomes 'ish', 'mich' becomes 'mish'.
         * Use dashes for only longer words, for example "min-oo-ten" for "Minuten", or "Hoaf-broy-house" for "Hoaf-broy-house"!
         * Use "uh" for the German "a" sound: "Bavaria" becomes "Buh-vuh-ree-uh".
-        * Use "ai" for the German "ei" sound: "Zwei" (or 2) becomes "Tswai". "Ein" becomes "Ain". "Eine" become "Einuh".
+        * Use "ai" for the German "ei" sound: "Zwei" (or 2) becomes "Tswai". "Ein" becomes "Ain". "Eine" become "ain-eh".
         * Use "ee" for the German "ie" sound: "Sie" becomes "See".
-        * Use "oi" for the German "eu"-sound: "Heute" becomes "Hoytuh". "99" becomes "Noin-uhnd-noin-zig".
+        * Use "oi" for the German "eu"-sound: "Heute" becomes "Hoyteh". "99" becomes "Noin-uhnd-noin-zig".
+        * Transform the German past participle prefix "ge" to "geh-".
         * Do not use "öäü" in phonetic spelling, and do not convert them to "oe ae ue".
           * "für" becomes "fur".
-          * "Löffel" becomes "Lirfel".
+          * "völlig" becomes "fellick".
           * "Müller" becomes "Muller".
-          * "Schwäche" becomes "shvashuh".
+          * "Schwäche" becomes "shvasheh".
         * Combine and generalize those rules, when it make sense: "Dafür" becomes "Duhfur".
           
         * Bavarian dialect words should be written in a way that reflects their pronunciation. Here are the most important:
@@ -63,12 +65,6 @@ public partial class LearnGermanDemo : UserControl
         * If a word is a number, you should write it out, so "1" becomes "ains", "ain" or "ain-eh", depending on the context.
         """;
 
-    private const string SystemPromptExt = SystemPrompt +
-        """
-        In addition to all the above, also translate the given German string into English.
-
-        Return both results back as JSon.
-        """;
     private StatusStrip? _statusStrip;
 
     // The chat history. If you are using ChatGPT for example directly in the WebBrowser,
@@ -81,6 +77,9 @@ public partial class LearnGermanDemo : UserControl
 
     [AllowNull]
     private ToolStripItem _tslTimeElapsed;
+
+    [AllowNull]
+    private ToolStripItem _tslEnglishTranslation;
 
     public LearnGermanDemo(Form parentForm)
     {
@@ -98,8 +97,10 @@ public partial class LearnGermanDemo : UserControl
         base.OnLoad(e);
 
         _statusStrip = _parentForm.FirstDescendant<StatusStrip>();
-        _ = _statusStrip.Items.Add("Duration of last round trip: ");
+
+        _ = _statusStrip.Items.Add("Kernel-API call time: ");
         _tslTimeElapsed = _statusStrip.Items.Add(string.Empty);
+        _tslEnglishTranslation = _statusStrip.Items.Add(string.Empty);
     }
 
     // This is the method that will translate the German text into "phonetic English."
@@ -217,7 +218,7 @@ public partial class LearnGermanDemo : UserControl
             {
                 char c = span[i];
 
-                if (_separators.Any((chr) => chr == c))
+                if (s_separators.Any((chr) => chr == c))
                 {
                     if (start < i)
                     {
@@ -244,4 +245,48 @@ public partial class LearnGermanDemo : UserControl
             return sb.ToString();
         }
     }
+
+    private async Task BtnDoubleProcess_AsyncClick(object sender, EventArgs e)
+    {
+        _skComponent.ApiKeyGetter = () => Environment.GetEnvironmentVariable(OpenAiApiKeyLookupKey)
+            ?? throw new InvalidOperationException("The AI:OpenAI:ApiKey environment variable is not set.");
+
+        _skComponent.SystemPrompt = SystemPrompt;
+        _skComponent.JsonSchema =
+            """
+            {
+              "$schema": "http://json-schema.org/draft-07/schema#",
+              "type": "object",
+              "properties": {
+                "PhoneticEnglish": {
+                  "type": "string"
+                },
+                "EnglishTranslation": {
+                  "type": "string"
+                }
+              },
+              "required": ["PhoneticEnglish", "EnglishTranslation"],
+              "additionalProperties": false
+            }
+            """;
+
+        string? jsonData = await _skComponent.RequestTextPromptResponseAsync(_txtGermanTextPrompt.Text);
+
+        if (jsonData is null)
+        {
+            _tslEnglishTranslation.Text = "**** We couldn't get any data back.";
+
+            return;
+        }
+
+        TranslationReturnValues? translationReturnValues = JsonSerializer.Deserialize<TranslationReturnValues>(jsonData);
+        _tslEnglishTranslation.Text = translationReturnValues?.EnglishTranslation ?? "**** We couldn't get any data back.";
+        _txtPhoneticEnglish.Text = translationReturnValues?.PhoneticEnglish;
+    }
+}
+
+public class TranslationReturnValues
+{
+    public string PhoneticEnglish { get; set; } = string.Empty;
+    public string EnglishTranslation { get; set; } = string.Empty;
 }

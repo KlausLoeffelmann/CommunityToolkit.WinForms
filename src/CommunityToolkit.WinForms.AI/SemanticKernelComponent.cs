@@ -10,6 +10,8 @@ namespace CommunityToolkit.WinForms.AI;
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 public class SemanticKernelComponent : BindableComponent
 {
+    private const string DefaultModelName = "gpt-4o";
+
     public event AsyncEventHandler<AsyncRequestAssistantInstructionsEventArgs>? AsyncRequestAssistanceInstructions;
     public event AsyncEventHandler<AsyncRequestExecutionSettingsEventArgs>? AsyncRequestExecutionSettings;
 
@@ -21,27 +23,30 @@ public class SemanticKernelComponent : BindableComponent
     private Kernel? _kernel;
 
     // The parentForm, which we might need to invoke the UI thread.
-    private Form? _parentForm;
     private double? _topP;
     private double? _temperature;
-    private long? _seed;
     private double? _presencePenalty;
     private double? _frequencyPenalty;
 
-    [Browsable(false)]
-    [DefaultValue(null)]
-    public string? PromptDataValue { get; set; }
-
+    /// <summary>
+    ///  Requests a prompt response from the OpenAI API. Make sure, you set at least the <see cref="ApiKeyGetter"/> property,
+    ///  and the <see cref="SystemPrompt"/> property, which is the general description, what the Assistant is suppose to do.
+    /// </summary>
+    /// <param name="valueToProcess">The value as string which the model should process.</param>
+    /// <returns>The result from the LLM Model as plain text string or JSon string.</returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<string?> RequestTextPromptResponseAsync(
         string valueToProcess)
     {
         if (string.IsNullOrWhiteSpace(valueToProcess))
             throw new InvalidOperationException("You requested to process a prompt, but did not provide any content to process.");
 
+        var (chatService, executionSettings) = await GetOrCreateChatServiceAsync();
+
         if (ChatHistory is null)
             throw new InvalidOperationException("You requested to process a prompt, but the ChatHistory is not set.");
 
-        var (chatService, executionSettings) = await GetOrCreateChatServiceAsync();
+        ChatHistory.AddUserMessage(valueToProcess);
 
         var responses = await chatService.GetChatMessageContentsAsync(
             ChatHistory,
@@ -61,15 +66,26 @@ public class SemanticKernelComponent : BindableComponent
         return responseStringBuilder.ToString();
     }
 
+    /// <summary>
+    ///  Requests a prompt response from the OpenAI API as an async stream. Make sure, you set at least the <see cref="ApiKeyGetter"/> property,
+    ///  and the <see cref="SystemPrompt"/> property, which is the general description, what the Assistant is suppose to do.
+    /// </summary>
+    /// <param name="valueToProcess">The value as string which the model should process.</param>
+    /// <returns>
+    ///  Returns an async stream of strings, which are the responses from the LLM model.
+    /// </returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async IAsyncEnumerable<string> RequestPromptResponseStreamAsync(string valueToProcess)
     {
         if (string.IsNullOrWhiteSpace(valueToProcess))
             throw new InvalidOperationException("You requested to process a prompt, but did not provide any content to process.");
 
+        var (chatService, executionSettings) = await GetOrCreateChatServiceAsync();
+
         if (ChatHistory is null)
             throw new InvalidOperationException("You requested to process a prompt, but the ChatHistory is not set.");
 
-        var (chatService, executionSettings) = await GetOrCreateChatServiceAsync();
+        ChatHistory.AddUserMessage(valueToProcess);
 
         var responses = chatService.GetStreamingChatMessageContentsAsync(
             ChatHistory,
@@ -99,7 +115,7 @@ public class SemanticKernelComponent : BindableComponent
         await OnRequestAssistantInstructionsAsync(eArgs);
 
         OpenAIPromptExecutionSettings executionSettings = new();
-        executionSettings
+        executionSettings = executionSettings
             .WithSystemPrompt(eArgs.AssistantInstructions)
                     .WithDefaultModelParameters(
                         MaxTokens: 8000,
@@ -108,14 +124,19 @@ public class SemanticKernelComponent : BindableComponent
                         frequencyPenalty: _frequencyPenalty,
                         presencePenalty: _presencePenalty);
 
+        if (!string.IsNullOrEmpty(JsonSchema))
+        {
+            executionSettings = executionSettings.WithJsonReturnSchema(JsonSchema);
+        }
+
         AsyncRequestExecutionSettingsEventArgs settingsEventArgs = new(executionSettings);
         await OnRequestExecutionSettingsAsync(settingsEventArgs);
 
         if (string.IsNullOrWhiteSpace(eArgs.AssistantInstructions))
             throw new InvalidOperationException("You have tried to request a prompt, but did not provide general description, what the Assistant is suppose to do.");
 
-        string apiKey = Environment.GetEnvironmentVariable(ApiKeyGetter.Invoke())
-            ?? throw new InvalidOperationException("The AI:OpenAI:ApiKey environment variable is not set.");
+        string apiKey = ApiKeyGetter.Invoke()
+            ?? throw new InvalidOperationException("The ApiKeyGetter did not retrieve a working api key.");
 
         // We're using the GPT-4o model from OpenAI directory for our Semantic Kernel scenario.
         var kernelBuilder = Kernel
@@ -132,12 +153,11 @@ public class SemanticKernelComponent : BindableComponent
     }
 
     protected virtual string GetAssistantInstructions() 
-        => "You are an Assistant for helping Developers with questions around .NET, C# and Visual Basic.";
+        => SystemPrompt;
 
     protected virtual Task OnRequestAssistantInstructionsAsync(AsyncRequestAssistantInstructionsEventArgs eArgs) 
         => AsyncRequestAssistanceInstructions?.Invoke(this, eArgs)
             ?? Task.CompletedTask;
-
 
     protected virtual Task OnRequestExecutionSettingsAsync(AsyncRequestExecutionSettingsEventArgs eArgs) 
         => AsyncRequestExecutionSettings?.Invoke(this, eArgs)
@@ -152,11 +172,16 @@ public class SemanticKernelComponent : BindableComponent
     [Browsable(false)]
     public Func<string>? ApiKeyGetter { get; set; }
 
+    /// <summary>
+    ///  Gets or sets the JSon schema for the return format. In that case, the SystemPrompt will be automatically amended to 
+    ///  instruct the model to return the result in JSon. Make sure, though, your system prompt includes the description of 
+    ///  the return value schema for the LLM model.
+    /// </summary>
     [Bindable(true)]
     [Browsable(true)]
     [DefaultValue("string")]
     [Category("AI")]
-    [Description("Gets or sets the .NET type name, the LLM should generate parsable string results for.")]
+    [Description("Gets or sets the .NET type name, the LLM should generate parseable string results for.")]
     public string? JsonSchema { get; set; } = null;
 
     /// <summary>
@@ -172,11 +197,27 @@ public class SemanticKernelComponent : BindableComponent
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ChatHistory? ChatHistory => _chatHistory;
 
+    [Browsable(false)]
+    public virtual string SystemPrompt { get; set; } 
+        = "You are an Assistant for helping Developers with questions around .NET, C# and Visual Basic.";
+
+    /// <summary>
+    ///  Gets or sets an amendment to the system prompt in the case, a JSon schema had been provided, so 
+    ///  we need to instruct the model to return the result in JSon according to the schema information.
+    /// </summary>
+    protected virtual string SystemPromptSchemaAmendment { get; set; } =
+        """
+        In addition to everything previously said, it is absolutely essential that you return 
+        the result in JSon according to the schema information. DO NOT embed the json return string
+        in any markup, just return the json string as it is. If you see discrepancies in the schema,
+        to what this prompt has been asking, try to derive the requirements from the json schema names.
+        """;
+
     /// <summary>
     ///  Gets or sets the model name to use for chat completion.
     /// </summary>
-    [DefaultValue("gpt-4o")]
-    public string ModelName { get; set; } = "gpt-4o";
+    [DefaultValue(DefaultModelName)]
+    public string ModelName { get; set; } = DefaultModelName;
 
     /// <summary>
     ///  Gets or sets the frequency penalty to apply during chat completion.
