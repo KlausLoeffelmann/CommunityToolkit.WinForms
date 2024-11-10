@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace WinFormsSkPlayGround.Views;
 
+[ToolboxBitmap(typeof(SimpleAsyncDemo), "MvvmView.bmp")]
 public partial class SimpleAsyncDemo : UserControl
 {
     private CancellationTokenSource? _spinnerTokenSource;

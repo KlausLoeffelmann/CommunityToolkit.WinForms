@@ -1,11 +1,9 @@
 using CommunityToolkit.WinForms.ComponentModel;
 using CommunityToolkit.WinForms.Extensions;
 using CommunityToolkit.WinForms.FluentUI;
-using WinFormsSkPlayGround;
 using WinFormsSkPlayGround.Views;
-using WinFormsSkPlayGround.Views.Demos;
 
-namespace SemanticKernelDemo;
+namespace WinFormsSkPlayGround;
 
 public partial class FrmMain : Form
 {

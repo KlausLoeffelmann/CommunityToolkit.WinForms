@@ -3,6 +3,7 @@ using static WinFormsSkPlayGround.Properties.Resources;
 
 namespace WinFormsSkPlayGround.Views;
 
+[ToolboxBitmap(typeof(AIPlayGroundView), "MvvmView.bmp")]
 public partial class AIPlayGroundView : UserControl
 {
     public AIPlayGroundView()

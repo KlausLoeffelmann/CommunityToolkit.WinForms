@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Hosting;
 
-namespace SemanticKernelDemo;
+namespace WinFormsSkPlayGround;
 
 internal static class Program
 {

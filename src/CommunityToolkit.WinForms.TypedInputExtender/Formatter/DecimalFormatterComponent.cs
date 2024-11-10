@@ -1,5 +1,6 @@
 ﻿namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
+[ToolboxBitmap(typeof(DateFormatterComponent), "FormattedDecimalEntry.bmp")]
 public partial class DecimalFormatterComponent : TypedFormatterComponent<Decimal?>
 {
     public override decimal? GetValue(Control dataEntry)

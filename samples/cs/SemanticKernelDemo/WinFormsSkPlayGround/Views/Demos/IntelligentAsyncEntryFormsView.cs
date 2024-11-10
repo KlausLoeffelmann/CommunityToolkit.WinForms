@@ -1,20 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿namespace WinFormsSkPlayGround.Views;
 
-namespace WinFormsSkPlayGround.Views.Demos
+[ToolboxBitmap(typeof(IntelligentAsyncEntryFormsView), "MvvmView.bmp")]
+public partial class IntelligentAsyncEntryFormsView : UserControl
 {
-    public partial class IntelligentAsyncEntryFormsView : UserControl
+    public IntelligentAsyncEntryFormsView()
     {
-        public IntelligentAsyncEntryFormsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

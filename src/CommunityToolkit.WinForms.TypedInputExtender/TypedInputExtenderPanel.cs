@@ -8,6 +8,7 @@ namespace CommunityToolkit.WinForms.TypedInputExtenders;
 [ProvideProperty("FormatterComponent", typeof(TextBox))]
 [ProvideProperty("ErrorColor", typeof(TextBox))]
 [ProvideProperty("ErrorText", typeof(TextBox))]
+[ToolboxBitmap(typeof(TypedInputExtenderPanel), "TypedInputExtender.bmp")]
 public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
 {
     private readonly Dictionary<TextBox, TypedInputExtenderProperties> _propertyStorage = [];

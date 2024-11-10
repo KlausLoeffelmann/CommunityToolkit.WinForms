@@ -9,6 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\CustomControl.bmp">
+      <LogicalName>WinFormsSkPlayGround.Controls.CustomControl.bmp</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AiFormattedDateEntry.bmp">
+      <LogicalName>WinFormsSkPlayGround.Components.AiFormattedDateEntry.bmp</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AiFormattedDecimalEntry.bmp">
+      <LogicalName>WinFormsSkPlayGround.Components.AiFormattedDecimalEntry.bmp</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AiFormattedTextEntry.bmp">
+      <LogicalName>WinFormsSkPlayGround.Components.AiFormattedTextEntry.bmp</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MvvmView.bmp">
+      <LogicalName>WinFormsSkPlayGround.Views.MvvmView.bmp</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview1" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.41.1" />
     <PackageReference Include="Microsoft.SemanticKernel" Version="1.26.0" />
@@ -25,18 +43,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Compononts\IntelDateFormatterComponent.cs">
+    <Compile Update="Compononts\AiDateFormatterComponent.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Compononts\IntelDateFormatterComponent.IntelDateFormatter.cs">
+    <Compile Update="Compononts\AiDateFormatterComponent.IntelDateFormatter.cs" />
+    <Compile Update="Compononts\AiTextFormatterComponent.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Compononts\IntelStringFormatterComponent.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Compononts\IntelStringFormatterComponent.IntelStringFormatter.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Update="Compononts\AiTextFormatterComponent.AiTextFormatter.cs" />
     <Compile Update="PromptControlVersions\PromptControlV1.cs">
       <SubType>Component</SubType>
     </Compile>

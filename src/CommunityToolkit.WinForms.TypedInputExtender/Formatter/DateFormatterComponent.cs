@@ -1,5 +1,6 @@
 ﻿namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
+[ToolboxBitmap(typeof(DateFormatterComponent), "FormattedDateEntry.bmp")]
 public partial class DateFormatterComponent : TypedFormatterComponent<DateTime>
 {
     /// <summary> 

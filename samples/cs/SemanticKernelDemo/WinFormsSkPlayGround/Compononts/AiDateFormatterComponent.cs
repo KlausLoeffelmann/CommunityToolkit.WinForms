@@ -1,8 +1,10 @@
-﻿using static CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent;
+﻿using CommunityToolkit.WinForms.TypedInputExtenders;
+using static CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent;
 
-namespace CommunityToolkit.WinForms.TypedInputExtenders;
+namespace WinFormsSkPlayGround.Components;
 
-public partial class IntelDateFormatterComponent
+[ToolboxBitmap(typeof(AiDateFormatterComponent), "AiFormattedDateEntry.bmp")]
+public partial class AiDateFormatterComponent
     : TypedFormatterComponent<DateTime>
 {
     /// <summary> 

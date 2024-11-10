@@ -1,14 +1,15 @@
-﻿using System.ComponentModel;
+﻿using CommunityToolkit.WinForms.TypedInputExtenders;
+using System.ComponentModel;
 using System.Globalization;
 
-namespace CommunityToolkit.WinForms.TypedInputExtenders;
+namespace WinFormsSkPlayGround.Components;
 
-public partial class IntelDateFormatterComponent
+public partial class AiDateFormatterComponent
 {
     private static readonly DateTimeFormatInfo s_dateFormats;
     private static readonly string[] s_dateTimeFormatStrings;
 
-    static IntelDateFormatterComponent()
+    static AiDateFormatterComponent()
     {
         s_dateFormats = CultureInfo.CurrentCulture.DateTimeFormat;
         s_dateTimeFormatStrings =

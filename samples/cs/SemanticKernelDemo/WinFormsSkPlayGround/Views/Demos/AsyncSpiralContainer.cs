@@ -3,6 +3,7 @@ using System.Drawing.Drawing2D;
 
 namespace WinFormsSkPlayGround.Views;
 
+[ToolboxBitmap(typeof(AsyncSpiralContainer), "MvvmView.bmp")]
 public partial class AsyncSpiralContainer : ContainerControl
 {
     private bool _started = false;

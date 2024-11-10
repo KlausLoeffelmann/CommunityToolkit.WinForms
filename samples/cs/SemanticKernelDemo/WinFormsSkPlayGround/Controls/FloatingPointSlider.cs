@@ -2,6 +2,7 @@
 
 namespace WinFormsSkPlayGround.Controls;
 
+[ToolboxBitmap(typeof(TrackBar))]
 public class FloatingPointSlider : TrackBar
 {
     private const int ScaleFactor = 100;

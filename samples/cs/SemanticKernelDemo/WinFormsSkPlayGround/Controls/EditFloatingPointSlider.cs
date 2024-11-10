@@ -2,6 +2,7 @@
 
 namespace WinFormsSkPlayGround.Controls;
 
+[ToolboxBitmap(typeof(TrackBar))]
 internal class EditFloatingPointSlider : ContainerControl
 {
     private TextBox _innerTextBox;

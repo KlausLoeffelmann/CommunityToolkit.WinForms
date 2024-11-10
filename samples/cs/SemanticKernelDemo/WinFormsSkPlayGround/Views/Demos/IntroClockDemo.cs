@@ -2,6 +2,7 @@
 
 namespace WinFormsSkPlayGround.Views;
 
+[ToolboxBitmap(typeof(IntroClockDemo), "MvvmView.bmp")]
 public class IntroClockDemo : ContainerControl
 {
     private readonly CancellationTokenSource _cancellationTokenSource = new();

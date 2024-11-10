@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 namespace WinFormsSkPlayGround.Controls;
 
+[ToolboxBitmap(typeof(TrackBar))]
 public class FloatingPointTrackBar : TrackBar
 {
     private float _minimumValue;

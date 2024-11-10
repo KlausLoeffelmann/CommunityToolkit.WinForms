@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace SemanticKernelDemo;
+namespace WinFormsSkPlayGround;
 
 /// <summary>
 ///  Represents a host for a WinForms application.

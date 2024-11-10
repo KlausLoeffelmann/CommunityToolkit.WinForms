@@ -8,6 +8,7 @@ namespace CommunityToolkit.WinForms.TypedInputExtenders;
 /// and value conversion for data entry purposes.
 /// </summary>
 /// <typeparam name="T">The type of the value being formatted and converted.</typeparam>
+[ToolboxBitmap(typeof(DateFormatterComponent), "CustomControl.bmp")]
 [ProvideProperty("FormatterSettings", typeof(TextBox))]
 [ProvideProperty("Value", typeof(TextBox))]
 public abstract partial class TypedFormatterComponent<T> :

@@ -1,11 +1,10 @@
-﻿using System.ComponentModel;
-using System.Globalization;
+﻿using CommunityToolkit.WinForms.TypedInputExtenders;
 
-namespace CommunityToolkit.WinForms.TypedInputExtenders;
+namespace WinFormsSkPlayGround.Components;
 
-public partial class IntelStringFormatterComponent
+public partial class AiTextFormatterComponent
 {
-    public class IntelStringFormatter : TypedFormatter<string?>
+    public class AiTextFormatter : TypedFormatter<string?>
     {
         public override Task<string?> ConvertToDisplayAsync(string? value, CancellationToken token) 
             => Task.FromResult<string?>(value);
