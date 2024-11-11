@@ -118,7 +118,7 @@ public partial class AIMeasurementFormatterComponent
 
             MetaData = decimalReturnValues.MetaData;
 
-            if (Decimal.TryParse(decimalReturnValues.DecimalValueText, out Decimal result))
+            if (Decimal.TryParse(decimalReturnValues.DecimalValueAsText, out Decimal result))
             {
                 return result;
             }
