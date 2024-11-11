@@ -96,6 +96,7 @@ public partial class AIMeasurementFormatterComponent
             try
             {
                 decimalReturnValues = JsonSerializer.Deserialize<AIDecimalParsingReturnValues>(jsonData);
+
                 if (decimalReturnValues is null)
                 {
                     throw new InvalidOperationException("Trying to parse the text input failed for unknown reasons.");
