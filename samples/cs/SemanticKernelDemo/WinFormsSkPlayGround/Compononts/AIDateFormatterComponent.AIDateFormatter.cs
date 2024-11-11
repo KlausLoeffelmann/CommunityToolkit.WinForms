@@ -26,7 +26,7 @@ public partial class AiDateFormatterComponent
         ];
     }
 
-    public class DateFormatter : TypedFormatter<DateTime>
+    public class AIDateFormatter : TypedFormatter<DateTime>
     {
         [DefaultValue(DateTimeFormats.ShortDate)]
         public DateTimeFormats DateTimeFormat { get; set; } = DateTimeFormats.ShortDate;

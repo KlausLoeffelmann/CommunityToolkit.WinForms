@@ -1,7 +1,15 @@
-﻿using DemoToolkit.Mvvm.WinForms.Components;
+﻿using CommunityToolkit.WinForms.Controls;
+using DemoToolkit.Mvvm.WinForms.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.OpenAI;
+using OpenTelemetry;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using System.ComponentModel;
 using System.Text;
 
@@ -10,7 +18,8 @@ namespace CommunityToolkit.WinForms.AI;
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 public class SemanticKernelComponent : BindableComponent
 {
-    private const string DefaultModelName = "gpt-4o";
+    // We're using the GPT-4o model from OpenAI directory for our Semantic Kernel scenario.
+    private const string DefaultModelName = "gpt-4o-2024-08-06";
 
     public event AsyncEventHandler<AsyncRequestAssistantInstructionsEventArgs>? AsyncRequestAssistanceInstructions;
     public event AsyncEventHandler<AsyncRequestExecutionSettingsEventArgs>? AsyncRequestExecutionSettings;
@@ -36,7 +45,8 @@ public class SemanticKernelComponent : BindableComponent
     /// <returns>The result from the LLM Model as plain text string or JSon string.</returns>
     /// <exception cref="InvalidOperationException"></exception>
     public async Task<string?> RequestTextPromptResponseAsync(
-        string valueToProcess)
+        string valueToProcess,
+        bool keepChatHistory)
     {
         if (string.IsNullOrWhiteSpace(valueToProcess))
             throw new InvalidOperationException("You requested to process a prompt, but did not provide any content to process.");
@@ -45,6 +55,9 @@ public class SemanticKernelComponent : BindableComponent
 
         if (ChatHistory is null)
             throw new InvalidOperationException("You requested to process a prompt, but the ChatHistory is not set.");
+
+        if (!keepChatHistory)
+            ChatHistory.Clear();
 
         ChatHistory.AddUserMessage(valueToProcess);
 
@@ -75,7 +88,7 @@ public class SemanticKernelComponent : BindableComponent
     ///  Returns an async stream of strings, which are the responses from the LLM model.
     /// </returns>
     /// <exception cref="InvalidOperationException"></exception>
-    public async IAsyncEnumerable<string> RequestPromptResponseStreamAsync(string valueToProcess)
+    public async IAsyncEnumerable<string> RequestPromptResponseStreamAsync(string valueToProcess, bool keepChatHistory)
     {
         if (string.IsNullOrWhiteSpace(valueToProcess))
             throw new InvalidOperationException("You requested to process a prompt, but did not provide any content to process.");
@@ -84,6 +97,9 @@ public class SemanticKernelComponent : BindableComponent
 
         if (ChatHistory is null)
             throw new InvalidOperationException("You requested to process a prompt, but the ChatHistory is not set.");
+
+        if (!keepChatHistory)
+            ChatHistory.Clear();
 
         ChatHistory.AddUserMessage(valueToProcess);
 
@@ -114,9 +130,18 @@ public class SemanticKernelComponent : BindableComponent
         AsyncRequestAssistantInstructionsEventArgs eArgs = new(GetAssistantInstructions());
         await OnRequestAssistantInstructionsAsync(eArgs);
 
-        OpenAIPromptExecutionSettings executionSettings = new();
+        EffectiveSystemPrompt = string.IsNullOrWhiteSpace(JsonSchema)
+            ? eArgs.AssistantInstructions
+            : $"{eArgs.AssistantInstructions}\n\n{SystemPromptSchemaAmendment}" +
+              $"\n\nThe Json Schema is as follows:\n{JsonSchema}";
+
+        OpenAIPromptExecutionSettings executionSettings = new()
+        {
+            ModelId = ModelName
+        };
+
         executionSettings = executionSettings
-            .WithSystemPrompt(eArgs.AssistantInstructions)
+            .WithSystemPrompt(EffectiveSystemPrompt)
                     .WithDefaultModelParameters(
                         MaxTokens: 8000,
                         temperature: Temperature,
@@ -126,25 +151,35 @@ public class SemanticKernelComponent : BindableComponent
 
         if (!string.IsNullOrEmpty(JsonSchema))
         {
-            executionSettings = executionSettings.WithJsonReturnSchema(JsonSchema);
+            executionSettings = executionSettings.WithJsonReturnSchema(
+                JsonSchema,
+                JsonSchemaName,
+                JsonSchemaDescription);
         }
 
         AsyncRequestExecutionSettingsEventArgs settingsEventArgs = new(executionSettings);
         await OnRequestExecutionSettingsAsync(settingsEventArgs);
 
-        if (string.IsNullOrWhiteSpace(eArgs.AssistantInstructions))
-            throw new InvalidOperationException("You have tried to request a prompt, but did not provide general description, what the Assistant is suppose to do.");
-
         string apiKey = ApiKeyGetter.Invoke()
             ?? throw new InvalidOperationException("The ApiKeyGetter did not retrieve a working api key.");
 
-        // We're using the GPT-4o model from OpenAI directory for our Semantic Kernel scenario.
         var kernelBuilder = Kernel
             .CreateBuilder()
             .AddOpenAIChatCompletion(ModelName, apiKey);
 
-        _kernel = kernelBuilder.Build();
+        ILoggerFactory loggerFactory = null!;
 
+        if (LogConsole is not null)
+        {
+            loggerFactory = CreateTelemetryLogger();
+            kernelBuilder.Services.AddSingleton(loggerFactory);
+
+            Console.SetOut(LogConsole.ConsoleOut);
+            Console.WriteLine("Logging started.");
+            Console.WriteLine();
+        }
+
+        _kernel = kernelBuilder.Build();
         _chatHistory ??= [];
 
         var chatService = (OpenAIChatCompletionService)_kernel.GetRequiredService<IChatCompletionService>();
@@ -152,14 +187,55 @@ public class SemanticKernelComponent : BindableComponent
         return (chatService, settingsEventArgs.ExecutionSettings);
     }
 
-    protected virtual string GetAssistantInstructions() 
+    private ILoggerFactory CreateTelemetryLogger()
+    {
+        var resourceBuilder = ResourceBuilder
+            .CreateDefault()
+            .AddService("TelemetryConsoleQuickstart");
+
+        // Enable model diagnostics with sensitive data!!
+        // AppContext.SetSwitch("Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnosticsSensitive", true);
+
+        // Enable model diagnostics without sensitive data.
+        AppContext.SetSwitch("Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnostics", true);
+
+        using var traceProvider = Sdk.CreateTracerProviderBuilder()
+            .SetResourceBuilder(resourceBuilder)
+            .AddSource("Microsoft.SemanticKernel*")
+            .AddConsoleExporter()
+            .Build();
+
+        using var meterProvider = Sdk.CreateMeterProviderBuilder()
+            .SetResourceBuilder(resourceBuilder)
+            .AddMeter("Microsoft.SemanticKernel*")
+            .AddConsoleExporter()
+            .Build();
+
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            // Add OpenTelemetry as a logging provider
+            builder.AddOpenTelemetry(options =>
+            {
+                options.SetResourceBuilder(resourceBuilder);
+                options.AddConsoleExporter();
+                options.IncludeFormattedMessage = true;
+                options.IncludeScopes = true;
+            });
+
+            builder.SetMinimumLevel(LogLevel.Trace);
+        });
+
+        return loggerFactory;
+    }
+
+    protected virtual string GetAssistantInstructions()
         => SystemPrompt;
 
-    protected virtual Task OnRequestAssistantInstructionsAsync(AsyncRequestAssistantInstructionsEventArgs eArgs) 
+    protected virtual Task OnRequestAssistantInstructionsAsync(AsyncRequestAssistantInstructionsEventArgs eArgs)
         => AsyncRequestAssistanceInstructions?.Invoke(this, eArgs)
             ?? Task.CompletedTask;
 
-    protected virtual Task OnRequestExecutionSettingsAsync(AsyncRequestExecutionSettingsEventArgs eArgs) 
+    protected virtual Task OnRequestExecutionSettingsAsync(AsyncRequestExecutionSettingsEventArgs eArgs)
         => AsyncRequestExecutionSettings?.Invoke(this, eArgs)
             ?? Task.CompletedTask;
 
@@ -172,6 +248,9 @@ public class SemanticKernelComponent : BindableComponent
     [Browsable(false)]
     public Func<string>? ApiKeyGetter { get; set; }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public ConsoleControl? LogConsole { get; set; }
+
     /// <summary>
     ///  Gets or sets the JSon schema for the return format. In that case, the SystemPrompt will be automatically amended to 
     ///  instruct the model to return the result in JSon. Make sure, though, your system prompt includes the description of 
@@ -179,10 +258,30 @@ public class SemanticKernelComponent : BindableComponent
     /// </summary>
     [Bindable(true)]
     [Browsable(true)]
-    [DefaultValue("string")]
+    [DefaultValue(null)]
     [Category("AI")]
     [Description("Gets or sets the .NET type name, the LLM should generate parseable string results for.")]
     public string? JsonSchema { get; set; } = null;
+
+    /// <summary>
+    ///  Gets or sets the JSon schema name for the return format.
+    /// </summary>
+    [Bindable(true)]
+    [Browsable(true)]
+    [DefaultValue(null)]
+    [Category("AI")]
+    [Description("Gets or sets the name for the JSon schema.")]
+    public string? JsonSchemaName { get; set; } = null;
+
+    /// <summary>
+    ///  Gets or sets the JSon schema name for the return format.
+    /// </summary>
+    [Bindable(true)]
+    [Browsable(true)]
+    [DefaultValue(null)]
+    [Category("AI")]
+    [Description("Gets or sets the Json schema description.")]
+    public string? JsonSchemaDescription { get; set; } = null;
 
     /// <summary>
     ///  Gets or sets the resource string source for the Assistant Instructions.
@@ -198,19 +297,24 @@ public class SemanticKernelComponent : BindableComponent
     public ChatHistory? ChatHistory => _chatHistory;
 
     [Browsable(false)]
-    public virtual string SystemPrompt { get; set; } 
+    public virtual string SystemPrompt { get; set; }
         = "You are an Assistant for helping Developers with questions around .NET, C# and Visual Basic.";
+
+    /// <summary>
+    ///  The SystemPrompt, as it became constructed based on schema information, original SystemPrompt and SystemPrompt event.
+    /// </summary>
+    private string? EffectiveSystemPrompt { get; set; }
 
     /// <summary>
     ///  Gets or sets an amendment to the system prompt in the case, a JSon schema had been provided, so 
     ///  we need to instruct the model to return the result in JSon according to the schema information.
     /// </summary>
     protected virtual string SystemPromptSchemaAmendment { get; set; } =
-        """
+        $"""
         In addition to everything previously said, it is absolutely essential that you return 
-        the result in JSon according to the schema information. DO NOT embed the json return string
-        in any markup, just return the json string as it is. If you see discrepancies in the schema,
-        to what this prompt has been asking, try to derive the requirements from the json schema names.
+        the result in Json according to the enclosed json schema information. 
+        
+        IMPORTANT: DO NOT add any listing tags or other formatting to the result, just the plain json string!
         """;
 
     /// <summary>

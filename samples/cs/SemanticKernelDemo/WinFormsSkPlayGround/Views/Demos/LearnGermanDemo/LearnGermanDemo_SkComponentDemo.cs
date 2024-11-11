@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using CommunityToolkit.WinForms.Controls;
+using CommunityToolkit.WinForms.Extensions;
+using System.Text.Json;
 
 namespace WinFormsSkPlayGround.Views;
 
@@ -9,6 +11,12 @@ public partial class LearnGermanDemo
     {
         _skComponent.ApiKeyGetter = () => Environment.GetEnvironmentVariable(OpenAiApiKeyLookupKey)
             ?? throw new InvalidOperationException("The AI:OpenAI:ApiKey environment variable is not set.");
+
+        _skComponent.Temperature = 0.0;
+        _skComponent.TopP = 0.7;
+        _skComponent.FrequencyPenalty = 0.0;
+        _skComponent.PresencePenalty = -1;
+        _skComponent.LogConsole = _parentForm.FirstDescendantOrDefault<ConsoleControl>();
 
         _skComponent.SystemPrompt = SystemPrompt;
         _skComponent.JsonSchema =
@@ -29,7 +37,7 @@ public partial class LearnGermanDemo
             }
             """;
 
-        string? jsonData = await _skComponent.RequestTextPromptResponseAsync(_txtGermanTextPrompt.Text);
+        string? jsonData = await _skComponent.RequestTextPromptResponseAsync(_txtGermanTextPrompt.Text, false);
 
         if (jsonData is null)
         {

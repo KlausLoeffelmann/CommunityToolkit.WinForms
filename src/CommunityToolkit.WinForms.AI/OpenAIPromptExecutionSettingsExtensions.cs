@@ -47,13 +47,13 @@ public static class OpenAIPromptExecutionSettingsExtensions
     public static OpenAIPromptExecutionSettings WithJsonReturnSchema(
         this OpenAIPromptExecutionSettings settings,
         string returnSchema,
-        string? schemaName = null,
-        string? schemaDescription = null)
+        string? schemaName,
+        string? schemaDescription)
     {
-        ChatResponseFormat responseFormat = ChatResponseFormat.ForJsonSchema(
-            returnSchema,
-            schemaName,
-            schemaDescription);
+        ChatResponseFormatJson responseFormat = ChatResponseFormat.ForJsonSchema(
+            schema: returnSchema,
+            schemaName: schemaName,
+            schemaDescription: schemaDescription);
 
         settings.ResponseFormat = responseFormat;
         return settings;

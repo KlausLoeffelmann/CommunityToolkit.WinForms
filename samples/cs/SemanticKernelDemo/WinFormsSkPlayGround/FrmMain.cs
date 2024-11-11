@@ -2,6 +2,7 @@ using CommunityToolkit.WinForms.ComponentModel;
 using CommunityToolkit.WinForms.Extensions;
 using CommunityToolkit.WinForms.FluentUI;
 using WinFormsSkPlayGround.Views;
+using WinFormsSkPlayGround.Views.Demos;
 
 namespace WinFormsSkPlayGround;
 
@@ -37,6 +38,7 @@ public partial class FrmMain : Form
         _mainTabControl.AddTab("Learn German!", new LearnGermanDemo(this));
         _mainTabControl.AddTab("I.A.E.F", new IntelligentAsyncEntryFormsView());
         _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
+        _mainTabControl.AddTab("Debug Console", new LogContainer(this));
 
         _mainTabControl.TabChanged += _mainTabControl_TabChanged;
     }

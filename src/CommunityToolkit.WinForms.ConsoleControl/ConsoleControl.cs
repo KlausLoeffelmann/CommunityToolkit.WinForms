@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.WinForms.AsyncSupport;
+using System.Text;
 
 namespace CommunityToolkit.WinForms.Controls;
 
@@ -11,6 +12,7 @@ public class ConsoleControl : RichTextBox
     private CustomFontStyle _currentFontStyle;
     private FontSize _currentFontSize;
     private AsyncTaskQueue _taskQueue = new();
+    private ConsoleControlTextWriter? _consoleOut;
 
     /// <summary>
     ///  Initializes a new instance of the <see cref="ConsoleControl"/> class.
@@ -21,6 +23,42 @@ public class ConsoleControl : RichTextBox
         _currentFontStyle = CustomFontStyle.Normal;
         _currentFontSize = FontSize.Normal;
     }
+
+    private class ConsoleControlTextWriter(ConsoleControl consoleControl) : TextWriter
+    {
+        private readonly ConsoleControl _consoleControl = consoleControl;
+
+        public override Encoding Encoding => Encoding.UTF8;
+
+        public override async void Write(char value)
+        {
+            try
+            {
+                await _consoleControl.WriteAsync(value.ToString());
+            }
+            catch (Exception)
+            {
+            }
+        }
+        public override async void Write(string? value)
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            try
+            {
+                await _consoleControl.WriteAsync(value);
+            }
+            catch (Exception)
+            {
+            }
+        }
+    }
+
+    public TextWriter ConsoleOut 
+        => _consoleOut ??= new ConsoleControlTextWriter(this);
 
     /// <summary>
     ///  Writes the specified text asynchronously to the console control.
@@ -116,7 +154,7 @@ public class ConsoleControl : RichTextBox
     /// <param name="style">The font style of the text. (Optional)</param>
     /// <param name="size">The font size of the text. (Optional)</param>
     /// <param name="keepSetting">Indicates whether to keep the current text styles. (Optional)</param>
-    public Task SetStyleInternalAsync(
+    public Task SetStyleAsync(
         Color? textColor = null,
         CustomFontStyle? style = null,
         FontSize? size = null,

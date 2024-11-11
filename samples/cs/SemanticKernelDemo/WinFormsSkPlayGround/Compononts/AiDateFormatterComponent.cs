@@ -1,9 +1,8 @@
 ﻿using CommunityToolkit.WinForms.TypedInputExtenders;
-using static CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent;
 
 namespace WinFormsSkPlayGround.Components;
 
-[ToolboxBitmap(typeof(AiDateFormatterComponent), "AiFormattedDateEntry.bmp")]
+[ToolboxBitmap(typeof(AiDateFormatterComponent), "AIFormattedDateEntry.bmp")]
 public partial class AiDateFormatterComponent
     : TypedFormatterComponent<DateTime>
 {
@@ -21,11 +20,11 @@ public partial class AiDateFormatterComponent
         => base.SetValueInternal((TextBox)textBox, value);
 
     protected override ITypedFormatter<DateTime> GetDefaultFormatterInstance()
-        => (ITypedFormatter<DateTime>)new DateFormatter();
+        => (ITypedFormatter<DateTime>)new AIDateFormatter();
 
     protected override object GetDefaultValue()
         => DateTime.Now.Date;
 
     protected override bool CanExtendProperties(object formatterComponent)
-        => formatterComponent is DateFormatterComponent;
+        => formatterComponent is AIDateFormatter;
 }

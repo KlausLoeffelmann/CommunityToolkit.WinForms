@@ -26,7 +26,7 @@ public partial class AIPlayGroundView : UserControl
         _conversationView.AddConversationItem(textToSend, isResponse: false);
 
         var responses = _conversationView.UpdateCurrentResponseAsync(
-            _semanticKernelConversation.RequestPromptResponseStreamAsync(textToSend));
+            _semanticKernelConversation.RequestPromptResponseStreamAsync(textToSend, true));
 
         await foreach (var response in responses)
         {

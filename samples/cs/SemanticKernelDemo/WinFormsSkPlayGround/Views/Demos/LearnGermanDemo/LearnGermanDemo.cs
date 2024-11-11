@@ -18,6 +18,7 @@ public partial class LearnGermanDemo : UserControl
     private const string OpenAiApiKeyLookupKey = "AI:OpenAi:ApiKey";
     private const string AzureSpeechSubscriptionKeyLookupKey = "AzureSpeech:SubscriptionKey";
     private const string AzureSpeechSubscriptionRegionLookupKey = "AzureSpeech:Region";
+
     private static readonly char[] s_separators = { ' ', '-', ',', '.', '?', '!' };
 
     // This is the system prompt that will be used for the OpenAI model execution.
