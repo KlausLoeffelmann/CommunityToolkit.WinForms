@@ -30,11 +30,10 @@ partial class IntelligentAsyncEntryFormsView
     /// </summary>
     private void InitializeComponent()
     {
-        CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalFormatter3 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
-        _aiTextFormatter1 = new AITextFormatterComponent.AITextFormatter();
         CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalFormatter1 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
-        CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent.DateFormatter dateFormatter4 = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent.DateFormatter();
+        CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter decimalFormatter2 = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent.DecimalFormatter();
         CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent.DateFormatter dateFormatter1 = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent.DateFormatter();
+        CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent.DateFormatter dateFormatter2 = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent.DateFormatter();
         _typedInputExtender = new CommunityToolkit.WinForms.TypedInputExtenders.TypedInputExtenderPanel();
         _txtGallonsFuelUsed = new TextBox();
         _txtTripStops = new TextBox();
@@ -51,7 +50,7 @@ partial class IntelligentAsyncEntryFormsView
         _chkBusiness = new CheckBox();
         _txtAutomaticTripInfo = new TextBox();
         _decimalFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent();
-        _aiTextFormatter = new Components.AITextFormatterComponent();
+        _aiTextFormatter = new AITextFormatterComponent();
         _dateFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent();
         label6 = new Label();
         label7 = new Label();
@@ -89,9 +88,9 @@ partial class IntelligentAsyncEntryFormsView
         _typedInputExtender.SetErrorText(_txtGallonsFuelUsed, "");
         _typedInputExtender.SetFocusColor(_txtGallonsFuelUsed, null);
         _typedInputExtender.SetFormatterComponent(_txtGallonsFuelUsed, _decimalFormatter);
-        decimalFormatter3.CurrencySymbol = null;
-        decimalFormatter3.DecimalPlaces = 0;
-        _decimalFormatter.SetFormatterSettings(_txtGallonsFuelUsed, decimalFormatter3);
+        decimalFormatter1.CurrencySymbol = null;
+        decimalFormatter1.DecimalPlaces = 0;
+        _decimalFormatter.SetFormatterSettings(_txtGallonsFuelUsed, decimalFormatter1);
         _txtGallonsFuelUsed.Location = new Point(222, 456);
         _txtGallonsFuelUsed.Name = "_txtGallonsFuelUsed";
         _txtGallonsFuelUsed.Size = new Size(589, 30);
@@ -104,7 +103,6 @@ partial class IntelligentAsyncEntryFormsView
         _typedInputExtender.SetErrorText(_txtTripStops, "");
         _typedInputExtender.SetFocusColor(_txtTripStops, null);
         _typedInputExtender.SetFormatterComponent(_txtTripStops, _aiTextFormatter);
-        _aiTextFormatter.SetFormatterSettings(_txtTripStops, _aiTextFormatter1);
         _txtTripStops.Location = new Point(222, 26);
         _txtTripStops.Name = "_txtTripStops";
         _txtTripStops.Size = new Size(589, 30);
@@ -134,9 +132,9 @@ partial class IntelligentAsyncEntryFormsView
         _typedInputExtender.SetErrorText(_txtMilesDriven, "");
         _typedInputExtender.SetFocusColor(_txtMilesDriven, null);
         _typedInputExtender.SetFormatterComponent(_txtMilesDriven, _decimalFormatter);
-        decimalFormatter1.CurrencySymbol = null;
-        decimalFormatter1.DecimalPlaces = 0;
-        _decimalFormatter.SetFormatterSettings(_txtMilesDriven, decimalFormatter1);
+        decimalFormatter2.CurrencySymbol = null;
+        decimalFormatter2.DecimalPlaces = 0;
+        _decimalFormatter.SetFormatterSettings(_txtMilesDriven, decimalFormatter2);
         _txtMilesDriven.Location = new Point(222, 407);
         _txtMilesDriven.Name = "_txtMilesDriven";
         _txtMilesDriven.Size = new Size(589, 30);
@@ -167,7 +165,7 @@ partial class IntelligentAsyncEntryFormsView
         _typedInputExtender.SetErrorText(_txtStartDateAndTime, "");
         _typedInputExtender.SetFocusColor(_txtStartDateAndTime, null);
         _typedInputExtender.SetFormatterComponent(_txtStartDateAndTime, _dateFormatter);
-        _dateFormatter.SetFormatterSettings(_txtStartDateAndTime, dateFormatter4);
+        _dateFormatter.SetFormatterSettings(_txtStartDateAndTime, dateFormatter1);
         _txtStartDateAndTime.Location = new Point(222, 309);
         _txtStartDateAndTime.Name = "_txtStartDateAndTime";
         _txtStartDateAndTime.Size = new Size(589, 30);
@@ -210,7 +208,7 @@ partial class IntelligentAsyncEntryFormsView
         _typedInputExtender.SetErrorText(_txtEndDateAndTime, "");
         _typedInputExtender.SetFocusColor(_txtEndDateAndTime, null);
         _typedInputExtender.SetFormatterComponent(_txtEndDateAndTime, _dateFormatter);
-        _dateFormatter.SetFormatterSettings(_txtEndDateAndTime, dateFormatter1);
+        _dateFormatter.SetFormatterSettings(_txtEndDateAndTime, dateFormatter2);
         _txtEndDateAndTime.Location = new Point(222, 358);
         _txtEndDateAndTime.Name = "_txtEndDateAndTime";
         _txtEndDateAndTime.Size = new Size(589, 30);

@@ -26,6 +26,6 @@ public partial class AITextFormatterComponent
         => string.Empty;
 
     protected override bool CanExtendProperties(object formatterComponent)
-        => formatterComponent is AITextFormatter;
+        => formatterComponent is AITextFormatterComponent;
 }
 

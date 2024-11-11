@@ -2,8 +2,8 @@
 
 namespace WinFormsSkPlayGround.Components;
 
-[ToolboxBitmap(typeof(AiDateFormatterComponent), "AIFormattedDateEntry.bmp")]
-public partial class AiDateFormatterComponent
+[ToolboxBitmap(typeof(AIDateFormatterComponent), "AIFormattedDateEntry.bmp")]
+public partial class AIDateFormatterComponent
     : TypedFormatterComponent<DateTime>
 {
     /// <summary> 
@@ -26,5 +26,5 @@ public partial class AiDateFormatterComponent
         => DateTime.Now.Date;
 
     protected override bool CanExtendProperties(object formatterComponent)
-        => formatterComponent is AIDateFormatter;
+        => formatterComponent is AIDateFormatterComponent;
 }

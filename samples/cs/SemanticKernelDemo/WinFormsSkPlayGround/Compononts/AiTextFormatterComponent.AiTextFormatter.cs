@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.WinForms.AI;
 using CommunityToolkit.WinForms.TypedInputExtenders;
-using System;
 using System.ComponentModel;
 using System.Text.Json;
 
@@ -25,6 +24,11 @@ public partial class AITextFormatterComponent
 
         Please return the corrected text es Json and take the schema into account.
         """;
+
+        public AITextFormatter()
+        {
+            MessageBox.Show("The AI Text Formatter is ready to use.");
+        }
 
         [DefaultValue(true)]
         public bool CheckGrammar { get; set; } = true;

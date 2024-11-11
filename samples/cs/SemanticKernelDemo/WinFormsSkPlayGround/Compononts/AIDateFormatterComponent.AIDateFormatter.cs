@@ -4,12 +4,12 @@ using System.Globalization;
 
 namespace WinFormsSkPlayGround.Components;
 
-public partial class AiDateFormatterComponent
+public partial class AIDateFormatterComponent
 {
     private static readonly DateTimeFormatInfo s_dateFormats;
     private static readonly string[] s_dateTimeFormatStrings;
 
-    static AiDateFormatterComponent()
+    static AIDateFormatterComponent()
     {
         s_dateFormats = CultureInfo.CurrentCulture.DateTimeFormat;
         s_dateTimeFormatStrings =
