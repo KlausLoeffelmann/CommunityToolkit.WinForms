@@ -5,33 +5,41 @@ using System.Text.Json;
 
 namespace WinFormsSkPlayGround.Components;
 
-public partial class AITextFormatterComponent
+public partial class AITripFormatterComponent
 {
-    public class AITextFormatter : TypedFormatter<string?>
+    public class AITripFormatter : TypedFormatter<string?>
     {
         private const string OpenAiApiKeyLookupKey = "AI:OpenAi:ApiKey";
         private readonly SemanticKernelComponent _skComponent = new();
 
         protected const string SystemPrompt =
         """
-        You are an .NET intelligent text input formatter, which task is to spell-check and clean up text entries.
+        You are helping in one entry field of a Form for driver's log app to correct the trip's stop-overs, start and destination location names.
+        Since we assume you do not have access to the internet, rely on the information you have in your head.
+        You are given the following information:
 
-        Examples:
-        * Input was: "Remind me to buy dog food.": You return the string as is, since it doesn't have any typos.
-        * Input was: "Remind me to bought dog food.": You recognize the wrong verb tense, and correct it so it becomes: "Remind me to buy dog food."
-        * Input was: "Rimind me too bye doc foot.": You recognize, there are a lot of typos - try the best to correct it: "Remind me to buy dog food."
-        * Input was: "Erinnere mich daran, Hundefutter zu kaufen.": You recognize the German Language, and translate it to English.
+        * Home country or state: Example: "Germany" or "Washington/USA"
+        * Home town: Example: "Lippstadt" or "Redmond"
+        * The user's input which is supposed to be a list of start/end locations and stop-overs.
+        * Sample 1: "Lippstadt - Paderborn - Bielefeld - Lippstadt". Output: "Start: Lippstadt, Stop-overs: Paderborn, Bielefeld, End: Lippstadt"
+        * Sample 2: "Redmond - Seattle - Bellevue - Redmond". Output: "Start: Redmond, Stop-overs: Seattle, Bellevue, End: Redmond"
+        * Sample 3: "Lippstat - Pderborn - Billefeld - Lippstdt". Output: "Start: Lippstadt, Stop-overs: Paderborn, Bielefeld, End: Lippstadt" - you corrected the typos.
 
-        Please return the corrected text es Json and take the schema into account.
+        * You try to correct typos in the location names amd then order the locations correctly.
+        * If you know the area, try to describe in which greater area it is, and the roughly distance and time for the trip. 
+          Be brief. Return that in the TripMetaData field.
+
+        Please return the data as Json and take the enclosed schema into account.
         """;
 
-        public AITextFormatter()
-        {
-            MessageBox.Show("The AI Text Formatter is ready to use.");
-        }
+        [DefaultValue(null)]
+        public string? TripMetaData { get; set; }
 
-        [DefaultValue(true)]
-        public bool CheckGrammar { get; set; } = true;
+        [DefaultValue(null)]
+        public string? HomeStateOrCountry { get; set; }
+
+        [DefaultValue(null)]
+        public string? HomeTown { get; set; }
 
         // Done on Got-Focus. We take the typed value, convert it to a string, and show it in the TextBox.
         public override Task<string?> ConvertToDisplayAsync(string? value, CancellationToken token)
@@ -55,26 +63,31 @@ public partial class AITextFormatterComponent
                   "$schema": "http://json-schema.org/draft-07/schema#",
                   "type": "object",
                   "properties": {
-                    "CorrectedValue": {
+                    "CheckedTripStops": {
                       "type": "string",
-                      "description": "The user's value after spell-checking and optional translation, when it wasn't in English."
+                      "description": "The user's value after plausibility-checking."
                     },
-                    "MetaInfo": {
+                    "TripMetaData": {
                       "type": "string",
-                      "description": "A brief description of what needed to be corrected or brushed up."
+                      "description": "Brief information about the trip, rough estimation how long it takes and how far it is. Or a quick statement that the trip's stop-overs are not familiar."
                     },
                     "ReturnStatus": {
                       "type": "string",
                       "description": "Either 'OK' or a brief description of what went wrong."
                     }
                   },
-                  "required": ["CorrectedValue", "MetaInfo", "ReturnStatus"],
+                  "required": ["CheckedTripStops", "TripMetaData", "ReturnStatus"],
                   "additionalProperties": false
                 }
                 """;
 
-            string? jsonData = await _skComponent.RequestTextPromptResponseAsync(value, false);
-            IntelligentParsingReturnValues? translationReturnValues = null;
+            string request = $"The Home state or country is{HomeStateOrCountry}\n." +
+                $"The home town is {HomeTown}.\n" +
+                $"The user requested assistance for the following trip stops entry:\n" +
+                $"{value}.";
+
+            string? jsonData = await _skComponent.RequestTextPromptResponseAsync(request, false);
+            AITripStopsReturnValues? tripStopsReturnValues = null;
 
             if (string.IsNullOrEmpty(jsonData))
             {
@@ -83,15 +96,15 @@ public partial class AITextFormatterComponent
 
             try
             {
-                translationReturnValues = JsonSerializer.Deserialize<IntelligentParsingReturnValues>(jsonData);
-                if (translationReturnValues is null)
+                tripStopsReturnValues = JsonSerializer.Deserialize<AITripStopsReturnValues>(jsonData);
+                if (tripStopsReturnValues is null)
                 {
                     throw new InvalidOperationException("Trying to parse the text input failed for unknown reasons.");
                 }
 
-                if (translationReturnValues.ReturnStatus != "OK")
+                if (tripStopsReturnValues.ReturnStatus != "OK")
                 {
-                    throw new FormatException($"When the encountered an error when parsing the input: {translationReturnValues.ReturnStatus}");
+                    throw new FormatException($"When the encountered an error when parsing the input: {tripStopsReturnValues.ReturnStatus}");
                 }
             }
             catch (Exception innerException)
@@ -104,17 +117,18 @@ public partial class AITextFormatterComponent
                 throw new FormatException("There was a problem processing the user input", innerException);
             }
 
-            return translationReturnValues.CorrectedValue;
+            TripMetaData = tripStopsReturnValues.TripMetaData;
+            return tripStopsReturnValues.CheckedTripStops;
         }
 
         // Helper class, which carries the structured return values from the AI.
-        private class IntelligentParsingReturnValues
+        private class AITripStopsReturnValues
         {
             [Description("The users value after spell-checking and optional translation, when it wasn't in English.")]
-            public string CorrectedValue { get; set; } = string.Empty;
+            public string CheckedTripStops { get; set; } = string.Empty;
 
             [Description("A brief description of what needed to be corrected or brushed up.")]
-            public string MetaInfo { get; set; } = string.Empty;
+            public string TripMetaData { get; set; } = string.Empty;
 
             [Description("Either 'OK' or a brief description of what went wrong.")]
             public string ReturnStatus { get; set; } = string.Empty;
@@ -125,3 +139,4 @@ public partial class AITextFormatterComponent
             => Task.FromResult<string?>(value);
     }
 }
+

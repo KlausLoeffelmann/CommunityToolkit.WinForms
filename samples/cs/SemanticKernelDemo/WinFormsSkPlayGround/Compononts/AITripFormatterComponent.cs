@@ -1,9 +1,10 @@
-﻿using CommunityToolkit.WinForms.TypedInputExtenders;
+﻿using CommunityToolkit.WinForms.AI.TypedInput;
+using CommunityToolkit.WinForms.TypedInputExtenders;
 
 namespace WinFormsSkPlayGround.Components;
 
 [ToolboxBitmap(typeof(AITextFormatterComponent), "AIFormattedTextEntry.bmp")]
-public partial class AITextFormatterComponent
+public partial class AITripFormatterComponent
     : TypedFormatterComponent<string?>
 {
     /// <summary> 
@@ -20,12 +21,11 @@ public partial class AITextFormatterComponent
         => base.SetValueInternal((TextBox)textBox, value);
 
     protected override ITypedFormatter<string?> GetDefaultFormatterInstance()
-        => (ITypedFormatter<string?>)new AITextFormatter();
+        => (ITypedFormatter<string?>)new AITripFormatter();
 
     protected override object GetDefaultValue()
         => string.Empty;
 
     protected override bool CanExtendProperties(object formatterComponent)
-        => formatterComponent is AITextFormatterComponent;
+        => formatterComponent is AITripFormatterComponent;
 }
-

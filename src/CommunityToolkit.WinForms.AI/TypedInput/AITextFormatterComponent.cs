@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.WinForms.TypedInputExtenders;
 
-namespace WinFormsSkPlayGround.Components;
+namespace CommunityToolkit.WinForms.AI.TypedInput;
 
-[ToolboxBitmap(typeof(AIDateFormatterComponent), "AIFormattedDateEntry.bmp")]
-public partial class AIDateFormatterComponent
-    : TypedFormatterComponent<DateTime>
+[ToolboxBitmap(typeof(AITextFormatterComponent), "AIFormattedTextEntry.bmp")]
+public partial class AITextFormatterComponent
+    : TypedFormatterComponent<string?>
 {
     /// <summary> 
     /// Clean up any resources being used.
@@ -13,18 +13,19 @@ public partial class AIDateFormatterComponent
     protected override void Dispose(bool disposing)
         => base.Dispose(disposing);
 
-    public override DateTime GetValue(Control textBox)
+    public override string? GetValue(Control textBox)
         => base.GetValueInternal((TextBox)textBox);
 
-    public override void SetValue(Control textBox, DateTime value)
+    public override void SetValue(Control textBox, string? value)
         => base.SetValueInternal((TextBox)textBox, value);
 
-    protected override ITypedFormatter<DateTime> GetDefaultFormatterInstance()
-        => (ITypedFormatter<DateTime>)new AIDateFormatter();
+    protected override ITypedFormatter<string?> GetDefaultFormatterInstance()
+        => (ITypedFormatter<string?>)new AITextFormatter();
 
     protected override object GetDefaultValue()
-        => DateTime.Now.Date;
+        => string.Empty;
 
     protected override bool CanExtendProperties(object formatterComponent)
-        => formatterComponent is AIDateFormatterComponent;
+        => formatterComponent is AITextFormatterComponent;
 }
+

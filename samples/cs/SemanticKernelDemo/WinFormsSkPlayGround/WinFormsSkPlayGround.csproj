@@ -49,14 +49,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Compononts\AIDateFormatterComponent.cs">
+    <Compile Update="Compononts\AITripFormatterComponent.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Compononts\AIDateFormatterComponent.AIDateFormatter.cs" />
-    <Compile Update="Compononts\AITextFormatterComponent.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="Compononts\AITextFormatterComponent.AITextFormatter.cs" />
     <Compile Update="PromptControlVersions\PromptControlV1.cs">
       <SubType>Component</SubType>
     </Compile>
