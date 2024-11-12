@@ -259,8 +259,8 @@ public class SemanticKernelComponent : BindableComponent
     [Bindable(true)]
     [Browsable(true)]
     [DefaultValue(null)]
-    [Category("AI")]
-    [Description("Gets or sets the .NET type name, the LLM should generate parseable string results for.")]
+    [Category("Model Parameter")]
+    [Description("Gets or sets JSon schema for the return value. The easiest way to create this is, well, with a LLM!")]
     public string? JsonSchema { get; set; } = null;
 
     /// <summary>
@@ -269,8 +269,8 @@ public class SemanticKernelComponent : BindableComponent
     [Bindable(true)]
     [Browsable(true)]
     [DefaultValue(null)]
-    [Category("AI")]
-    [Description("Gets or sets the name for the JSon schema.")]
+    [Category("Model Parameter")]
+    [Description("Gets or sets the name for the JSon schema. This does currently not influence what the model returns.")]
     public string? JsonSchemaName { get; set; } = null;
 
     /// <summary>
@@ -279,8 +279,8 @@ public class SemanticKernelComponent : BindableComponent
     [Bindable(true)]
     [Browsable(true)]
     [DefaultValue(null)]
-    [Category("AI")]
-    [Description("Gets or sets the Json schema description.")]
+    [Category("Model Parameter")]
+    [Description("Gets or sets the Json schema description. This does currently not influence what the model returns.")]
     public string? JsonSchemaDescription { get; set; } = null;
 
     /// <summary>
@@ -320,7 +320,9 @@ public class SemanticKernelComponent : BindableComponent
     /// <summary>
     ///  Gets or sets the model name to use for chat completion.
     /// </summary>
+    [Category("Model Parameter")]
     [DefaultValue(DefaultModelName)]
+    [Description("The model name to use for chat completion - for example 'chat-gpt4o'.")]
     public string ModelName { get; set; } = DefaultModelName;
 
     /// <summary>
@@ -330,7 +332,9 @@ public class SemanticKernelComponent : BindableComponent
     ///  The frequency penalty is a value between 0 and 1 that penalizes the model for repeating the same response.
     ///  A higher value will make the model less likely to repeat responses.
     /// </remarks>
+    [Category("Model Parameter")]
     [DefaultValue(null)]
+    [Description("The frequency penalty is a value between 0 and 1 that penalizes the model for repeating the same response.")]
     public double? FrequencyPenalty
     {
         get => _frequencyPenalty;
@@ -344,7 +348,9 @@ public class SemanticKernelComponent : BindableComponent
     ///  The presence penalty is a value between 0 and 1 that penalizes the model for generating responses that are too long.
     ///  A higher value will make the model more likely to generate shorter responses.
     /// </remarks>
+    [Category("Model Parameter")]
     [DefaultValue(null)]
+    [Description("The presence penalty is a value between 0 and 1 that penalizes the model for generating responses that are too long.")]
     public double? PresencePenalty
     {
         get => _presencePenalty;
@@ -359,7 +365,9 @@ public class SemanticKernelComponent : BindableComponent
     ///  A higher value will make the responses more random, while a lower value 
     ///  will make them more deterministic.
     /// </remarks>
+    [Category("Model Parameter")]
     [DefaultValue(null)]
+    [Description("The temperature value controls the randomness of the model's responses.")]
     public double? Temperature
     {
         get => _temperature;
@@ -375,6 +383,8 @@ public class SemanticKernelComponent : BindableComponent
     ///  A higher value will make the responses more diverse, while a lower value 
     ///  will make them more focused.
     /// </remarks>
+    [Category("Model Parameter")]
+    [Description("The top-p value is a value between 0 and 1 that controls the diversity of the model's responses.")]
     [DefaultValue(1)]
     public double? TopP
     {

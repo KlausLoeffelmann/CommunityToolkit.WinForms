@@ -12,6 +12,7 @@ public partial class LearnGermanDemo
         _skComponent.ApiKeyGetter = () => Environment.GetEnvironmentVariable(OpenAiApiKeyLookupKey)
             ?? throw new InvalidOperationException("The AI:OpenAI:ApiKey environment variable is not set.");
 
+        // Set the Model parameters to values which increases predictability.
         _skComponent.Temperature = 0.0;
         _skComponent.TopP = 0.7;
         _skComponent.FrequencyPenalty = 0.0;
@@ -19,6 +20,9 @@ public partial class LearnGermanDemo
         _skComponent.LogConsole = _parentForm.FirstDescendantOrDefault<ConsoleControl>();
 
         _skComponent.SystemPrompt = SystemPrompt;
+
+        // This is the schema we want:
+        // The PhoneticEnglish and EnglishTranslation are required.
         _skComponent.JsonSchema =
             """
             {
@@ -37,6 +41,7 @@ public partial class LearnGermanDemo
             }
             """;
 
+        // That's supposed to be Json data now.
         string? jsonData = await _skComponent.RequestTextPromptResponseAsync(_txtGermanTextPrompt.Text, false);
 
         if (jsonData is null)
@@ -46,9 +51,14 @@ public partial class LearnGermanDemo
             return;
         }
 
+        // We deserialize and put the data in the UI.
         TranslationReturnValues? translationReturnValues = JsonSerializer.Deserialize<TranslationReturnValues>(jsonData);
-        _tslEnglishTranslation.Text = translationReturnValues?.EnglishTranslation ?? "**** We couldn't get any data back.";
-        _txtPhoneticEnglish.Text = translationReturnValues?.PhoneticEnglish;
+
+        await InvokeAsync(() =>
+        {
+            _tslEnglishTranslation.Text = translationReturnValues?.EnglishTranslation ?? "**** We couldn't get any data back.";
+            _txtPhoneticEnglish.Text = translationReturnValues?.PhoneticEnglish;
+        });
     }
 
     public class TranslationReturnValues

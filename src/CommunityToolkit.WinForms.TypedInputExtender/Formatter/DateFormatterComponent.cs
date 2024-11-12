@@ -1,7 +1,7 @@
 ﻿namespace CommunityToolkit.WinForms.TypedInputExtenders;
 
 [ToolboxBitmap(typeof(DateFormatterComponent), "FormattedDateEntry.bmp")]
-public partial class DateFormatterComponent : TypedFormatterComponent<DateTime>
+public partial class DateFormatterComponent : TypedFormatterComponent<DateTime?>
 {
     /// <summary> 
     /// Clean up any resources being used.
@@ -10,17 +10,14 @@ public partial class DateFormatterComponent : TypedFormatterComponent<DateTime>
     protected override void Dispose(bool disposing) 
         => base.Dispose(disposing);
 
-    public override DateTime GetValue(Control textBox) 
+    public override DateTime? GetValue(Control textBox) 
         => base.GetValueInternal((TextBox)textBox);
 
-    public override void SetValue(Control textBox, DateTime value) 
+    public override void SetValue(Control textBox, DateTime? value) 
         => base.SetValueInternal((TextBox)textBox, value);
 
-    protected override ITypedFormatter<DateTime> GetDefaultFormatterInstance() 
-        => (ITypedFormatter<DateTime>)new DateFormatter();
-
-    protected override object GetDefaultValue() 
-        => DateTime.Now.Date;
+    protected override ITypedFormatter<DateTime?> GetDefaultFormatterInstance() 
+        => (ITypedFormatter<DateTime?>)new DateFormatter();
 
     protected override bool CanExtendProperties(object formatterComponent) 
         => formatterComponent is DateFormatterComponent;

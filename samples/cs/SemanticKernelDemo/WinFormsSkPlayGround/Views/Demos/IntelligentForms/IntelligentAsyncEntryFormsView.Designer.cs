@@ -30,13 +30,13 @@ partial class IntelligentAsyncEntryFormsView
     /// </summary>
     private void InitializeComponent()
     {
-        AITextFormatterComponent.AITextFormatter aiTextFormatter3 = new AITextFormatterComponent.AITextFormatter();
-        AIMeasurementFormatterComponent.AIMeasurementFormatter aiMeasurementFormatter3 = new AIMeasurementFormatterComponent.AIMeasurementFormatter();
-        Components.AITripFormatterComponent.AITripFormatter aiTripFormatter2 = new Components.AITripFormatterComponent.AITripFormatter();
-        AIMeasurementFormatterComponent.AIMeasurementFormatter aiMeasurementFormatter1 = new AIMeasurementFormatterComponent.AIMeasurementFormatter();
-        AIDateFormatterComponent.AIDateFormatter aiDateFormatter3 = new AIDateFormatterComponent.AIDateFormatter();
         AITextFormatterComponent.AITextFormatter aiTextFormatter1 = new AITextFormatterComponent.AITextFormatter();
+        AIMeasurementFormatterComponent.AIMeasurementFormatter aiMeasurementFormatter1 = new AIMeasurementFormatterComponent.AIMeasurementFormatter();
+        Components.AITripFormatterComponent.AITripFormatter aiTripFormatter1 = new Components.AITripFormatterComponent.AITripFormatter();
+        AIMeasurementFormatterComponent.AIMeasurementFormatter aiMeasurementFormatter2 = new AIMeasurementFormatterComponent.AIMeasurementFormatter();
         AIDateFormatterComponent.AIDateFormatter aiDateFormatter1 = new AIDateFormatterComponent.AIDateFormatter();
+        AITextFormatterComponent.AITextFormatter aiTextFormatter2 = new AITextFormatterComponent.AITextFormatter();
+        AIDateFormatterComponent.AIDateFormatter aiDateFormatter2 = new AIDateFormatterComponent.AIDateFormatter();
         _typedInputExtender = new CommunityToolkit.WinForms.TypedInputExtenders.TypedInputExtenderPanel();
         _txtNotes = new TextBox();
         label8 = new Label();
@@ -90,16 +90,17 @@ partial class IntelligentAsyncEntryFormsView
         _typedInputExtender.Controls.Add(_txtAutomaticTripInfo);
         _typedInputExtender.Location = new Point(11, 90);
         _typedInputExtender.Name = "_typedInputExtender";
-        _typedInputExtender.Size = new Size(865, 573);
+        _typedInputExtender.Size = new Size(826, 546);
         _typedInputExtender.TabIndex = 2;
         // 
         // _txtNotes
         // 
+        _txtNotes.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         _typedInputExtender.SetErrorColor(_txtNotes, null);
         _typedInputExtender.SetErrorText(_txtNotes, "");
         _typedInputExtender.SetFocusColor(_txtNotes, null);
         _typedInputExtender.SetFormatterComponent(_txtNotes, _aiTextFormatter);
-        _aiTextFormatter.SetFormatterSettings(_txtNotes, aiTextFormatter3);
+        _aiTextFormatter.SetFormatterSettings(_txtNotes, aiTextFormatter1);
         _txtNotes.Location = new Point(222, 504);
         _txtNotes.Name = "_txtNotes";
         _txtNotes.Size = new Size(589, 30);
@@ -117,12 +118,13 @@ partial class IntelligentAsyncEntryFormsView
         // 
         // _txtGallonsFuelUsed
         // 
+        _txtGallonsFuelUsed.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         _typedInputExtender.SetErrorColor(_txtGallonsFuelUsed, null);
         _typedInputExtender.SetErrorText(_txtGallonsFuelUsed, "");
         _typedInputExtender.SetFocusColor(_txtGallonsFuelUsed, null);
         _typedInputExtender.SetFormatterComponent(_txtGallonsFuelUsed, _aiMeasurementFormatter);
-        aiMeasurementFormatter3.TargetUnit = "Gallons";
-        _aiMeasurementFormatter.SetFormatterSettings(_txtGallonsFuelUsed, aiMeasurementFormatter3);
+        aiMeasurementFormatter1.TargetUnit = "Gallons";
+        _aiMeasurementFormatter.SetFormatterSettings(_txtGallonsFuelUsed, aiMeasurementFormatter1);
         _txtGallonsFuelUsed.Location = new Point(222, 456);
         _txtGallonsFuelUsed.Name = "_txtGallonsFuelUsed";
         _txtGallonsFuelUsed.Size = new Size(589, 30);
@@ -131,13 +133,14 @@ partial class IntelligentAsyncEntryFormsView
         // 
         // _txtTripStops
         // 
+        _txtTripStops.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         _typedInputExtender.SetErrorColor(_txtTripStops, null);
         _typedInputExtender.SetErrorText(_txtTripStops, "");
         _typedInputExtender.SetFocusColor(_txtTripStops, null);
         _typedInputExtender.SetFormatterComponent(_txtTripStops, _aiTripFormatter);
-        aiTripFormatter2.HomeStateOrCountry = "Washington State";
-        aiTripFormatter2.HomeTown = "Duvall";
-        _aiTripFormatter.SetFormatterSettings(_txtTripStops, aiTripFormatter2);
+        aiTripFormatter1.HomeStateOrCountry = "Washington State";
+        aiTripFormatter1.HomeTown = "Duvall";
+        _aiTripFormatter.SetFormatterSettings(_txtTripStops, aiTripFormatter1);
         _txtTripStops.Location = new Point(222, 26);
         _txtTripStops.Name = "_txtTripStops";
         _txtTripStops.Size = new Size(589, 30);
@@ -164,12 +167,13 @@ partial class IntelligentAsyncEntryFormsView
         // 
         // _txtMilesDriven
         // 
+        _txtMilesDriven.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         _typedInputExtender.SetErrorColor(_txtMilesDriven, null);
         _typedInputExtender.SetErrorText(_txtMilesDriven, "");
         _typedInputExtender.SetFocusColor(_txtMilesDriven, null);
         _typedInputExtender.SetFormatterComponent(_txtMilesDriven, _aiMeasurementFormatter);
-        aiMeasurementFormatter1.TargetUnit = "Mile";
-        _aiMeasurementFormatter.SetFormatterSettings(_txtMilesDriven, aiMeasurementFormatter1);
+        aiMeasurementFormatter2.TargetUnit = "Mile";
+        _aiMeasurementFormatter.SetFormatterSettings(_txtMilesDriven, aiMeasurementFormatter2);
         _txtMilesDriven.Location = new Point(222, 407);
         _txtMilesDriven.Name = "_txtMilesDriven";
         _txtMilesDriven.Size = new Size(589, 30);
@@ -196,12 +200,13 @@ partial class IntelligentAsyncEntryFormsView
         // 
         // _txtStartDateAndTime
         // 
+        _txtStartDateAndTime.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         _typedInputExtender.SetErrorColor(_txtStartDateAndTime, null);
         _typedInputExtender.SetErrorText(_txtStartDateAndTime, "");
         _typedInputExtender.SetFocusColor(_txtStartDateAndTime, null);
         _typedInputExtender.SetFormatterComponent(_txtStartDateAndTime, _aiDateFormatter);
-        aiDateFormatter3.DateTimeFormat = CommunityToolkit.WinForms.TypedInputExtenders.DateTimeFormats.DateTimeCombined;
-        _aiDateFormatter.SetFormatterSettings(_txtStartDateAndTime, aiDateFormatter3);
+        aiDateFormatter1.DateTimeFormat = CommunityToolkit.WinForms.TypedInputExtenders.DateTimeFormats.DateTimeCombined;
+        _aiDateFormatter.SetFormatterSettings(_txtStartDateAndTime, aiDateFormatter1);
         _txtStartDateAndTime.Location = new Point(222, 309);
         _txtStartDateAndTime.Name = "_txtStartDateAndTime";
         _txtStartDateAndTime.Size = new Size(589, 30);
@@ -210,14 +215,16 @@ partial class IntelligentAsyncEntryFormsView
         // 
         // _txtPurposeOfTrip
         // 
+        _txtPurposeOfTrip.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         _typedInputExtender.SetErrorColor(_txtPurposeOfTrip, null);
         _typedInputExtender.SetErrorText(_txtPurposeOfTrip, "");
         _typedInputExtender.SetFocusColor(_txtPurposeOfTrip, null);
         _typedInputExtender.SetFormatterComponent(_txtPurposeOfTrip, _aiTextFormatter);
-        _aiTextFormatter.SetFormatterSettings(_txtPurposeOfTrip, aiTextFormatter1);
+        _aiTextFormatter.SetFormatterSettings(_txtPurposeOfTrip, aiTextFormatter2);
         _txtPurposeOfTrip.Location = new Point(222, 178);
         _txtPurposeOfTrip.Multiline = true;
         _txtPurposeOfTrip.Name = "_txtPurposeOfTrip";
+        _txtPurposeOfTrip.ScrollBars = ScrollBars.Vertical;
         _txtPurposeOfTrip.Size = new Size(589, 110);
         _txtPurposeOfTrip.TabIndex = 4;
         _aiTextFormatter.SetValue(_txtPurposeOfTrip, null);
@@ -242,12 +249,13 @@ partial class IntelligentAsyncEntryFormsView
         // 
         // _txtEndDateAndTime
         // 
+        _txtEndDateAndTime.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         _typedInputExtender.SetErrorColor(_txtEndDateAndTime, null);
         _typedInputExtender.SetErrorText(_txtEndDateAndTime, "");
         _typedInputExtender.SetFocusColor(_txtEndDateAndTime, null);
         _typedInputExtender.SetFormatterComponent(_txtEndDateAndTime, _aiDateFormatter);
-        aiDateFormatter1.DateTimeFormat = CommunityToolkit.WinForms.TypedInputExtenders.DateTimeFormats.DateTimeCombined;
-        _aiDateFormatter.SetFormatterSettings(_txtEndDateAndTime, aiDateFormatter1);
+        aiDateFormatter2.DateTimeFormat = CommunityToolkit.WinForms.TypedInputExtenders.DateTimeFormats.DateTimeCombined;
+        _aiDateFormatter.SetFormatterSettings(_txtEndDateAndTime, aiDateFormatter2);
         _txtEndDateAndTime.Location = new Point(222, 358);
         _txtEndDateAndTime.Name = "_txtEndDateAndTime";
         _txtEndDateAndTime.Size = new Size(589, 30);
@@ -256,6 +264,7 @@ partial class IntelligentAsyncEntryFormsView
         // 
         // _txtAutomaticTripInfo
         // 
+        _txtAutomaticTripInfo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
         _typedInputExtender.SetErrorColor(_txtAutomaticTripInfo, null);
         _typedInputExtender.SetErrorText(_txtAutomaticTripInfo, "");
         _typedInputExtender.SetFocusColor(_txtAutomaticTripInfo, null);
@@ -264,6 +273,7 @@ partial class IntelligentAsyncEntryFormsView
         _txtAutomaticTripInfo.Multiline = true;
         _txtAutomaticTripInfo.Name = "_txtAutomaticTripInfo";
         _txtAutomaticTripInfo.ReadOnly = true;
+        _txtAutomaticTripInfo.ScrollBars = ScrollBars.Vertical;
         _txtAutomaticTripInfo.Size = new Size(589, 82);
         _txtAutomaticTripInfo.TabIndex = 2;
         _txtAutomaticTripInfo.TabStop = false;
@@ -301,7 +311,7 @@ partial class IntelligentAsyncEntryFormsView
         Controls.Add(_typedInputExtender);
         Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
         Name = "IntelligentAsyncEntryFormsView";
-        Size = new Size(892, 696);
+        Size = new Size(858, 654);
         _typedInputExtender.ResumeLayout(false);
         _typedInputExtender.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)_aiTextFormatter).EndInit();
@@ -318,7 +328,6 @@ partial class IntelligentAsyncEntryFormsView
 
     private CommunityToolkit.WinForms.TypedInputExtenders.TypedInputExtenderPanel _typedInputExtender;
     private TextBox _txtTripStops;
-    private AITextFormatterComponent.AITextFormatter _aiTextFormatter1;
     private Label _lblTripStops;
     private TextBox _txtStartDateAndTime;
     private Label label1;

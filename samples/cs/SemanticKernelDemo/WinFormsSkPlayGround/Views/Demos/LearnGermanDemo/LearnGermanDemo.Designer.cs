@@ -35,9 +35,9 @@ partial class LearnGermanDemo
         _txtGermanTextPrompt = new SemanticKernelDemo.Controls.AsyncPromptControl();
         _cmbDeutscheTextBeispiele = new ComboBox();
         _btnAsyncReadPhoneticEnglishOutLoud = new SemanticKernelDemo.Controls.AsyncButton();
+        _btnDoubleProcess = new SemanticKernelDemo.Controls.AsyncButton();
         _btnAsyncPhoneticTranslate = new SemanticKernelDemo.Controls.AsyncButton();
         _skComponent = new CommunityToolkit.WinForms.AI.SemanticKernelComponent();
-        _btnDoubleProcess = new SemanticKernelDemo.Controls.AsyncButton();
         _mainLayoutPanel.SuspendLayout();
         SuspendLayout();
         // 
@@ -137,6 +137,18 @@ partial class LearnGermanDemo
         _btnAsyncReadPhoneticEnglishOutLoud.UseVisualStyleBackColor = true;
         _btnAsyncReadPhoneticEnglishOutLoud.AsyncClick += BtnAsyncReadPhoneticEnglishOutLoud_AsyncClick;
         // 
+        // _btnDoubleProcess
+        // 
+        _btnDoubleProcess.DialogResult = DialogResult.OK;
+        _btnDoubleProcess.Location = new Point(911, 309);
+        _btnDoubleProcess.Margin = new Padding(30, 4, 10, 10);
+        _btnDoubleProcess.Name = "_btnDoubleProcess";
+        _btnDoubleProcess.Size = new Size(232, 68);
+        _btnDoubleProcess.TabIndex = 8;
+        _btnDoubleProcess.Text = "Language and Phonetic Translation";
+        _btnDoubleProcess.UseVisualStyleBackColor = true;
+        _btnDoubleProcess.AsyncClick += BtnDoubleProcess_AsyncClick;
+        // 
         // _btnAsyncPhoneticTranslate
         // 
         _btnAsyncPhoneticTranslate.DialogResult = DialogResult.OK;
@@ -151,20 +163,8 @@ partial class LearnGermanDemo
         // 
         // _skComponent
         // 
-        _skComponent.JsonSchema = null;
+        _skComponent.SystemPrompt = "You are an Assistant for helping Developers with questions around .NET, C# and Visual Basic.";
         _skComponent.TopP = null;
-        // 
-        // _btnDoubleProcess
-        // 
-        _btnDoubleProcess.DialogResult = DialogResult.OK;
-        _btnDoubleProcess.Location = new Point(911, 309);
-        _btnDoubleProcess.Margin = new Padding(30, 4, 10, 10);
-        _btnDoubleProcess.Name = "_btnDoubleProcess";
-        _btnDoubleProcess.Size = new Size(232, 68);
-        _btnDoubleProcess.TabIndex = 8;
-        _btnDoubleProcess.Text = "Language and Phonetic Translation";
-        _btnDoubleProcess.UseVisualStyleBackColor = true;
-        _btnDoubleProcess.AsyncClick += BtnDoubleProcess_AsyncClick;
         // 
         // LearnGermanDemo
         // 

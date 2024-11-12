@@ -101,28 +101,6 @@ public partial class DecimalFormatterComponent
             set => SetProperty(ref _leadingZeros, value);
         }
 
-        public override Task<string?> ConvertToDisplayAsync(decimal? value, CancellationToken token)
-        {
-            return Task.FromResult<string?>(
-                value is null 
-                    ? NullFormatString 
-                    : value.Value.ToString(GetFormatString()));
-        }
-
-        public override async Task<decimal?> ConvertToValueAsync(string? stringValue, CancellationToken token)
-        {
-            await Task.Delay(2000, token);
-
-            decimal? result= stringValue is null 
-                    ? null 
-                    : decimal.Parse(stringValue);
-
-            return result;
-        }
-
-        public override Task<string?> InitializeEditedValueAsync(decimal? value, CancellationToken token) => 
-            Task.FromResult<string?>(value.ToString());
-
         public string? GetFormatString()
         {
             var formatString = new StringBuilder();
@@ -153,7 +131,58 @@ public partial class DecimalFormatterComponent
                 formatString.Append('0', DecimalPlaces);
             }
 
+            if (string.IsNullOrEmpty(CurrencySymbol))
+            {
+                return formatString.ToString();
+            }
+
+            if (PlaceCurrencySymbolUpFront)
+            {
+                formatString.Insert(0, CurrencySymbol);
+            }
+            else
+            {
+                formatString.Append(CurrencySymbol);
+            }
+
             return formatString.ToString();
         }
+
+        /// <summary>
+        ///  Converts the value to a displayable string.
+        /// </summary>
+        public override Task<string?> ConvertToDisplayAsync(
+            decimal? value, 
+            CancellationToken token)
+        {
+            return Task.FromResult<string?>(
+                value is null 
+                    ? NullFormatString 
+                    : value.Value.ToString(GetFormatString()));
+        }
+
+        /// <summary>
+        /// Converts the string value to a decimal value.
+        /// </summary>
+        public override async Task<decimal?> ConvertToValueAsync(
+            string? stringValue,
+            CancellationToken token)
+        {
+            await Task.Delay(2000, token);
+
+            decimal? result = stringValue is null
+                    ? null
+                    : decimal.Parse(stringValue);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Provides the initial value for the edited value.
+        /// </summary>
+        public override Task<string?> InitializeEditedValueAsync(
+            decimal? value, 
+            CancellationToken token) => 
+            Task.FromResult<string?>(value.ToString());
     }
 }

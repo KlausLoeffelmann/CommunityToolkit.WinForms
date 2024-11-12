@@ -175,7 +175,7 @@ partial class FrmMain
         colorMeToolStripMenuItem.Name = "colorMeToolStripMenuItem";
         colorMeToolStripMenuItem.Size = new Size(109, 29);
         colorMeToolStripMenuItem.Text = "Color Me!";
-        colorMeToolStripMenuItem.Click += colorMeToolStripMenuItem_Click;
+        colorMeToolStripMenuItem.Click += ColorMeToolStripMenuItem_Click;
         // 
         // _mainFormStatusStrip
         // 

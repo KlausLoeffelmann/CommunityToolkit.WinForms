@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.ExceptionServices;
 
 namespace SemanticKernelDemo.Controls;
 
@@ -28,7 +29,6 @@ public class AsyncButton : Button
     protected async override void OnClick(EventArgs e)
     {
         bool previousEnabled = Enabled;
-
         base.OnClick(e);
 
         if (AsyncClick is null)
@@ -43,12 +43,21 @@ public class AsyncButton : Button
         if (ParallelInvoke)
         {
             // Invoke each handler in parallel
-            await Task.WhenAll(AsyncClick.GetInvocationList().Cast<AsyncEventHandler>().Select(handler => handler.Invoke(this, e))).ConfigureAwait(false);
+            await Task
+                .WhenAll(AsyncClick
+                    .GetInvocationList()
+                    .Cast<AsyncEventHandler>()
+                    .Select(handler => handler.Invoke(this, e)))
+                .ConfigureAwait(false);
         }
         else
         {
-            // Invoke each handler safely
-            foreach (AsyncEventHandler handler in AsyncClick.GetInvocationList().Cast<AsyncEventHandler>())
+            IEnumerable<AsyncEventHandler> handlers = AsyncClick
+                .GetInvocationList()
+                .Cast<AsyncEventHandler>();
+
+            // Invoke each handler safely in sequence.
+            foreach (AsyncEventHandler handler in handlers)
             {
                 try
                 {
@@ -56,7 +65,8 @@ public class AsyncButton : Button
                 }
                 catch (Exception ex)
                 {
-                    Application.OnThreadException(ex);
+                    // Rethrow the exception on the UI thread.
+                    await InvokeAsync(() => ExceptionDispatchInfo.Capture(ex).Throw());
                 }
             }
         }

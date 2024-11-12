@@ -7,7 +7,6 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
-using System.Text.Json;
 
 namespace WinFormsSkPlayGround.Views;
 
@@ -16,10 +15,11 @@ public partial class LearnGermanDemo : UserControl
 {
     // Keys for looking up the API keys via environment variables.
     private const string OpenAiApiKeyLookupKey = "AI:OpenAi:ApiKey";
+
     private const string AzureSpeechSubscriptionKeyLookupKey = "AzureSpeech:SubscriptionKey";
     private const string AzureSpeechSubscriptionRegionLookupKey = "AzureSpeech:Region";
 
-    private static readonly char[] s_separators = { ' ', '-', ',', '.', '?', '!' };
+    private static readonly char[] s_separators = [' ', '-', ',', '.', '?', '!'];
 
     // This is the system prompt that will be used for the OpenAI model execution.
     private const string SystemPrompt =
@@ -31,8 +31,10 @@ public partial class LearnGermanDemo : UserControl
         words when spoken aloud.
 
         Here are the principle rules:
-        * Treat 'ch' as in 'ich' as "sh". Samples: 'ich' becomes 'ish', 'mich' becomes 'mish'.
         * Use dashes for only longer words, for example "min-oo-ten" for "Minuten", or "Hoaf-broy-house" for "Hoaf-broy-house"!
+        * Treat 'ch' as in 'ich' as "sh". Samples: 'ich' becomes 'ish', 'mich' becomes 'mish'.
+        * Be careful with conversion of German "i" - it should be pronounced as "ee" in English. 
+          For example, "Bier" becomes "beer", and 'Fische' should be 'feshe' not 'fi-she'.
         * Use "uh" for the German "a" sound: "Bavaria" becomes "Buh-vuh-ree-uh".
         * Use "ai" for the German "ei" sound: "Zwei" (or 2) becomes "Tswai". "Ein" becomes "Ain". "Eine" become "ain-eh".
         * Use "ee" for the German "ie" sound: "Sie" becomes "See".
@@ -43,7 +45,7 @@ public partial class LearnGermanDemo : UserControl
           * "völlig" becomes "fellick".
           * "Müller" becomes "Muller".
           * "Schwäche" becomes "shvasheh".
-        * Combine and generalize those rules, when it make sense: "Dafür" becomes "Duhfur".
+        * Combine and generalize those rules, when it make sense: For example "Dafür" becomes "Duhfur".
           
         * Bavarian dialect words should be written in a way that reflects their pronunciation. Here are the most important:
           * Servus -> Zair-voos
@@ -75,7 +77,7 @@ public partial class LearnGermanDemo : UserControl
 
     // The kernel for the Semantic Kernel scenario. It bundles the connectors and services.
     private Kernel? _kernel;
-    private Form _parentForm;
+    private readonly Form _parentForm;
 
     [AllowNull]
     private ToolStripItem _tslTimeElapsed;
@@ -144,7 +146,9 @@ public partial class LearnGermanDemo : UserControl
             executionSettings: executionSettings);
 
         stopwatch.Stop();
-        await InvokeAsync(() => _tslTimeElapsed.Text = $"{stopwatch.ElapsedMilliseconds:#,###} ms.");
+
+        await InvokeAsync(
+            () => _tslTimeElapsed.Text = $"{stopwatch.ElapsedMilliseconds:#,###} ms.");
 
         StringBuilder responseStringBuilder = new();
 

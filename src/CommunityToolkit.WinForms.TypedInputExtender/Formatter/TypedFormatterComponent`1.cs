@@ -109,6 +109,7 @@ public abstract partial class TypedFormatterComponent<T> :
             if (!object.Equals(oldValue, value))
             {
                 _valueStorage[textBox] = value;
+
                 OnValueChanged(
                     sender: textBox,
                     e: new ValueChangedEventArgs<T>(

@@ -2,14 +2,12 @@ using CommunityToolkit.WinForms.ComponentModel;
 using CommunityToolkit.WinForms.Extensions;
 using CommunityToolkit.WinForms.FluentUI;
 using WinFormsSkPlayGround.Views;
-using WinFormsSkPlayGround.Views.Demos;
 
 namespace WinFormsSkPlayGround;
 
 public partial class FrmMain : Form
 {
     private readonly IUserSettingsService _settingsService;
-    private readonly IServiceProvider? _serviceProvider;
     private AIPlayGroundView? _aiPlayGroundView;
 
     public FrmMain()
@@ -36,11 +34,12 @@ public partial class FrmMain : Form
         _mainTabControl.AddTab("Simple Async", new SimpleAsyncDemo(this));
         _mainTabControl.AddTab("Async Rendering", new AsyncSpiralContainer());
         _mainTabControl.AddTab("Learn German!", new LearnGermanDemo(this));
-        _mainTabControl.AddTab("I.A.E.F", new IntelligentAsyncEntryFormsView());
+        _mainTabControl.AddTab("I.A.E.F (Demo)", new IntelligentAsyncDemoDesigner(this));
+        _mainTabControl.AddTab("I.A.E.F", new IntelligentAsyncEntryFormsView(this));
         _mainTabControl.AddTab("WinForms Playground", _aiPlayGroundView = new AIPlayGroundView());
-        _mainTabControl.AddTab("Debug Console", new LogContainer(this));
+        //_mainTabControl.AddTab("Debug Console", new LogContainer(this));
 
-        _mainTabControl.TabChanged += _mainTabControl_TabChanged;
+        _mainTabControl.TabChanged += MainTabControl_TabChanged;
     }
 
     protected override void OnFormClosed(FormClosedEventArgs e)
@@ -50,7 +49,7 @@ public partial class FrmMain : Form
         _settingsService.Save();
     }
 
-    private void _mainTabControl_TabChanged(object? sender, EventArgs e)
+    private void MainTabControl_TabChanged(object? sender, EventArgs e)
     {
         if (sender is FluentTabControl tabControl
             && tabControl.CurrentTab is AsyncSpiralContainer spiralDemo)
@@ -74,7 +73,7 @@ public partial class FrmMain : Form
         testForm.Show();
     }
 
-    private void colorMeToolStripMenuItem_Click(object sender, EventArgs e)
+    private void ColorMeToolStripMenuItem_Click(object sender, EventArgs e)
     {
         this.FormCaptionTextColor = Color.Yellow;
         this.FormBorderColor = Color.Green;

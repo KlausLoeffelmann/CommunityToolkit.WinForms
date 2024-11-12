@@ -8,7 +8,6 @@ public partial class AsyncPromptControl : TextBox
 {
     private readonly static Padding s_defaultPadding = new(5, 5, 50, 5);
     private bool _isMouseOver;
-    private bool _isMouseDown;
     private Rectangle _sendButtonBounds;
 
     // WM for non-client hit test:

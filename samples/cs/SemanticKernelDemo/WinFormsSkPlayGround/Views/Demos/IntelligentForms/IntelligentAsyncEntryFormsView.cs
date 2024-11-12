@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.WinForms.TypedInputExtenders;
-using System.Diagnostics;
 using WinFormsSkPlayGround.Components;
 
 namespace WinFormsSkPlayGround.Views;
@@ -7,9 +6,12 @@ namespace WinFormsSkPlayGround.Views;
 [ToolboxBitmap(typeof(IntelligentAsyncEntryFormsView), "MvvmView.bmp")]
 public partial class IntelligentAsyncEntryFormsView : UserControl
 {
-    public IntelligentAsyncEntryFormsView()
+    private Form _parentForm;
+
+    public IntelligentAsyncEntryFormsView(Form parentForm)
     {
         InitializeComponent();
+        _parentForm = parentForm;
 
         if (Application.IsDarkModeEnabled)
         {
