@@ -3,20 +3,22 @@
     ''' <summary>
     '''  A ToolStripMenuItem whose click-event can be awaited.
     ''' </summary>
-    Public Class AwaitableToolStripMenuItem
+    Public Class AwaitableEvent
         Inherits ToolStripMenuItem
 
         ' TaskCompletionSource, which provides a task that completes when the ToolStripMenuItem is clicked.
         Private _clickCompletion As New TaskCompletionSource
+        Private _eventAction As EventHandler
 
-        Protected Overrides Sub OnClick(e As EventArgs)
-            MyBase.OnClick(e)
+        Sub New()
+            _eventAction =
+                Sub()
+                    ' Set the result of the TaskCompletionSource to indicate that the ToolStripMenuItem was clicked.
+                    _clickCompletion.SetResult()
 
-            ' Set the result of the TaskCompletionSource to indicate that the ToolStripMenuItem was clicked.
-            _clickCompletion.SetResult()
-
-            ' Create a new TaskCompletionSource for the next click event.
-            _clickCompletion = New TaskCompletionSource
+                    ' Create a new TaskCompletionSource for the next click event.
+                    _clickCompletion = New TaskCompletionSource
+                End Sub
         End Sub
 
         ''' <summary>
@@ -28,8 +30,8 @@
 
     End Class
 
-    Private _newDocMenuItem As New AwaitableToolStripMenuItem
-    Private _quitMenuItem As New AwaitableToolStripMenuItem
+    Private _newDocMenuItem As AwaitableEvent
+    Private _quitMenuItem As AwaitableEvent
 
     Private _docCounter As Integer = 1
 

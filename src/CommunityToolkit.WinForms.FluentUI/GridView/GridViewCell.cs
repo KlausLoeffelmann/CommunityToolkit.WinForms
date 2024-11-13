@@ -105,6 +105,7 @@ internal class GridViewCell : DataGridViewCell
 
         ItemTemplate?.OnPaintContent(
             value,
+            this,
             new PaintEventArgs(graphics, clipBounds),
             paddedBounds,
             _isMouseOver);

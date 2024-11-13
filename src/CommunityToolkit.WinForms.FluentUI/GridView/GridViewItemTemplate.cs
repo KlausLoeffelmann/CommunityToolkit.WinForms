@@ -155,7 +155,7 @@ public abstract partial class GridViewItemTemplate : INotifyPropertyChanged
     /// <param name="e">A <see cref="PaintEventArgs"/> that contains the event data.</param>
     /// <param name="clipBounds">The bounds of the clipping area.</param>
     /// <param name="isMouseOver">Indicates whether the mouse is over the GridView item.</param>
-    internal protected abstract void OnPaintContent(object content, PaintEventArgs e, Rectangle clipBounds, bool isMouseOver);
+    internal protected abstract void OnPaintContent(object content, DataGridViewCell gridViewCell, PaintEventArgs e, Rectangle clipBounds, bool isMouseOver);
 
     /// <summary>
     /// Sets the property value and raises the <see cref="PropertyChanged"/> event if the value has changed. 

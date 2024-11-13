@@ -6,23 +6,41 @@ public class AsyncPictureComponent : BindableComponent
 {
     public event EventHandler? ImageFileInfoChanged;
     public event EventHandler? BitmapChanged;
-    public event EventHandler? AutoDisposeOnObscuredTimeChanged;
     public event EventHandler? AutoLoadChanged;
     public event EventHandler? ExifDataLoaded;
 
     private ImageFileInfo? _imageFileInfo;
     private Bitmap? _bitmap;
-    private TimeSpan? _autoDisposeOnObscuredTime;
     private bool _autoLoad = false;
 
-    public AsyncPictureComponent()
-    {
-    }
+    public AsyncPictureComponent() { }
 
     public AsyncPictureComponent(ImageFileInfo imageFileInfo)
     {
         ImageFileInfo = imageFileInfo;
     }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    [DefaultValue(false)]
+    [Description("Determines whether the image should be loaded automatically.")]
+    [Category("Behavior")]
+    public bool AutoLoad
+    {
+        get => _autoLoad;
+        set
+        {
+            if (_autoLoad == value)
+            {
+                return;
+            }
+
+            _autoLoad = value;
+            OnAutoLoadChanged();
+        }
+    }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Bitmap? Bitmap => _bitmap;
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public ImageFileInfo? ImageFileInfo
@@ -38,6 +56,17 @@ public class AsyncPictureComponent : BindableComponent
             _imageFileInfo = value;
             OnImageFileInfoChanged();
         }
+    }
+
+    public async Task LoadImageAsync(CancellationToken cancellation = default)
+    {
+        if (ImageFileInfo is null)
+        {
+            return;
+        }
+
+        _bitmap = await ImageFileInfo.LoadImageAsync(cancellation: cancellation);
+        OnBitmapChanged();
     }
 
     protected virtual async void OnImageFileInfoChanged()
@@ -71,49 +100,11 @@ public class AsyncPictureComponent : BindableComponent
         await Task.WhenAll(bitmapLoaderTask, exifLoaderTask);
     }
 
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public Bitmap? Bitmap => _bitmap;
-
-    protected virtual void OnBitmapChanged() 
-        => BitmapChanged?.Invoke(this, EventArgs.Empty);
-
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [DefaultValue(null)]
-    public TimeSpan? AutoDisposeOnObscuredTime
-    {
-        get => _autoDisposeOnObscuredTime;
-        set
-        {
-            if (_autoDisposeOnObscuredTime == value)
-            {
-                return;
-            }
-            _autoDisposeOnObscuredTime = value;
-            OnAutoDisposeOnObscuredTimeChanged();
-        }
-    }
-
-    protected virtual void OnAutoDisposeOnObscuredTimeChanged()
-        => AutoDisposeOnObscuredTimeChanged?.Invoke(this, EventArgs.Empty);
-
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [DefaultValue(false)]
-    public bool AutoLoad
-    {
-        get => _autoLoad;
-        set
-        {
-            if (_autoLoad == value)
-            {
-                return;
-            }
-            _autoLoad = value;
-            OnAutoLoadChanged();
-        }
-    }
-
     protected virtual void OnAutoLoadChanged()
         => AutoLoadChanged?.Invoke(this, EventArgs.Empty);
+
+    protected virtual void OnBitmapChanged()
+        => BitmapChanged?.Invoke(this, EventArgs.Empty);
 
     protected virtual void OnExifDataLoaded()
         => ExifDataLoaded?.Invoke(this, EventArgs.Empty);
