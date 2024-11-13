@@ -63,9 +63,21 @@ internal class GridViewCell : DataGridViewCell
         DataGridViewCellStyle cellStyle,
         int rowIndex,
         Size constraintSize)
-        => ItemTemplate is not null
-            ? ItemTemplate.GetPreferredSize(constraintSize)
-            : base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
+    {
+        if (ItemTemplate is null)
+        {
+            return base.GetPreferredSize(graphics, cellStyle, rowIndex, constraintSize);
+        }
+
+        if (rowIndex < 0)
+        {
+            return ItemTemplate.GetPreferredSize(constraintSize, null, rowIndex);
+        }
+        else
+        {
+            return ItemTemplate.GetPreferredSize(constraintSize, GetValue(rowIndex), rowIndex);
+        }
+    }
 
     protected override void Paint(
         Graphics graphics,

@@ -147,7 +147,7 @@ public abstract partial class GridViewItemTemplate : INotifyPropertyChanged
     /// </summary>
     /// <param name="restrictedSize">The proposed size for the control.</param>
     /// <returns>The preferred size of the GridView item template.</returns>
-    internal protected abstract Size GetPreferredSize(Size restrictedSize);
+    internal protected abstract Size GetPreferredSize(Size restrictedSize, object? value, int rowIndex);
 
     /// <summary>
     /// Paints the content of the GridView item template.
