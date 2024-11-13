@@ -1,6 +1,6 @@
 ﻿namespace CommunityToolkit.WinForms.FluentUI;
 
-internal static class GridViewExtension
+public static class GridViewExtension
 {
     public static Rectangle Pad(this Rectangle rec, Padding padding)
     {

@@ -8,11 +8,4 @@ public partial class FrmAsyncExperiments : Form
     {
         InitializeComponent();
     }
-
-    private async void BtnTestSemanticKernel_Click(object sender, EventArgs e)
-    {
-        var test = new TypedInputKernelPlugin();
-        string? result = await test.RunAsync();
-        Debug.Print(result);
-    }
 }

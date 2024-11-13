@@ -43,7 +43,6 @@
             _decimalFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DecimalFormatterComponent();
             _dateFormatter = new CommunityToolkit.WinForms.TypedInputExtenders.DateFormatterComponent();
             button1 = new Button();
-            _stringSpellAndGrammarChecker = new CommunityToolkit.WinForms.AI.StringSpellAndGrammarChecker();
             _btnTestSemanticKernel = new Button();
             typedInputExtenderPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_decimalFormatter).BeginInit();
@@ -173,7 +172,6 @@
             _btnTestSemanticKernel.TabIndex = 2;
             _btnTestSemanticKernel.Text = "Test AI";
             _btnTestSemanticKernel.UseVisualStyleBackColor = true;
-            _btnTestSemanticKernel.Click += BtnTestSemanticKernel_Click;
             // 
             // FrmAsyncExperiments
             // 
@@ -209,7 +207,6 @@
         private Button button1;
         private ComboBox comboBox1;
         private Label label4;
-        private CommunityToolkit.WinForms.AI.StringSpellAndGrammarChecker _stringSpellAndGrammarChecker;
         private Button _btnTestSemanticKernel;
     }
 }

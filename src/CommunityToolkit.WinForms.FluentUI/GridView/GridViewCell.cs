@@ -89,19 +89,19 @@ internal class GridViewCell : DataGridViewCell
             ? s_defaultPadding
             : ItemTemplate.Padding;
 
-        var paddedBounds=cellBounds.Pad(padding);
+        var paddedBounds = cellBounds.Pad(padding);
 
         ItemTemplate?.OnPaintContent(
             value,
-            new PaintEventArgs(graphics, clipBounds), 
-            paddedBounds, 
+            new PaintEventArgs(graphics, clipBounds),
+            paddedBounds,
             _isMouseOver);
     }
 
     protected override void PaintErrorIcon(
-        Graphics graphics, 
-        Rectangle clipBounds, 
-        Rectangle cellBounds, 
+        Graphics graphics,
+        Rectangle clipBounds,
+        Rectangle cellBounds,
         string? errorText)
     {
 

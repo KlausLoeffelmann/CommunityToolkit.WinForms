@@ -13,19 +13,19 @@ public partial class GridView : DataGridView
     private INotifyCollectionChanged? _observableCollection;
     private ICollection? _underlayingList;
 
-    private readonly Color DarkModeBackgroundColor 
+    private readonly Color DarkModeBackgroundColor
         = Color.FromArgb(255, 20, 20, 20);
 
-    private readonly Color LightModeBackgroundColor 
+    private readonly Color LightModeBackgroundColor
         = Color.FromArgb(255, 164, 164, 164);
 
     private object? _selectedItem;
     private Pen _selectionPen;
     private readonly Padding _selectionPadding = new(4, 4, 4, 2);
 
-    private Color ThemedDataGridBackground 
-        => Application.IsDarkModeEnabled 
-        ? DarkModeBackgroundColor 
+    private Color ThemedDataGridBackground
+        => Application.IsDarkModeEnabled
+        ? DarkModeBackgroundColor
         : LightModeBackgroundColor;
 
     public GridView()
@@ -38,9 +38,9 @@ public partial class GridView : DataGridView
         AllowUserToResizeColumns = false;
         AllowUserToResizeRows = false;
         AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-        AutoSizeRowsMode= DataGridViewAutoSizeRowsMode.AllCells;
+        AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
         DoubleBuffered = true;
-        SelectionMode= DataGridViewSelectionMode.FullRowSelect;
+        SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         ColumnHeadersVisible = false;
         RowHeadersVisible = false;
         VirtualMode = true;
@@ -50,7 +50,11 @@ public partial class GridView : DataGridView
     [Browsable(true)]
     [AttributeProvider(typeof(IListSource))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new object? DataContext { get => base.DataContext; set => base.DataContext = value; }
+    public new object? DataContext 
+    { 
+        get => base.DataContext; 
+        set => base.DataContext = value; 
+    }
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Bindable(true)]
@@ -122,7 +126,7 @@ public partial class GridView : DataGridView
 
             if (_gridViewItemTemplate is not null)
             {
-                _gridViewItemTemplate.IsDarkMode =  Application.IsDarkModeEnabled;
+                _gridViewItemTemplate.IsDarkMode = Application.IsDarkModeEnabled;
             }
 
             OnGridViewItemTemplateChanged();
@@ -170,7 +174,11 @@ public partial class GridView : DataGridView
         base.OnHandleCreated(e);
 
         // Add custom column "DataRowObject"
-        var dataRowObjectColumn = new DataGridViewColumn(new GridViewCell() { ItemTemplate = GridViewItemTemplate })
+        var dataRowObjectColumn = new DataGridViewColumn(
+            new GridViewCell()
+            {
+                ItemTemplate = GridViewItemTemplate
+            })
         {
             Name = "DataColumn",
             HeaderText = "DataColumn",
@@ -191,7 +199,7 @@ public partial class GridView : DataGridView
 
     protected override void OnRowPrePaint(DataGridViewRowPrePaintEventArgs e)
         => e.Graphics.FillRectangle(
-            new SolidBrush(ThemedDataGridBackground), 
+            new SolidBrush(ThemedDataGridBackground),
             e.RowBounds);
 
     protected override void OnRowPostPaint(DataGridViewRowPostPaintEventArgs e)
@@ -206,7 +214,7 @@ public partial class GridView : DataGridView
 
         if (currentRow.Selected)
         {
-            e.Graphics.SmoothingMode = 
+            e.Graphics.SmoothingMode =
                 System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
             // We need the bounds of the row to paint the selection rectangle:
@@ -225,13 +233,14 @@ public partial class GridView : DataGridView
                     pen: _selectionPen,
                     rect: rowBounds,
                     // That's the radius of the rounded corners.
-                    radius: new(10, 10));
+                    radius: new Size(10, 10));
         }
     }
 
     protected override void OnCellValueNeeded(DataGridViewCellValueEventArgs e)
     {
         base.OnCellValueNeeded(e);
+
         if (_underlayingList is IList list)
         {
             e.Value = list[e.RowIndex];
