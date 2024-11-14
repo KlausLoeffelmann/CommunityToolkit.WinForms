@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace PictureViewer;
 
-public partial class ImageItem : GridViewItemTemplate
+public partial class ImageItem(GridView parentGridView) : GridViewItemTemplate
 {
     private const int FieldPadding = 10;
     private const int BaseFontSize = 11;
@@ -18,33 +18,33 @@ public partial class ImageItem : GridViewItemTemplate
 
 
     private static SolidBrush s_placeHolderBrush;    // Placeholder color for the image
-    private static SolidBrush s_exifDataColor;       // Color for the EXIF data
+    private static SolidBrush s_exifDataColorBrush;       // Color for the EXIF data
     private bool _hasVerticalScrollbar;
 
     private readonly Padding _imagePadding = new(10);
     private readonly int _leadingOffset = 20;
-    private readonly GridView _parentGridView;
 
     static ImageItem()
     {
         // Should be "Trabant-Blue":
         s_placeHolderBrush = new SolidBrush(Color.FromArgb(255, 0, 120, 215));
 
-        // BOOKMARK 01: We define the Color of the placeholder image and the exif data:
-        s_exifDataColor = new SolidBrush(ARatherDarkColor);
-    }
-
-    public ImageItem(GridView parentGridView)
-    {
-        _parentGridView = parentGridView;
+        // BMARK 02:
+        // We define the Color of the placeholder image and the exif data:
+        if (Application.IsDarkModeEnabled)
+        {
+            s_exifDataColorBrush = new SolidBrush(ARatherBrightColor);
+        }
+        else
+        {
+            s_exifDataColorBrush = new SolidBrush(ARatherDarkColor);
+        }
     }
 
     protected override Size GetPreferredSize(Size restrictedSize, object? value, int rowIndex)
-    {
-        // For simplicity, we just return a fixed size for the height.
-        // But we can as well calculate the height based on the content.
-        return new(restrictedSize.Width, 300);
-    }
+                // For simplicity, we just return a fixed size for the height.
+                // But we can as well calculate the height based on the content.
+                => new(restrictedSize.Width, 360);
 
     protected override async void OnPaintContent(object content, DataGridViewCell gridViewCell, PaintEventArgs e, Rectangle clipBounds, bool isMouseOver)
     {
@@ -87,11 +87,7 @@ public partial class ImageItem : GridViewItemTemplate
         Graphics g,
         Rectangle imageClipBounds,
         Rectangle exifClipBounds)
-    {
-        // We need to proportional size the image though, so it fits into the cell.
-
-        // Here we're painting the context of the TaskViewItem:
-
+    {        
         // Draw a placeholder image.
         if (pictureComponent.Bitmap is null)
         {
@@ -125,7 +121,7 @@ public partial class ImageItem : GridViewItemTemplate
         }
         else
         {
-            // BOOKMARK 02 : Pitfalls when using Async/Await in Paint events!
+            // Pitfalls when using Async/Await in Paint events!
 
             // Important: NEVER use a Graphics-object provided by an OnPaint-like event
             // in or after an await. By the time, the callbacks come in from the async's
@@ -135,11 +131,11 @@ public partial class ImageItem : GridViewItemTemplate
             // the graphics object inside of the async methods.
             await pictureComponent.LoadImageAsync();
 
-            await _parentGridView.InvokeAsync(() =>
+            await parentGridView.InvokeAsync(() =>
             {
                 if (gridViewCell.Displayed)
                 {
-                    _parentGridView.InvalidateCell(gridViewCell);
+                    parentGridView.InvalidateCell(gridViewCell);
                 }
             });
         }
@@ -184,12 +180,12 @@ public partial class ImageItem : GridViewItemTemplate
         void DrawLabelAndValue(string label, string? value)
         {
             // Draw the label in bold
-            g.DrawString(label, s_exifBoldFont, Brushes.Black, xPosition, yPosition);
+            g.DrawString(label, s_exifBoldFont, s_exifDataColorBrush, xPosition, yPosition);
 
             float labelWidth = g.MeasureString(label, s_exifBoldFont).Width;
 
             // Draw the value right after the label, ensuring alignment
-            g.DrawString(value ?? "N/A", s_exifStandardFont, Brushes.Black, xPosition + labelWidth + 10, yPosition);
+            g.DrawString(value ?? "N/A", s_exifStandardFont, s_exifDataColorBrush, xPosition + labelWidth + 10, yPosition);
 
             // Move to the next line
             yPosition += lineHeight;

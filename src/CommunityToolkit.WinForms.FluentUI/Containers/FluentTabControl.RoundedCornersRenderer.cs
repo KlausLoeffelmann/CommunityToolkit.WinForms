@@ -45,7 +45,6 @@ public partial class FluentTabControl
 
                 if (Application.IsDarkModeEnabled)
                 {
-
                     _tabBackgroundBrush = new LinearGradientBrush(
                         bounds,
                         SystemColors.ControlDarkDark,

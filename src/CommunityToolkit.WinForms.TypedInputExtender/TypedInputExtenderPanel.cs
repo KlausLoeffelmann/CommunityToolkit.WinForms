@@ -263,7 +263,6 @@ public partial class TypedInputExtenderPanel : Panel, IExtenderProvider
             }
             catch (OperationCanceledException)
             {
-                // TODO: Clean-Up.
                 Debug.Print($"TryCommitInputAsync cancelled: {textBox.Name}");
             }
             finally

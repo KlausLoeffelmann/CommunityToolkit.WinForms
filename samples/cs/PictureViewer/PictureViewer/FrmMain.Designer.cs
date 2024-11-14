@@ -148,6 +148,7 @@
             Margin = new Padding(4);
             Name = "FrmMain";
             Padding = new Padding(10);
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "WinForms .NET 9 Picture Viewer";
             ((System.ComponentModel.ISupportInitialize)_imageGridView).EndInit();
             _statusStrip.ResumeLayout(false);

@@ -25,11 +25,14 @@ public partial class SimpleAsyncDemo : UserControl
 
     private async void Spinner_ClickHandler(object sender, EventArgs e)
     {
+        // BMARK 00:
+        // Toggle spinning
         await ToggleSpinningAsync();
     }
 
     private async void Spinner_DoubleClick(object sender, EventArgs e)
     {
+        // Color Spinning
         await ColorBlender();
     }
 
@@ -60,6 +63,7 @@ public partial class SimpleAsyncDemo : UserControl
 
         _colorTokenSource = new();
 
+        // BMARK 02:
         for (; ; )
         {
             if (_colorTokenSource is null
@@ -68,7 +72,11 @@ public partial class SimpleAsyncDemo : UserControl
                 break;
             }
 
-            await InvokeAsync(() => MainForm.FormCaptionBackColor = ColorAnimator.Default.Trigger());
+            await InvokeAsync(
+                () => 
+                    // New in .NET 9
+                    MainForm.FormCaptionBackColor = ColorAnimator.Default.Trigger());
+
             await Task.Delay(20);
         }
     }

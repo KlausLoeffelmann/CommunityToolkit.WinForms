@@ -32,13 +32,13 @@ public static class ImageFileInfoExtensions
     public static async Task<IDictionary<string, object>> GetImagePropertiesAsync(this ImageFileInfo imageFile)
     {
         StorageFile file = await StorageFile.GetFileFromPathAsync(imageFile.FullName);
+
+        // BMARK 60:
         var photoProps = await file.Properties.RetrievePropertiesAsync(s_photoProperties);
 
         return photoProps;
     }
 
-    // BOOKMARK 03: We are using the Windows.Graphics.Imaging.BitmapDecoder to load the image file and return a Bitmap object.
-    // This way, we are able to decode all the different formats supported by Windows - including RAW formats and HEIC!
     public static async Task<Bitmap> LoadImageAsync(
         this ImageFileInfo imageFileInfo, 
         SizeF? scaleTargetSize = default, 
@@ -50,7 +50,9 @@ public static class ImageFileInfoExtensions
         using IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
         cancellation.ThrowIfCancellationRequested();
 
-        // Decode the image using BitmapDecoder
+        // BMARK 50:
+        // We are using the Windows.Graphics.Imaging.BitmapDecoder to load the image file and return a Bitmap object.
+        // This way, we are able to decode all the different formats supported by Windows - including RAW formats and HEIC!
         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
         cancellation.ThrowIfCancellationRequested();
 

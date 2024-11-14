@@ -15,8 +15,6 @@ public interface ISyncContextService
     /// </summary>
     bool IsSyncContextAvailable { get; }
 
-    // TODO: Implement Run and RunAsync.
-
     /// <summary>
     ///  Posts an action to be executed on the synchronization context.
     /// </summary>

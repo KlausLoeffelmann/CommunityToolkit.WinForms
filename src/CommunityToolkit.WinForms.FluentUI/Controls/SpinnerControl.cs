@@ -56,6 +56,8 @@ public class SpinnerControl : Label
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
+                // BMARK 01:
+                // InvokeAsync in Action:
                 // Now, this call could have come from whatever thread, so we need to
                 // make sure that we're on the UI thread. But we're also won't to be
                 // neither blocking for the invoking, nor do we want to block

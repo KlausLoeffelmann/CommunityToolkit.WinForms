@@ -17,12 +17,14 @@ public partial class FrmMain : Form
         InitializeComponent();
 
         _imageGridView.GridViewItemTemplate = new ImageItem(_imageGridView);
-        _tslBasePath.Text = "C:\\PicTemp";
+        _tslBasePath.Text = "C:\\DemoPics";
 
         _imageGridView.CellContentDoubleClick += (s, e) => _awaitablePictureDoubleClick.EventAction.Invoke(s!,e);
         _imageGridView.CellDoubleClick += (s, e) => _awaitablePictureDoubleClick.EventAction.Invoke(s!, e);
 
         _tsmQuit.Click += (s, e) => _awaitableMenuClose.EventAction.Invoke(s!,e);
+
+        this.ClientSize = new(1600, 900);
     }
 
     protected async override void OnLoad(EventArgs e)
