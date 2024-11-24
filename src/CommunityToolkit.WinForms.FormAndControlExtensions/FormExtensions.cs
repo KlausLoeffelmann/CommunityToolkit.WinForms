@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.DesktopGeneric.Mvvm;
 using CommunityToolkit.WinForms.ComponentModel;
+using CommunityToolkit.WinForms.Extensions.Async;
 using System.ComponentModel;
 using System.Globalization;
 using DialogResult = CommunityToolkit.DesktopGeneric.Mvvm.DialogResult;
@@ -339,6 +340,41 @@ public static class FormExtensions
             foreach (Control grandChildControl in childControl.DescendantControls(predicate))
             {
                 yield return grandChildControl;
+            }
+        }
+    }
+
+    public static async Task<IAwaitableComponent> WhenAny(
+        this IEnumerable<IAwaitableComponent> controlAwaitables,
+        params IEnumerable<IAwaitableComponent> additionalAwaitables)
+    {
+        // combine the controlAwaitables with the additionalAwaitables
+        var tempAwaitables = new List<IAwaitableComponent>(controlAwaitables);
+        tempAwaitables.AddRange(additionalAwaitables);
+
+        var tcs = new TaskCompletionSource<IAwaitableComponent>();
+
+        foreach (var awaitable in tempAwaitables)
+        {
+            var awaiter = awaitable.GetAwaiter();
+            awaiter.OnCompleted(() => OnCompletedHandler(awaiter));
+        }
+
+        return await tcs.Task;
+
+        void OnCompletedHandler(dynamic awaiter)
+        {
+            if (!awaiter.IsCompleted)
+                return; // Just in case
+
+            try
+            {
+                var result = awaiter.GetResult();
+                tcs.TrySetResult(result);
+            }
+            catch (Exception ex)
+            {
+                tcs.TrySetException(ex);
             }
         }
     }
