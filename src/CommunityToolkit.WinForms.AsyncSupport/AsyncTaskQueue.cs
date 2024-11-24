@@ -100,9 +100,18 @@ public sealed class AsyncTaskQueue : IDisposable
     /// <returns>A task that completes when the method is enqueued.</returns>
     public async Task EnqueueAsync(Func<Task> asyncMethod)
     {
-        await _availableSlots.WaitAsync(); // Wait if max queue items are reached
-        _taskQueue.Enqueue(asyncMethod);
-        _enqueueSignal.Release();
+        await _availableSlots.WaitAsync();
+
+        try
+        {
+            _taskQueue.Enqueue(asyncMethod);
+            _enqueueSignal.Release();
+        }
+        catch (Exception)
+        {
+            _availableSlots.Release();
+            throw;
+        }
     }
 
     public void Enqueue(Func<Task> asyncMethod)
