@@ -15,7 +15,7 @@ public sealed class AsyncTaskQueue : IDisposable
     private readonly Task _processingTask;
     private readonly TaskCompletionSource _completionSource = new();
     private readonly TaskScheduler? _uiScheduler;
-    private int _maxQueuedItems;
+    private readonly int _maxQueuedItems;
 
     /// <summary>
     ///  Initializes a new instance of the <see cref="AsyncTaskQueue"/> class.

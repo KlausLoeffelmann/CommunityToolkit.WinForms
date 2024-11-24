@@ -1,8 +1,6 @@
-﻿namespace CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.AsyncProperties;
+﻿using System.ComponentModel;
 
-using System;
-using System.ComponentModel;
-using System.Windows.Forms;
+namespace CommunityToolkit.WinForms.AsyncSupport;
 
 public class AsyncTypeDescriptionProvider(Control component) : TypeDescriptionProvider
 {

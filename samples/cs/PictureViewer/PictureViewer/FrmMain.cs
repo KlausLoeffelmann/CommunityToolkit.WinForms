@@ -1,8 +1,6 @@
-using CommunityToolkit.WinForms.Extensions;
-using CommunityToolkit.WinForms.Extensions.Async;
+using CommunityToolkit.WinForms.AsyncSupport;
 using CommunityToolkit.WinForms.FluentUI.Imaging;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace PictureViewer;
 

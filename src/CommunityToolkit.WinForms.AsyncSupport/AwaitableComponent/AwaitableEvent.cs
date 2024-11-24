@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.WinForms.Extensions.Async;
+namespace CommunityToolkit.WinForms.AsyncSupport;
 
 /// <summary>
 /// Represents an awaitable event that can be used with the await keyword.

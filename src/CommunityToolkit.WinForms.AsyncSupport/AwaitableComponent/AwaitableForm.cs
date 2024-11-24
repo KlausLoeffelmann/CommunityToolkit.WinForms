@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace CommunityToolkit.WinForms.Extensions.Async;
+namespace CommunityToolkit.WinForms.AsyncSupport;
 
 /// <summary>
 ///  Represents a form that can be awaited asynchronously.
