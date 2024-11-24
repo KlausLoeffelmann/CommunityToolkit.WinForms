@@ -8,10 +8,11 @@ namespace CommunityToolkit.WinForms.Extensions.Async;
 /// </summary>
 /// <typeparam name="T">The type of the event arguments.</typeparam>
 public class AwaitableEvent<T> : IAwaitableComponent
-    where T : EventArgs?
+    where T : EventArgs
 {
     // TaskCompletionSource, providing a task that completes when the ToolStripMenuItem is clicked.
-    private TaskCompletionSource<(IComponent sender, T eArgs)>? _eventCompletion;
+    private TaskCompletionSource<AwaitableEvent<T>>? _eventCompletion;
+    private IComponent? _sender;
     private readonly Action<object?, T> _eventAction;
 
     /// <summary>
@@ -21,15 +22,17 @@ public class AwaitableEvent<T> : IAwaitableComponent
     {
         _eventAction = (object? sender, T eArgs) =>
         {
-            EventCompletion.TrySetResult(((IComponent)sender!, eArgs));
+            Sender = (IComponent)sender!;
+            EArgs = eArgs;
+            EventCompletion.TrySetResult(this);
         };
     }
 
     /// <summary>
     /// Gets the task completion source for the event.
     /// </summary>
-    private TaskCompletionSource<(IComponent sender, T eArgs)> EventCompletion
-        => _eventCompletion ??= new TaskCompletionSource<(IComponent, T)>();
+    private TaskCompletionSource<AwaitableEvent<T>> EventCompletion
+        => _eventCompletion ??= new TaskCompletionSource<AwaitableEvent<T>>();
 
     /// <summary>
     /// Gets the action to be executed when the event is raised.
@@ -39,12 +42,12 @@ public class AwaitableEvent<T> : IAwaitableComponent
     /// <summary>
     /// Gets the sender of the event.
     /// </summary>
-    public IComponent Sender => EventCompletion.Task.Result.sender;
+    public IComponent Sender 
+    {   get => _sender ?? throw new ArgumentNullException("Sender not yet set.");
+        private set => _sender = value;
+    }
 
-    /// <summary>
-    /// Gets the event arguments.
-    /// </summary>
-    public T EArgs => EventCompletion.Task.Result.eArgs;
+    public T EArgs { get; private set; } = null!;
 
     /// <summary>
     /// Gets the awaiter for the component.
@@ -52,7 +55,7 @@ public class AwaitableEvent<T> : IAwaitableComponent
     /// <returns>An object that implements the <see cref="INotifyCompletion"/> interface.</returns>
     INotifyCompletion IAwaitableComponent.GetAwaiter()
     {
-        _eventCompletion = new TaskCompletionSource<(IComponent sender, T eArgs)>();
+        _eventCompletion = new TaskCompletionSource<AwaitableEvent<T>>();
         return EventCompletion.Task.GetAwaiter();
     }
 }

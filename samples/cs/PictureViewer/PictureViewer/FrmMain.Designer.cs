@@ -40,6 +40,7 @@ partial class FrmMain : System.Windows.Forms.Form
         filterToolStripMenuItem = new ToolStripMenuItem();
         onlyHeicImagesToolStripMenuItem = new ToolStripMenuItem();
         onlyNikonImagesToolStripMenuItem = new ToolStripMenuItem();
+        _tslCurrentImageItem = new ToolStripStatusLabel();
         ((System.ComponentModel.ISupportInitialize)_imageGridView).BeginInit();
         _statusStrip.SuspendLayout();
         menuStrip1.SuspendLayout();
@@ -62,7 +63,7 @@ partial class FrmMain : System.Windows.Forms.Form
         // _statusStrip
         // 
         _statusStrip.ImageScalingSize = new Size(20, 20);
-        _statusStrip.Items.AddRange(new ToolStripItem[] { _tslStatus, _tslBasePath });
+        _statusStrip.Items.AddRange(new ToolStripItem[] { _tslStatus, _tslBasePath, _tslCurrentImageItem });
         _statusStrip.Location = new Point(10, 526);
         _statusStrip.Name = "_statusStrip";
         _statusStrip.Padding = new Padding(1, 0, 18, 0);
@@ -135,6 +136,11 @@ partial class FrmMain : System.Windows.Forms.Form
         onlyNikonImagesToolStripMenuItem.Size = new Size(250, 30);
         onlyNikonImagesToolStripMenuItem.Text = "Only Nikon Images";
         // 
+        // _tslCurrentImageItem
+        // 
+        _tslCurrentImageItem.Name = "_tslCurrentImageItem";
+        _tslCurrentImageItem.Size = new Size(0, 20);
+        // 
         // FrmMain
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
@@ -172,4 +178,5 @@ partial class FrmMain : System.Windows.Forms.Form
     private ToolStripMenuItem filterToolStripMenuItem;
     private ToolStripMenuItem onlyHeicImagesToolStripMenuItem;
     private ToolStripMenuItem onlyNikonImagesToolStripMenuItem;
+    private ToolStripStatusLabel _tslCurrentImageItem;
 }

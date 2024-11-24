@@ -8,25 +8,11 @@ namespace CommunityToolkit.WinForms.FluentUI.Imaging;
 
 public static class ImageFileInfoExtensions
 {
-    private static readonly ParallelOptions s_parallelOptions;
-    private static string[] s_photoProperties;
+    private static readonly string[] s_photoProperties;
 
     static ImageFileInfoExtensions()
     {
         s_photoProperties = [.. ImageFileInfo.s_propertyLookUp.Keys];
-
-        s_parallelOptions = new ParallelOptions
-        {
-            MaxDegreeOfParallelism = Environment.ProcessorCount switch
-            {
-                var count when count is 1 or 2 => 1,
-                var count when count is 3 or 4 => 2,
-                var count when count is > 4 and < 8 => count / 2,
-                var count when count is >= 8 and < 33 => count / 4,
-                var count when count > 32 => 10,
-                _ => throw new Exception("This machine doesn't seem to have a processor. :-)")
-            }
-        };
     }
 
     public static async Task<IDictionary<string, object>> GetImagePropertiesAsync(this ImageFileInfo imageFile)

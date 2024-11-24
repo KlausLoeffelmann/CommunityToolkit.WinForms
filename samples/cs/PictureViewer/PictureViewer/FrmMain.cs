@@ -1,4 +1,3 @@
-
 using CommunityToolkit.WinForms.Extensions;
 using CommunityToolkit.WinForms.Extensions.Async;
 using CommunityToolkit.WinForms.FluentUI.Imaging;
@@ -86,7 +85,7 @@ public partial class FrmMain : Form
 
         foreach (var imageFile in _imageFiles)
         {
-            Debug.Print(imageFile.ImageFileInfo?.FullName);
+            InvokeAsync(() => _tslCurrentImageItem.Text = imageFile?.ImageFileInfo?.FullName);
         }
     }
 }
