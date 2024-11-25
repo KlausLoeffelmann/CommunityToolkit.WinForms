@@ -1,39 +1,59 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace WinFormsAsync
+namespace WinFormsAsync;
+
+public partial class FrmMain : Form
 {
-    public partial class FrmMain : Form
+    private SevenSegmentTimer _sevenSegmentTimer;
+
+    public FrmMain()
     {
-        private SevenSegmentTimer _sevenSegmentTimer;
+        InitializeComponent();
+        SetupTimerDisplay();
+    }
 
-        public FrmMain()
+    [MemberNotNull(nameof(_sevenSegmentTimer))]
+    private void SetupTimerDisplay()
+    {
+        _sevenSegmentTimer = new SevenSegmentTimer
         {
-            InitializeComponent();
-            SetupTimerDisplay();
-        }
+            Dock = DockStyle.Fill
+        };
 
-        [MemberNotNull(nameof(_sevenSegmentTimer))]
-        private void SetupTimerDisplay()
+        Controls.Add(_sevenSegmentTimer);
+    }
+
+    override async protected void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+
+        //while (true)
+        //{
+        //    await _sevenSegmentTimer.UpdateTimeAsync(
+        //        TimeOnly.FromDateTime(DateTime.Now));
+
+        //    await Task.Delay(100);
+        //}
+
+        while (true)
         {
-            _sevenSegmentTimer = new SevenSegmentTimer
-            {
-                Dock = DockStyle.Fill
-            };
+            Task UpdateUI()
+                => InvokeAsync(async () =>
+                {
+                    await _sevenSegmentTimer.UpdateTimeAsync(
+                        TimeOnly.FromDateTime(DateTime.Now));
 
-            Controls.Add(_sevenSegmentTimer);
-        }
+                    await Task.Delay(100);
+                });
 
-        override async protected void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
+            Task FadeInFadeOutAsync() 
+                => InvokeAsync(async () =>
+                    {
+                        await _sevenSegmentTimer.FadeSeparatorsInAsync();
+                        await _sevenSegmentTimer.FadeSeparatorsOutAsync();
+                    });
 
-            while (true)
-            {
-                await _sevenSegmentTimer.UpdateTimeAsync(
-                    TimeOnly.FromDateTime(DateTime.Now));
-
-                await Task.Delay(1000);
-            }
+            await Task.WhenAll(UpdateUI());
         }
     }
 }
