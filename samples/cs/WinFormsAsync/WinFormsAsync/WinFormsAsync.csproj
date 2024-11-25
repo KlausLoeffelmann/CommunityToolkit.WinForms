@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\OFL.txt" />
+    <None Remove="Resources\Segment7Standard.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\OFL.txt" />
+    <EmbeddedResource Include="Resources\Segment7Standard.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
+  </ItemGroup>
+
+</Project>

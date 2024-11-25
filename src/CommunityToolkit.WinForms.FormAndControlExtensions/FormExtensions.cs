@@ -99,8 +99,8 @@ public static class FormExtensions
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="propertyName"/> or <paramref name="valueConverter"/> is null.</exception>
     /// <exception cref="InvalidOperationException">Thrown when no binding is found for the specified property.</exception>
     public static Binding AddBindingConverter(
-        this IBindableComponent bindableComponent, 
-        string propertyName, 
+        this IBindableComponent bindableComponent,
+        string propertyName,
         IValueConverter valueConverter)
     {
         ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
@@ -113,7 +113,7 @@ public static class FormExtensions
 
         binding.Parse += Binding_Parse;
         binding.Format += Binding_Format;
-        
+
         var managerBase = binding.BindingManagerBase;
 
         bindableComponent.Disposed += Control_Disposed;
@@ -337,6 +337,22 @@ public static class FormExtensions
                 yield return childControl;
             }
             foreach (Control grandChildControl in childControl.DescendantControls(predicate))
+            {
+                yield return grandChildControl;
+            }
+        }
+    }
+
+    public static IEnumerable<T> DescendantControls<T>(this Control control)
+        where T : Control
+    {
+        foreach (Control childControl in control.ChildControls())
+        {
+            if (childControl is T t)
+            {
+                yield return t;
+            }
+            foreach (T grandChildControl in childControl.DescendantControls<T>())
             {
                 yield return grandChildControl;
             }
