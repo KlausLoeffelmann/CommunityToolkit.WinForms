@@ -9,11 +9,16 @@ namespace WinFormsAsync;
 
 public class SevenSegmentTimer : Control
 {
+    private const float ColorCount = 50;
+
     private static PrivateFontCollection? s_fontCollection;
+    private static Color[]? s_colors;
+
     private int _fontSize = 128;
     private Font _segmentFont;
     private Font _standardFont;
     private Label[]? _separatorLabels;
+    private Label[]? _segmentLabels;
 
     public SevenSegmentTimer()
     {
@@ -124,40 +129,36 @@ public class SevenSegmentTimer : Control
             };
         }
 
-        await Task.Yield();
+        await Task.CompletedTask;
     }
 
-    public Label[] SeparatorLabels()
-        => _separatorLabels ??= 
-        [.. this.DescendantControls<Label>().Where(label => label.Text == ":")];
+    public Label[] SegmentLabels
+        => _segmentLabels 
+            ??= [.. this.DescendantControls<Label>().Where(label => label.Text != ":")];
 
-    public async Task FadeSeparatorsOutAsync()
+    public Label[] SeparatorLabels
+        => _separatorLabels 
+        ??= [.. this.DescendantControls<Label>().Where(label => label.Text == ":")];
+
+    public async Task FadeSeparatorsOutAsync(CancellationToken cancellation)
     {
-        // Fade the separators out
-        Color[] colors = GetColorSteps(BackColor, ForeColor);
+        s_colors ??= DefineGradientColors(BackColor, ForeColor);
 
-        foreach (Label label in this.DescendantControls<Label>())
+        for (int i = 0; i < (int)ColorCount; i++)
         {
-            for (int i = 0; i < 100; i++)
-            {
-                label.ForeColor = colors[i];
-                await Task.Delay(1);
-            }
+            Array.ForEach(SeparatorLabels, (label) => label.ForeColor = s_colors[i]);
+            await Task.Delay(1, cancellation).ConfigureAwait(false);
         }
     }
 
-    public async Task FadeSeparatorsInAsync()
+    public async Task FadeSeparatorsInAsync(CancellationToken cancellation)
     {
-        // Fade the separators in
-        Color[] colors = GetColorSteps(BackColor, ForeColor);
+        s_colors ??= DefineGradientColors(BackColor, ForeColor);
 
-        foreach (Label label in this.DescendantControls<Label>())
+        for (int i = (int)ColorCount -1; i >= 0; i--)
         {
-            for (int i = 99; i >= 0; i--)
-            {
-                label.ForeColor = colors[i];
-                await Task.Delay(1);
-            }
+            Array.ForEach(SeparatorLabels, (label) => label.ForeColor = s_colors[i]);
+            await Task.Delay(1, cancellation).ConfigureAwait(false);
         }
     }
 
@@ -168,17 +169,16 @@ public class SevenSegmentTimer : Control
         set => Font = new Font(Font.FontFamily, value, Font.Style, Font.Unit);
     }
 
-    private static Color[] GetColorSteps(Color backColor, Color ForeColor)
+    private static Color[] DefineGradientColors(Color backColor, Color ForeColor)
     {
-        // We need to define the color-blends from the Front-Color to the Back-Color in 100 steps:
-        Color[] colors = new Color[100];
+        var colors = new Color[(int)ColorCount];
 
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < (int)ColorCount; i++)
         {
             colors[i] = Color.FromArgb(
-                red: ForeColor.R + (int)((backColor.R - ForeColor.R) * i / 100f),
-                green: ForeColor.G + (int)((backColor.G - ForeColor.G) * i / 100f),
-                blue: ForeColor.B + (int)((backColor.B - ForeColor.B) * i / 100f));
+                red: ForeColor.R + (int)((backColor.R - ForeColor.R) * i / ColorCount),
+                green: ForeColor.G + (int)((backColor.G - ForeColor.G) * i / ColorCount),
+                blue: ForeColor.B + (int)((backColor.B - ForeColor.B) * i / ColorCount));
         }
 
         return colors;

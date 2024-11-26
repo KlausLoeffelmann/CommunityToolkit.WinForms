@@ -32,11 +32,12 @@
             // 
             // FrmMain
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(819, 269);
+            ClientSize = new Size(1201, 221);
+            Margin = new Padding(2);
             Name = "FrmMain";
-            StartPosition = FormStartPosition.WindowsDefaultBounds;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "The Timer App";
             ResumeLayout(false);
         }

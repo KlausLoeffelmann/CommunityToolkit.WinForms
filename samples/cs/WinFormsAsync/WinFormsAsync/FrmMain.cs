@@ -5,11 +5,18 @@ namespace WinFormsAsync;
 public partial class FrmMain : Form
 {
     private SevenSegmentTimer _sevenSegmentTimer;
+    private CancellationTokenSource _formCloseCancellation = new();
 
     public FrmMain()
     {
         InitializeComponent();
         SetupTimerDisplay();
+    }
+
+    protected override void OnFormClosing(FormClosingEventArgs e)
+    {
+        base.OnFormClosing(e);
+        _formCloseCancellation.Cancel();
     }
 
     [MemberNotNull(nameof(_sevenSegmentTimer))]
@@ -37,23 +44,22 @@ public partial class FrmMain : Form
 
         while (true)
         {
-            Task UpdateUI()
-                => InvokeAsync(async () =>
-                {
-                    await _sevenSegmentTimer.UpdateTimeAsync(
-                        TimeOnly.FromDateTime(DateTime.Now));
+            async Task UpdateUI(CancellationToken cancellation)
+            {
+                await _sevenSegmentTimer.UpdateTimeAsync(
+                    TimeOnly.FromDateTime(DateTime.Now));
 
-                    await Task.Delay(100);
-                });
+                await Task.Delay(100, cancellation);
+            }
 
-            Task FadeInFadeOutAsync() 
-                => InvokeAsync(async () =>
-                    {
-                        await _sevenSegmentTimer.FadeSeparatorsInAsync();
-                        await _sevenSegmentTimer.FadeSeparatorsOutAsync();
-                    });
+            async Task FadeInFadeOutAsync(CancellationToken cancellation)
+            {
+                await _sevenSegmentTimer.FadeSeparatorsInAsync(cancellation).ConfigureAwait(false);
+                await _sevenSegmentTimer.FadeSeparatorsOutAsync(cancellation).ConfigureAwait(false);
+            }
 
-            await Task.WhenAll(UpdateUI());
+            await UpdateUI(_formCloseCancellation.Token);
+            await FadeInFadeOutAsync(_formCloseCancellation.Token);
         }
     }
 }
