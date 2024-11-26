@@ -65,7 +65,9 @@ public static class FormExtensions
             form.DataContext = dialogDataContext;
         }
 
+#pragma warning disable WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         var winFormsDialogResult = await form.ShowDialogAsync();
+#pragma warning restore WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         dialogDataContext = (T?)form.DataContext;
 
         DialogResult dialogResult = winFormsDialogResult switch

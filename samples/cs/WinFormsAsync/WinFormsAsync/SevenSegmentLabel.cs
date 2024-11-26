@@ -14,7 +14,7 @@ public class SevenSegmentTimer : Control
     private static PrivateFontCollection? s_fontCollection;
     private static Color[]? s_colors;
 
-    private int _fontSize = 128;
+    private readonly int _fontSize = 128;
     private Font _segmentFont;
     private Font _standardFont;
     private Label[]? _separatorLabels;
@@ -113,7 +113,7 @@ public class SevenSegmentTimer : Control
         set => base.Font = value;
     }
 
-    public async Task UpdateTimeAsync(TimeOnly time)
+    public void UpdateTime(TimeOnly time)
     {
         int count = 0;
 
@@ -128,8 +128,6 @@ public class SevenSegmentTimer : Control
                 _ => label.Text,
             };
         }
-
-        await Task.CompletedTask;
     }
 
     public Label[] SegmentLabels
