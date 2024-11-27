@@ -17,7 +17,9 @@ public class AwaitableForm(Form form) : IAwaitableComponent
     INotifyCompletion IAwaitableComponent.GetAwaiter()
     {
         // Show the form asynchronously
+#pragma warning disable WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         Task formTask = Form.ShowAsync();
+#pragma warning restore WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
 
         // Continue with the task to set the result, exception, or cancellation
         _ = formTask.ContinueWith((task) =>

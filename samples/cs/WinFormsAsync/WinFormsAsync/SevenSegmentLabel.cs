@@ -113,7 +113,7 @@ public class SevenSegmentTimer : Control
         set => base.Font = value;
     }
 
-    public void UpdateTime(TimeOnly time)
+    public Task UpdateTimeAndDelayAsync(TimeOnly time, CancellationToken cancellation = default)
     {
         int count = 0;
 
@@ -128,7 +128,12 @@ public class SevenSegmentTimer : Control
                 _ => label.Text,
             };
         }
+
+        return Task.Delay(75, cancellation);
     }
+
+    [DefaultValue(75)]
+    public int UpdateDelay { get; set; } = 75;
 
     public Label[] SegmentLabels
         => _segmentLabels 
@@ -138,7 +143,7 @@ public class SevenSegmentTimer : Control
         => _separatorLabels 
         ??= [.. this.DescendantControls<Label>().Where(label => label.Text == ":")];
 
-    public async Task FadeSeparatorsOutAsync(CancellationToken cancellation)
+    public async Task FadeSeparatorsOutAsync(CancellationToken cancellation = default)
     {
         s_colors ??= DefineGradientColors(BackColor, ForeColor);
 
@@ -149,7 +154,7 @@ public class SevenSegmentTimer : Control
         }
     }
 
-    public async Task FadeSeparatorsInAsync(CancellationToken cancellation)
+    public async Task FadeSeparatorsInAsync(CancellationToken cancellation = default)
     {
         s_colors ??= DefineGradientColors(BackColor, ForeColor);
 

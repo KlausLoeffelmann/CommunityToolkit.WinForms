@@ -12,7 +12,7 @@ public class PeriodicTimerComponent : BindableComponent
 {
     private PeriodicTimer? _timer;
     private CancellationTokenSource? _cancellationTokenSource;
-    private SynchronizationContext _syncContext = SynchronizationContext.Current!;
+    private readonly SynchronizationContext _syncContext = SynchronizationContext.Current!;
 
     private ICommand? _elapsedCommand;
 
@@ -37,6 +37,7 @@ public class PeriodicTimerComponent : BindableComponent
 
     [Browsable(false)]
     [Bindable(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool IsRunning
     {
         get => _timer != null;
@@ -71,10 +72,7 @@ public class PeriodicTimerComponent : BindableComponent
             cancellationToken = _cancellationTokenSource.Token;
         }
 
-        if (_timer != null)
-        {
-            _timer.Dispose();
-        }
+        _timer?.Dispose();
 
         _timer = new PeriodicTimer(TimeSpan.FromMilliseconds(IntervalMs));
 

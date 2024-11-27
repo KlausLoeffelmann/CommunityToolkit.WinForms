@@ -16,7 +16,7 @@ using System.Text;
 namespace CommunityToolkit.WinForms.AI;
 
 #pragma warning disable SKEXP0010 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
-public class SemanticKernelComponent : BindableComponent
+public partial class SemanticKernelComponent : BindableComponent
 {
     // We're using the GPT-4o model from OpenAI directory for our Semantic Kernel scenario.
     private const string DefaultModelName = "gpt-4o-2024-08-06";
@@ -167,11 +167,9 @@ public class SemanticKernelComponent : BindableComponent
             .CreateBuilder()
             .AddOpenAIChatCompletion(ModelName, apiKey);
 
-        ILoggerFactory loggerFactory = null!;
-
         if (LogConsole is not null)
         {
-            loggerFactory = CreateTelemetryLogger();
+            ILoggerFactory loggerFactory = CreateTelemetryLogger();
             kernelBuilder.Services.AddSingleton(loggerFactory);
 
             Console.SetOut(LogConsole.ConsoleOut);
@@ -297,6 +295,7 @@ public class SemanticKernelComponent : BindableComponent
     public ChatHistory? ChatHistory => _chatHistory;
 
     [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public virtual string SystemPrompt { get; set; }
         = "You are an Assistant for helping Developers with questions around .NET, C# and Visual Basic.";
 

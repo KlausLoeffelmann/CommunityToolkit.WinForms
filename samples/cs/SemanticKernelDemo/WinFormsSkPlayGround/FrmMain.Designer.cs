@@ -34,10 +34,10 @@ partial class FrmMain
         _tsmFile = new ToolStripMenuItem();
         _tsmQuit = new ToolStripMenuItem();
         _tsmView = new ToolStripMenuItem();
-        toolStripMenuItem1 = new ToolStripSeparator();
-        _tsmFairyTailGenerator = new ToolStripMenuItem();
-        _tsmLearnGermanIn2Minutes = new ToolStripMenuItem();
-        _tsmSolonLetsCallBackThe80s = new ToolStripMenuItem();
+        _tsmBinaryNumerals = new ToolStripMenuItem();
+        _tsmRomanNumerals = new ToolStripMenuItem();
+        _tsmArabicNumerals = new ToolStripMenuItem();
+        _tsmTurningClockFace = new ToolStripMenuItem();
         _tsmTools = new ToolStripMenuItem();
         _tsmWinFormsAIPlayGround = new ToolStripMenuItem();
         toolStripMenuItem3 = new ToolStripSeparator();
@@ -80,34 +80,38 @@ partial class FrmMain
         // 
         // _tsmView
         // 
-        _tsmView.DropDownItems.AddRange(new ToolStripItem[] { toolStripMenuItem1, _tsmFairyTailGenerator, _tsmLearnGermanIn2Minutes, _tsmSolonLetsCallBackThe80s });
+        _tsmView.DropDownItems.AddRange(new ToolStripItem[] { _tsmBinaryNumerals, _tsmRomanNumerals, _tsmArabicNumerals, _tsmTurningClockFace });
         _tsmView.Name = "_tsmView";
         _tsmView.Size = new Size(67, 29);
         _tsmView.Text = "View";
         // 
-        // toolStripMenuItem1
+        // _tsmBinaryNumerals
         // 
-        toolStripMenuItem1.Name = "toolStripMenuItem1";
-        toolStripMenuItem1.Size = new Size(375, 6);
+        _tsmBinaryNumerals.Name = "_tsmBinaryNumerals";
+        _tsmBinaryNumerals.Size = new Size(252, 30);
+        _tsmBinaryNumerals.Text = "Binary numerals";
+        _tsmBinaryNumerals.Click += ViewNumerals_Click;
         // 
-        // _tsmFairyTailGenerator
+        // _tsmRomanNumerals
         // 
-        _tsmFairyTailGenerator.Name = "_tsmFairyTailGenerator";
-        _tsmFairyTailGenerator.Size = new Size(378, 30);
-        _tsmFairyTailGenerator.Text = "The Fairy Tail Generator...";
+        _tsmRomanNumerals.Name = "_tsmRomanNumerals";
+        _tsmRomanNumerals.Size = new Size(252, 30);
+        _tsmRomanNumerals.Text = "Roman numerals";
+        _tsmRomanNumerals.Click += ViewNumerals_Click;
         // 
-        // _tsmLearnGermanIn2Minutes
+        // _tsmArabicNumerals
         // 
-        _tsmLearnGermanIn2Minutes.Name = "_tsmLearnGermanIn2Minutes";
-        _tsmLearnGermanIn2Minutes.Size = new Size(378, 30);
-        _tsmLearnGermanIn2Minutes.Text = "Learn German in 2 Minutes...";
+        _tsmArabicNumerals.Name = "_tsmArabicNumerals";
+        _tsmArabicNumerals.Size = new Size(252, 30);
+        _tsmArabicNumerals.Text = "Arabic numerals";
+        _tsmArabicNumerals.Click += ViewNumerals_Click;
         // 
-        // _tsmSolonLetsCallBackThe80s
+        // _tsmTurningClockFace
         // 
-        _tsmSolonLetsCallBackThe80s.Name = "_tsmSolonLetsCallBackThe80s";
-        _tsmSolonLetsCallBackThe80s.Size = new Size(378, 30);
-        _tsmSolonLetsCallBackThe80s.Text = "SOLON - Let's call back the 80s! ...";
-        _tsmSolonLetsCallBackThe80s.Click += Solon_LetsCallBackThe80s_Click;
+        _tsmTurningClockFace.Name = "_tsmTurningClockFace";
+        _tsmTurningClockFace.Size = new Size(252, 30);
+        _tsmTurningClockFace.Text = "Turning clock face";
+        _tsmTurningClockFace.Click += ViewNumerals_Click;
         // 
         // _tsmTools
         // 
@@ -181,9 +185,9 @@ partial class FrmMain
         // 
         _mainFormStatusStrip.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
         _mainFormStatusStrip.ImageScalingSize = new Size(24, 24);
-        _mainFormStatusStrip.Location = new Point(0, 429);
+        _mainFormStatusStrip.Location = new Point(0, 431);
         _mainFormStatusStrip.Name = "_mainFormStatusStrip";
-        _mainFormStatusStrip.Size = new Size(841, 24);
+        _mainFormStatusStrip.Size = new Size(841, 22);
         _mainFormStatusStrip.TabIndex = 3;
         _mainFormStatusStrip.Text = "statusStrip2";
         // 
@@ -220,12 +224,11 @@ partial class FrmMain
     private ToolStripMenuItem _tsmFile;
     private ToolStripMenuItem _tsmQuit;
     private ToolStripMenuItem _tsmView;
-    private ToolStripSeparator toolStripMenuItem1;
-    private ToolStripMenuItem _tsmLearnGermanIn2Minutes;
+    private ToolStripMenuItem _tsmRomanNumerals;
     private ToolStripMenuItem _tsmTools;
     private ToolStripMenuItem _tsmAsyncDemos;
-    private ToolStripMenuItem _tsmFairyTailGenerator;
-    private ToolStripMenuItem _tsmSolonLetsCallBackThe80s;
+    private ToolStripMenuItem _tsmBinaryNumerals;
+    private ToolStripMenuItem _tsmArabicNumerals;
     private ToolStripMenuItem _tsmWinFormsAIPlayGround;
     private ToolStripSeparator toolStripMenuItem3;
     private ToolStripMenuItem _tsmBrowserDeveloperTools;
@@ -237,4 +240,5 @@ partial class FrmMain
     private FluentTabControl _mainTabControl;
     private ToolStripMenuItem colorMeToolStripMenuItem;
     private StatusStrip _mainFormStatusStrip;
+    private ToolStripMenuItem _tsmTurningClockFace;
 }

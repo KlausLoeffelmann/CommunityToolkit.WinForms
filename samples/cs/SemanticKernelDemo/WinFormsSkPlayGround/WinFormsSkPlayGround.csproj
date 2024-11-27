@@ -27,14 +27,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0-preview2" />
     <PackageReference Include="Microsoft.AspNetCore.Components" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Forms" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView" Version="9.0.0" />
     <PackageReference Include="Microsoft.CognitiveServices.Speech" Version="1.41.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.28.0" />
-    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2849.39" />
-    <PackageReference Include="OpenAI" Version="2.1.0-beta.1" />
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.30.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+    <PackageReference Include="OpenAI" Version="2.1.0-beta.2" />
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
   </ItemGroup>
 

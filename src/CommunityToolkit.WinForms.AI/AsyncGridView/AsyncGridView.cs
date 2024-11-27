@@ -1,8 +1,10 @@
-﻿namespace CommunityToolkit.WinForms.AI.AsyncGridView;
+﻿using System.ComponentModel;
 
-public class AsyncGridView : Panel
+namespace CommunityToolkit.WinForms.AI.AsyncGridView;
+
+public partial class AsyncGridView : Panel
 {
-    private AsyncDataGridView _dataGridView;
+    private readonly AsyncDataGridView _dataGridView;
 
     public AsyncGridView()
     {
@@ -14,11 +16,13 @@ public class AsyncGridView : Panel
         Controls.Add(_dataGridView);
     }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public int ColumnCount
     {
         get => _dataGridView.ColumnCount;
         set => _dataGridView.ColumnCount = value;
     }
 
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Type? GridViewItemTemplate { get; set; }
 }

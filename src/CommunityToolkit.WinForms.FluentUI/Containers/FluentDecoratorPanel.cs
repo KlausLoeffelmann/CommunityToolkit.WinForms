@@ -56,6 +56,7 @@ public partial class FluentDecoratorPanel : Panel
     /// </summary>
     [Category("Appearance")]
     [Description("Specifies the thickness of the border.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public int BorderThickness
     {
         get => _borderThickness;

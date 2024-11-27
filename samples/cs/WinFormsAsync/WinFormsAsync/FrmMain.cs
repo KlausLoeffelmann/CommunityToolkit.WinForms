@@ -33,31 +33,115 @@ public partial class FrmMain : Form
     override async protected void OnLoad(EventArgs e)
     {
         base.OnLoad(e);
-        await RunDisplayLoopAsync();
+        await RunDisplayLoopAsyncV1();
     }
 
-    private async Task RunDisplayLoopAsync()
+    private async Task RunDisplayLoopAsyncV1()
+    {
+        // When we update the time, the method will also wait 75 ms asynchronously.
+        _sevenSegmentTimer.UpdateDelay = 75;
+
+        while (true)
+        {
+            // We update and then wait for the delay.
+            // In the meantime, the Windows message loop can process other messages,
+            // so the app remains responsive.
+            await _sevenSegmentTimer.UpdateTimeAndDelayAsync(
+                time: TimeOnly.FromDateTime(DateTime.Now));
+        }
+    }
+
+    private async Task RunDisplayLoopAsyncV2()
+    {
+        // When we update the time, the method will also wait 75 ms asynchronously.
+        _sevenSegmentTimer.UpdateDelay = 75;
+
+        // BOOM!
+        await Task.Run(ActualDisplayLoopAsync);
+
+        async Task ActualDisplayLoopAsync()
+        {
+            while (true)
+            {
+                // We update and then wait for the delay.
+                // In the meantime, the Windows message loop can process other messages,
+                // so the app remains responsive.
+                await _sevenSegmentTimer.UpdateTimeAndDelayAsync(
+                    time: TimeOnly.FromDateTime(DateTime.Now));
+            }
+        }
+    }
+
+    private async Task RunDisplayLoopAsyncV3()
+    {
+        // When we update the time, the method will also wait 75 ms asynchronously.
+        _sevenSegmentTimer.UpdateDelay = 75;
+
+        // We have 2 overloads:
+        // this.InvokeAsync<T>>(Func<T> method) or this.InvokeAsync(Func<Task> method)
+        // Which do we want?
+        Task? InvokeTask() => this.InvokeAsync(ActualDisplayLoopAsync, CancellationToken.None);
+
+        await Task.Run(InvokeTask);
+
+        async ValueTask ActualDisplayLoopAsync(CancellationToken cancellation=default)
+        {
+            while (true)
+            {
+                // We update and then wait for the delay.
+                // In the meantime, the Windows message loop can process other messages,
+                // so the app remains responsive.
+                await _sevenSegmentTimer.UpdateTimeAndDelayAsync(
+                    time: TimeOnly.FromDateTime(DateTime.Now));
+            }
+        }
+    }
+
+    private async Task RunDisplayLoopAsyncV4()
+    {
+        while (true)
+        {
+            // We also have methods to fade the separators in and out!
+            // And note: There is not need to Invoke the methods, because we can safely
+            // set the color for a label from any thread.
+            await _sevenSegmentTimer.FadeSeparatorsInAsync().ConfigureAwait(false);
+            await _sevenSegmentTimer.FadeSeparatorsOutAsync().ConfigureAwait(false);
+        }
+    }
+
+    private async Task RunDisplayLoopAsyncV5()
+    {
+        while (true)
+        {
+            await FadeInFadeOutAsync().ConfigureAwait(false);
+        }
+
+        // Let's group this in one task.
+        async Task FadeInFadeOutAsync()
+        {
+            await _sevenSegmentTimer.FadeSeparatorsInAsync().ConfigureAwait(false);
+            await _sevenSegmentTimer.FadeSeparatorsOutAsync().ConfigureAwait(false);
+        }
+
+    }
+
+    private async Task RunDisplayLoopAsyncV6()
     {
         Task? uiUpdateTask = null;
         Task? separatorFadingTask = null;
 
         while (true)
         {
-            async Task UpdateUI(CancellationToken cancellation)
-            {
-                _sevenSegmentTimer.UpdateTime(
-                    TimeOnly.FromDateTime(DateTime.Now));
-
-                await Task.Delay(100, cancellation);
-            }
-
             async Task FadeInFadeOutAsync(CancellationToken cancellation)
             {
                 await _sevenSegmentTimer.FadeSeparatorsInAsync(cancellation).ConfigureAwait(false);
                 await _sevenSegmentTimer.FadeSeparatorsOutAsync(cancellation).ConfigureAwait(false);
             }
 
-            uiUpdateTask ??= UpdateUI(_formCloseCancellation.Token);
+            uiUpdateTask ??= _sevenSegmentTimer.UpdateTimeAndDelayAsync(
+                time: TimeOnly.FromDateTime(DateTime.Now),
+                cancellation: _formCloseCancellation.Token);
+
             separatorFadingTask ??= FadeInFadeOutAsync(_formCloseCancellation.Token);
             Task completedTask = await Task.WhenAny(separatorFadingTask, uiUpdateTask);
 

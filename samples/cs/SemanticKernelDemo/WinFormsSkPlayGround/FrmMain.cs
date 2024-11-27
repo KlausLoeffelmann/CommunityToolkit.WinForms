@@ -80,4 +80,21 @@ public partial class FrmMain : Form
         this.FormCaptionBackColor = Color.Blue;
         this.FormCornerPreference = FormCornerPreference.Round;
     }
+
+    private void ViewNumerals_Click(object sender, EventArgs e)
+    {
+        // Do we have a clock on the demo surface?
+        if (this.FirstDescendantOrDefault<IntroClockDemo>() is IntroClockDemo introDemoClock)
+        {
+            // Let's change the style of the clock's hour marks.
+            introDemoClock.MarksStyle = sender switch
+            {
+                ToolStripMenuItem { Name: nameof(_tsmArabicNumerals) } => HourMarksStyle.ArabicNumerals,
+                ToolStripMenuItem { Name: nameof(_tsmRomanNumerals) } => HourMarksStyle.RomanNumerals,
+                ToolStripMenuItem { Name: nameof(_tsmBinaryNumerals) } => HourMarksStyle.BinaryNumerals,
+                ToolStripMenuItem { Name: nameof(_tsmTurningClockFace) } => HourMarksStyle.TurningClockFace,
+                _ => throw new NotImplementedException()
+            };
+        }
+    }
 }

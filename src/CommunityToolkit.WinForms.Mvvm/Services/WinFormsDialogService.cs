@@ -1,23 +1,17 @@
 ﻿using CommunityToolkit.DesktopGeneric.Mvvm;
+using CommunityToolkit.WinForms.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;
-using CommunityToolkit.WinForms.Extensions;
-using System.Windows.Forms;
 
 namespace CommunityToolkit.WinForms.Mvvm;
 
-internal partial class WinFormsDialogService : IMvvmDialogService
+internal partial class WinFormsDialogService(IServiceProvider serviceProvider) 
+    : IMvvmDialogService
 {
     private IViewLocatorService<ContainerControl> _viewLocator = default!;
-    private readonly IServiceProvider _serviceProvider;
-
-    public WinFormsDialogService(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
 
     private IViewLocatorService<ContainerControl> ViewLocator
-        => _viewLocator ??= _serviceProvider.GetRequiredService<IViewLocatorService<ContainerControl>>();
+        => _viewLocator ??= serviceProvider.GetRequiredService<IViewLocatorService<ContainerControl>>();
 
     public async Task ShowMessageAsync(string message, string title)
     {
@@ -28,7 +22,9 @@ internal partial class WinFormsDialogService : IMvvmDialogService
             Buttons = [new TaskDialogButton("OK", true)],
         };
 
+#pragma warning disable WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         await TaskDialog.ShowDialogAsync(page);
+#pragma warning restore WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     }
 
     public async Task<bool> ShowConfirmationAsync(string message, string title)
@@ -40,7 +36,9 @@ internal partial class WinFormsDialogService : IMvvmDialogService
             Buttons = [new TaskDialogButton("OK", true)],
         };
 
+#pragma warning disable WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         var result = await TaskDialog.ShowDialogAsync(page);
+#pragma warning restore WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         return result == TaskDialogButton.Yes;
     }
 
@@ -54,7 +52,9 @@ internal partial class WinFormsDialogService : IMvvmDialogService
             Icon = TaskDialogIcon.Warning
         };
 
+#pragma warning disable WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         await TaskDialog.ShowDialogAsync(page);
+#pragma warning restore WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     }
 
     public async Task ShowErrorAsync(string message, string title)
@@ -67,7 +67,9 @@ internal partial class WinFormsDialogService : IMvvmDialogService
             Icon = TaskDialogIcon.Error
         };
 
+#pragma warning disable WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
         await TaskDialog.ShowDialogAsync(page);
+#pragma warning restore WFO5002 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     }
 
     public Task<string> RequestInputAsync(string message, string title, string defaultValue = "")
