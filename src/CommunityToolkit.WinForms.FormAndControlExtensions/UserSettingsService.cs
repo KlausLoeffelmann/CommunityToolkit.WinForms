@@ -1,9 +1,12 @@
-﻿using CommunityToolkit.WinForms.ComponentModel;
-using System.Reflection;
+﻿using System.Reflection;
+
 using System.Text.Json;
 
 namespace CommunityToolkit.WinForms.Extensions;
 
+/// <summary>
+///  Provides a service for managing user settings in a WinForms application.
+/// </summary>
 public class WinFormsUserSettingsService : IUserSettingsService
 {
     private const string _settingsFileName = "UserSettings.json";
@@ -14,125 +17,150 @@ public class WinFormsUserSettingsService : IUserSettingsService
         WriteIndented = true
     };
 
+    /// <summary>
+    ///  Gets the path to the user's application data folder.
+    /// </summary>
+    /// <returns>A <see cref="FileInfo"/> object representing the settings file.</returns>
     private static FileInfo GetUserApplicationPath()
     {
-        // Getting the path to the user's application data folder:
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-
-        // Let's build the path to the application's folder within the user's application data folder
-        // based on the main assembly name and the version.
         var assembly = Assembly.GetEntryAssembly() ?? throw new InvalidOperationException("The entry assembly is null.");
-
-        // Getting the main assembly's name:
         string assemblyName = assembly.GetName().Name!;
-
-        // Getting the main assembly's version:
         string version = assembly.GetName().Version!.ToString();
-
-        // Building the path to the application's folder within the user's application data folder:
         string appFolder = Path.Combine(appDataPath, assemblyName, version);
-
-        // Creating the directory if it doesn't exist:
         Directory.CreateDirectory(appFolder);
-
-        // return a FileInfo object representing the settings file:
         return new FileInfo(Path.Combine(appFolder, _settingsFileName));
     }
 
+    /// <summary>
+    ///  Clears all settings.
+    /// </summary>
     public void Clear() => _settings.Clear();
 
+    /// <summary>
+    ///  Determines whether the specified key exists in the settings.
+    /// </summary>
+    /// <param name="key">The key to locate in the settings.</param>
+    /// <returns><c>true</c> if the key exists; otherwise, <c>false</c>.</returns>
     public bool Contains(string key) => _settings.ContainsKey(key);
 
+    /// <summary>
+    ///  Gets the value associated with the specified key.
+    /// </summary>
+    /// <typeparam name="T">The type of the value.</typeparam>
+    /// <param name="key">The key of the value to get.</param>
+    /// <param name="defaultValue">The default value to return if the key does not exist.</param>
+    /// <returns>The value associated with the specified key, or the default value if the key does not exist.</returns>
     public T Get<T>(string key, T defaultValue) where T : IParsable<T>
     {
-        // Check if the key exists in the settings dictionary:
         if (_settings.TryGetValue(key, out string? value))
         {
-            // Has been written in JSon, so we need to parse it back to the original type:
             return JsonSerializer.Deserialize<T>(value!)!;
         }
-
-        // Return the default value if the key doesn't exist or the parsing failed:
         return defaultValue;
     }
 
+    /// <summary>
+    ///  Gets the array associated with the specified key.
+    /// </summary>
+    /// <typeparam name="T">The type of the array elements.</typeparam>
+    /// <param name="key">The key of the array to get.</param>
+    /// <param name="defaultValue">The default array to return if the key does not exist.</param>
+    /// <returns>The array associated with the specified key, or the default array if the key does not exist.</returns>
     public T[] GetArray<T>(string key, T[] defaultValue) where T : IParsable<T>
     {
-        // Check if the key exists in the settings dictionary:
         if (_settings.TryGetValue(key, out string? value))
         {
-            // Has been written in JSon, so we need to parse it back to the original type:
             return JsonSerializer.Deserialize<T[]>(value!)!;
         }
-
-        // Return the default value if the key doesn't exist or the parsing failed:
         return defaultValue;
     }
 
+    /// <summary>
+    ///  Gets the instance associated with the specified key.
+    /// </summary>
+    /// <typeparam name="T">The type of the instance.</typeparam>
+    /// <param name="key">The key of the instance to get.</param>
+    /// <param name="defaultValue">The default instance to return if the key does not exist.</param>
+    /// <returns>The instance associated with the specified key, or the default instance if the key does not exist.</returns>
     public T GetInstance<T>(string key, T defaultValue)
     {
-        // Check if the key exists in the settings dictionary:
         if (_settings.TryGetValue(key, out string? value))
         {
-            // Has been written in JSon, so we need to parse it back to the original type:
             return JsonSerializer.Deserialize<T>(value!)!;
         }
-        // Return the default value if the key doesn't exist or the parsing failed:
         return defaultValue;
     }
 
-    public void SetInstance<T>(string key, T value) 
+    /// <summary>
+    ///  Sets the instance associated with the specified key.
+    /// </summary>
+    /// <typeparam name="T">The type of the instance.</typeparam>
+    /// <param name="key">The key of the instance to set.</param>
+    /// <param name="value">The instance to set.</param>
+    public void SetInstance<T>(string key, T value)
     {
-        // Write the value to the settings dictionary as JSon:
         _settings[key] = JsonSerializer.Serialize(value);
     }
 
+    /// <summary>
+    ///  Creates and loads a new instance of the <see cref="WinFormsUserSettingsService"/> class.
+    /// </summary>
+    /// <returns>A new instance of the <see cref="WinFormsUserSettingsService"/> class.</returns>
     public static IUserSettingsService CreateAndLoad()
     {
-        var settings = (IUserSettingsService) new WinFormsUserSettingsService();
+        var settings = (IUserSettingsService)new WinFormsUserSettingsService();
         settings.Load();
-
         return settings;
     }
 
+    /// <summary>
+    ///  Removes the value with the specified key.
+    /// </summary>
+    /// <param name="key">The key of the value to remove.</param>
     public void Remove(string key) => _settings.Remove(key);
 
+    /// <summary>
+    ///  Saves the settings to a file.
+    /// </summary>
     public void Save()
     {
-        // We serialize the settings dictionary with the JSon entries to Json:
         string json = JsonSerializer.Serialize(_settings, s_jsonOptions);
-
-        // Get the path to the settings file:
         FileInfo settingsFile = GetUserApplicationPath();
-
-        // Write the Json to the settings file:
         File.WriteAllText(settingsFile.FullName, json);
     }
 
+    /// <summary>
+    ///  Sets the value associated with the specified key.
+    /// </summary>
+    /// <typeparam name="T">The type of the value.</typeparam>
+    /// <param name="key">The key of the value to set.</param>
+    /// <param name="value">The value to set.</param>
     public void Set<T>(string key, T value) where T : IParsable<T>
     {
-        // Write the value to the settings dictionary as JSon:
         _settings[key] = JsonSerializer.Serialize(value);
     }
 
+    /// <summary>
+    ///  Sets the array associated with the specified key.
+    /// </summary>
+    /// <typeparam name="T">The type of the array elements.</typeparam>
+    /// <param name="key">The key of the array to set.</param>
+    /// <param name="value">The array to set.</param>
     public void SetArray<T>(string key, T[] value) where T : IParsable<T>
     {
-        // Write the value to the settings dictionary as JSon:
         _settings[key] = JsonSerializer.Serialize(value);
     }
 
+    /// <summary>
+    ///  Loads the settings from a file.
+    /// </summary>
     void IUserSettingsService.Load()
     {
-        // Get the path to the settings file:
         FileInfo settingsFile = GetUserApplicationPath();
-
-        // Check if the settings file exists:
         if (settingsFile.Exists)
         {
-            // Read the Json from the settings file:
             string json = File.ReadAllText(settingsFile.FullName);
-
-            // Deserialize the Json to the settings dictionary:
             _settings = JsonSerializer.Deserialize<Dictionary<string, string>>(json)!;
         }
     }

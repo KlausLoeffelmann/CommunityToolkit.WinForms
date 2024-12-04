@@ -7,6 +7,9 @@ using System.Runtime.InteropServices;
 
 namespace WinFormsAsync;
 
+/// <summary>
+///  Represents a seven-segment timer control.
+/// </summary>
 public class SevenSegmentTimer : Control
 {
     private const float ColorCount = 50;
@@ -19,12 +22,45 @@ public class SevenSegmentTimer : Control
     private Font _standardFont;
     private Label[]? _separatorLabels;
     private Label[]? _segmentLabels;
+    private readonly Color _defaultForeColor;
 
+    /// <summary>
+    ///  Initializes a new instance of the <see cref="SevenSegmentTimer"/> class.
+    /// </summary>
     public SevenSegmentTimer()
     {
         InitializeComponent();
+
+        if (Application.IsDarkModeEnabled)
+        {
+            _defaultForeColor = Color.Green;
+        }
+        else
+        {
+            _defaultForeColor = Color.Red;
+        }
+
+        ForeColor = _defaultForeColor;
     }
 
+    /// <summary>
+    ///  Gets or sets the foreground color of the control.
+    /// </summary>
+    public override Color ForeColor
+    {
+        get => base.ForeColor;
+        set => base.ForeColor = value;
+    }
+
+    /// <summary>
+    ///  Determines whether the <see cref="ForeColor"/> property should be serialized.
+    /// </summary>
+    /// <returns><c>true</c> if the <see cref="ForeColor"/> property value has changed from its default; otherwise, <c>false</c>.</returns>
+    private bool ShouldSerializeForeColor() => ForeColor != _defaultForeColor;
+
+    /// <summary>
+    ///  Initializes the component.
+    /// </summary>
     [MemberNotNull(nameof(_segmentFont), nameof(_standardFont))]
     private void InitializeComponent()
     {
@@ -71,7 +107,6 @@ public class SevenSegmentTimer : Control
             Label label = new()
             {
                 TextAlign = ContentAlignment.BottomCenter,
-                BorderStyle = BorderStyle.FixedSingle,
                 Dock = DockStyle.Fill,
                 AutoSize = true
             };
@@ -103,7 +138,9 @@ public class SevenSegmentTimer : Control
         ResumeLayout();
     }
 
-    // Hide Font property to prevent changing the font
+    /// <summary>
+    ///  Gets or sets the font of the control. This property is hidden to prevent changing the font.
+    /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -113,6 +150,12 @@ public class SevenSegmentTimer : Control
         set => base.Font = value;
     }
 
+    /// <summary>
+    ///  Updates the time displayed on the control and delays for a specified duration.
+    /// </summary>
+    /// <param name="time">The time to display.</param>
+    /// <param name="cancellation">A cancellation token to observe while waiting for the task to complete.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task UpdateTimeAndDelayAsync(TimeOnly time, CancellationToken cancellation = default)
     {
         int count = 0;
@@ -124,7 +167,7 @@ public class SevenSegmentTimer : Control
                 0 => time.Hour.ToString("00"),
                 2 => time.Minute.ToString("00"),
                 4 => time.Second.ToString("00"),
-                6 => (time.Millisecond/100).ToString("0"),
+                6 => (time.Millisecond / 100).ToString("0"),
                 _ => label.Text,
             };
         }
@@ -132,17 +175,31 @@ public class SevenSegmentTimer : Control
         return Task.Delay(75, cancellation);
     }
 
+    /// <summary>
+    ///  Gets or sets the delay in milliseconds between updates.
+    /// </summary>
     [DefaultValue(75)]
     public int UpdateDelay { get; set; } = 75;
 
+    /// <summary>
+    ///  Gets the segment labels.
+    /// </summary>
     public Label[] SegmentLabels
-        => _segmentLabels 
+        => _segmentLabels
             ??= [.. this.DescendantControls<Label>().Where(label => label.Text != ":")];
 
+    /// <summary>
+    ///  Gets the separator labels.
+    /// </summary>
     public Label[] SeparatorLabels
-        => _separatorLabels 
+        => _separatorLabels
         ??= [.. this.DescendantControls<Label>().Where(label => label.Text == ":")];
 
+    /// <summary>
+    ///  Fades the separator labels out asynchronously.
+    /// </summary>
+    /// <param name="cancellation">A cancellation token to observe while waiting for the task to complete.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task FadeSeparatorsOutAsync(CancellationToken cancellation = default)
     {
         s_colors ??= DefineGradientColors(BackColor, ForeColor);
@@ -154,17 +211,25 @@ public class SevenSegmentTimer : Control
         }
     }
 
+    /// <summary>
+    ///  Fades the separator labels in asynchronously.
+    /// </summary>
+    /// <param name="cancellation">A cancellation token to observe while waiting for the task to complete.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task FadeSeparatorsInAsync(CancellationToken cancellation = default)
     {
         s_colors ??= DefineGradientColors(BackColor, ForeColor);
 
-        for (int i = (int)ColorCount -1; i >= 0; i--)
+        for (int i = (int)ColorCount - 1; i >= 0; i--)
         {
             Array.ForEach(SeparatorLabels, (label) => label.ForeColor = s_colors[i]);
             await Task.Delay(1, cancellation).ConfigureAwait(false);
         }
     }
 
+    /// <summary>
+    ///  Gets or sets the font size of the control.
+    /// </summary>
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int FontSize
     {
@@ -172,6 +237,12 @@ public class SevenSegmentTimer : Control
         set => Font = new Font(Font.FontFamily, value, Font.Style, Font.Unit);
     }
 
+    /// <summary>
+    ///  Defines gradient colors between the background color and the foreground color.
+    /// </summary>
+    /// <param name="backColor">The background color.</param>
+    /// <param name="ForeColor">The foreground color.</param>
+    /// <returns>An array of gradient colors.</returns>
     private static Color[] DefineGradientColors(Color backColor, Color ForeColor)
     {
         var colors = new Color[(int)ColorCount];
@@ -187,6 +258,9 @@ public class SevenSegmentTimer : Control
         return colors;
     }
 
+    /// <summary>
+    ///  Sets up the font by loading it from the embedded resources and installing it in the private fonts.
+    /// </summary>
     private static void SetupFont()
     {
         // Load the Segment7Standard font from the embedded resources

@@ -10,12 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\OFL.txt" />
+    <EmbeddedResource Include="Resources\SevenSegmentFontLicNotice_OFL.txt" />
     <EmbeddedResource Include="Resources\Segment7Standard.otf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\src\CommunityToolkit.WinForms.FormAndControlExtensions\CommunityToolkit.WinForms.Extensions.FormAndControlExtensions.csproj" />
   </ItemGroup>
 
 </Project>

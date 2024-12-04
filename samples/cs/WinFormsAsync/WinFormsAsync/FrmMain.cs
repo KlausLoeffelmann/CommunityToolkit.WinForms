@@ -13,12 +13,6 @@ public partial class FrmMain : Form
         SetupTimerDisplay();
     }
 
-    protected override void OnFormClosing(FormClosingEventArgs e)
-    {
-        base.OnFormClosing(e);
-        _formCloseCancellation.Cancel();
-    }
-
     [MemberNotNull(nameof(_sevenSegmentTimer))]
     private void SetupTimerDisplay()
     {
@@ -59,6 +53,7 @@ public partial class FrmMain : Form
         // BOOM!
         await Task.Run(ActualDisplayLoopAsync);
 
+        // Local function, which represents the actual loop.
         async Task ActualDisplayLoopAsync()
         {
             while (true)
@@ -77,14 +72,13 @@ public partial class FrmMain : Form
         // When we update the time, the method will also wait 75 ms asynchronously.
         _sevenSegmentTimer.UpdateDelay = 75;
 
-        // We have 2 overloads:
-        // this.InvokeAsync<T>>(Func<T> method) or this.InvokeAsync(Func<Task> method)
-        // Which do we want?
-        Task? InvokeTask() => this.InvokeAsync(ActualDisplayLoopAsync, CancellationToken.None);
+        // This is a local function now, calling the actual loop on the UI Thread.
+        Task InvokeTask() => this.InvokeAsync(ActualDisplayLoopAsync, CancellationToken.None);
 
         await Task.Run(InvokeTask);
 
-        async ValueTask ActualDisplayLoopAsync(CancellationToken cancellation=default)
+        // This takes now a CancellationToken, not only so we have the right signature for InvokeAsync.
+        async ValueTask ActualDisplayLoopAsync(CancellationToken cancellation = default)
         {
             while (true)
             {
@@ -92,7 +86,8 @@ public partial class FrmMain : Form
                 // In the meantime, the Windows message loop can process other messages,
                 // so the app remains responsive.
                 await _sevenSegmentTimer.UpdateTimeAndDelayAsync(
-                    time: TimeOnly.FromDateTime(DateTime.Now));
+                    time: TimeOnly.FromDateTime(DateTime.Now),
+                    cancellation: cancellation);
             }
         }
     }
@@ -109,6 +104,7 @@ public partial class FrmMain : Form
         }
     }
 
+    // Well, this is not quite it!
     private async Task RunDisplayLoopAsyncV5()
     {
         while (true)
@@ -125,6 +121,7 @@ public partial class FrmMain : Form
 
     }
 
+    // But this is.
     private async Task RunDisplayLoopAsyncV6()
     {
         Task? uiUpdateTask = null;
@@ -154,5 +151,11 @@ public partial class FrmMain : Form
                 separatorFadingTask = null;
             }
         }
+    }
+
+    protected override void OnFormClosing(FormClosingEventArgs e)
+    {
+        base.OnFormClosing(e);
+        _formCloseCancellation.Cancel();
     }
 }
