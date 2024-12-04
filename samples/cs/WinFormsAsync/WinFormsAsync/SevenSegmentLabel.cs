@@ -10,7 +10,7 @@ namespace WinFormsAsync;
 /// <summary>
 ///  Represents a seven-segment timer control.
 /// </summary>
-public class SevenSegmentTimer : Control
+public partial class SevenSegmentTimer : Control
 {
     private const float ColorCount = 50;
 
@@ -286,6 +286,6 @@ public class SevenSegmentTimer : Control
         s_fontCollection.AddMemoryFont(fontPtr, fontData.Length);
     }
 
-    [DllImport("gdi32.dll", EntryPoint = "AddFontMemResourceEx")]
-    private static extern IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, ref uint pcFonts);
+    [LibraryImport("gdi32.dll", EntryPoint = "AddFontMemResourceEx")]
+    private static partial IntPtr AddFontMemResourceEx(IntPtr pbFont, uint cbFont, IntPtr pdv, ref uint pcFonts);
 }
