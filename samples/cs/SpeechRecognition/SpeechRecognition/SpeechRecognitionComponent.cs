@@ -20,8 +20,6 @@ public partial class SpeechRecognitionComponent : Component
         // Prompt the user for permission to access the microphone. This request will only happen
         // once, it will not re-prompt if the user rejects the permission.
         bool permission = await AudioCapturePermissions.RequestMicrophonePermission();
-        var accessStatus = await SpeechRecognizer.TrySetSystemSpeechLanguageAsync(new Language("en-US"));
-
         return permission;
 
     }
