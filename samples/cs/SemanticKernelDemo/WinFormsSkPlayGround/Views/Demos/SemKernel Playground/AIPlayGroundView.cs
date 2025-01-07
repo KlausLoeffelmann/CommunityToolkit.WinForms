@@ -102,7 +102,7 @@ public partial class AIPlayGroundView : UserControl
             "Translate to Klingon",
             "You are a Klingon translator. Try to provide a valid translation into Klingon, "
           + "and add comments on to best pronounce it or that the entered phrased had to be paraphrased."
-          + "Please return the actual translated phrase in bold and italic, and additional explanaition normal."
+          + "Please return the actual translated phrase in bold and italic, and additional explanations in a standard font."
         }
     };
 }
