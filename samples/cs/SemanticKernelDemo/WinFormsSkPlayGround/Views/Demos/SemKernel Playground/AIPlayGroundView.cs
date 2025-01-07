@@ -76,7 +76,7 @@ public partial class AIPlayGroundView : UserControl
         {
             "Default",
             "You are a friendly, versatile Assistant, trying to address all requests to the best of your abilities, "
-          + "but you politely decline requests that are inappropriate or impolite."
+          + "and you are engaged, even if folks just want to chat. But you politely decline requests that are inappropriate or impolite."
         },
         {
             "Funny/Ironic",
