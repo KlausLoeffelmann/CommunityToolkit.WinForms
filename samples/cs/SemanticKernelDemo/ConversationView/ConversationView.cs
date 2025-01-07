@@ -2,6 +2,7 @@
 using Markdig;
 using MarkDownView.ViewModels;
 using Microsoft.AspNetCore.Components.WebView.WindowsForms;
+using Microsoft.Web.WebView2.Core;
 using System.Diagnostics;
 using System.Text;
 
@@ -84,23 +85,17 @@ public class ConversationView : BlazorWebView
         _viewModel?.ConversationItems.Add(item);
     }
 
-    private void CoreWebView2_DOMContentLoaded(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2DOMContentLoadedEventArgs e)
-    {
-        Debug.Print($"DOM content loaded - ID:{e.NavigationId}");
-    }
+    private void CoreWebView2_DOMContentLoaded(object? sender, CoreWebView2DOMContentLoadedEventArgs e) 
+        => Debug.Print($"DOM content loaded - ID:{e.NavigationId}");
 
-    private void WebView_NavigationCompleted(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
-    {
-        Debug.Print($"Navigation completed - success:{e.IsSuccess}");
-    }
+    private void WebView_NavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e) 
+        => Debug.Print($"Navigation completed - success:{e.IsSuccess}");
 
-    private void WebView_CoreWebView2InitializationCompleted(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs e)
-    {
-        WebView.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
-    }
+    private void WebView_CoreWebView2InitializationCompleted(object? sender, CoreWebView2InitializationCompletedEventArgs e) 
+        => WebView.CoreWebView2.DOMContentLoaded += CoreWebView2_DOMContentLoaded;
 
     /// <summary>
-    /// Updates the current response asynchronously.
+    ///  Updates the current response asynchronously.
     /// </summary>
     /// <param name="asyncEnumerable">The async enumerable that provides the responses.</param>
     /// <returns>An async enumerable of the responses.</returns>
@@ -146,4 +141,7 @@ public class ConversationView : BlazorWebView
 
         _viewModel.ResponseInProgress = string.Empty;
     }
+
+    public void ClearHistory() 
+        => _viewModel?.ConversationItems.Clear();
 }
