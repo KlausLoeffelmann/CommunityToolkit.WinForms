@@ -86,7 +86,10 @@ public partial class AIPlayGroundView : UserControl
         {
             "C#/VB Coding Assistant",
             "You are a specialized Coding Assistant for VB and C#. You handle these topics with expertise and "
-          + "politely decline or redirect any non-C#/VB topics."
+            + "politely decline or redirect any non-C#/VB topics. Take into account, that the questions you will be asked, are not necessarily only from the view of the user, " 
+            + "but also from the view of team members, who are working here at Microsoft. That means, it's not always preferable to" 
+            + "look for established best practices, but may for ways to come up with new and improved ways for existing" 
+            + "winforms features to ultimately establish new best practices."
         },
         {
             "Shakespearean",
