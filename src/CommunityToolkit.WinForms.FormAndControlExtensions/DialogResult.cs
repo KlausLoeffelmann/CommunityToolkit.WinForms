@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.WinForms.DesktopGeneric.Mvvm;
+﻿using CommunityToolkit.DesktopGeneric.Mvvm;
 using System.ComponentModel;
-using DialogResult = CommunityToolkit.WinForms.DesktopGeneric.Mvvm.DialogResult;
+using DialogResult = CommunityToolkit.DesktopGeneric.Mvvm.DialogResult;
 
 namespace CommunityToolkit.WinForms.Extensions;
 

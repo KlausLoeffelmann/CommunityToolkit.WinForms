@@ -1,4 +1,4 @@
-﻿namespace CommunityToolkit.WinForms.DesktopGeneric.Mvvm;
+﻿namespace CommunityToolkit.DesktopGeneric.Mvvm;
 
 /// <summary>
 /// Represents a service for managing synchronization context.

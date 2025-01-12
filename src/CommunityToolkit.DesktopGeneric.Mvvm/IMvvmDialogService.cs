@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace CommunityToolkit.WinForms.DesktopGeneric.Mvvm;
+namespace CommunityToolkit.DesktopGeneric.Mvvm;
 
 /// <summary>
 ///  Represents a service for displaying user interface dialogs and messages.

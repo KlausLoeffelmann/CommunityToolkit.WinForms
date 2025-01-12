@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.WinForms.DesktopGeneric.Mvvm;
+﻿using CommunityToolkit.DesktopGeneric.Mvvm;
 using CommunityToolkit.WinForms.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel;

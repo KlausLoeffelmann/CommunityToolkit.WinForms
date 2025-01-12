@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace CommunityToolkit.WinForms.DesktopGeneric.Mvvm;
+namespace CommunityToolkit.DesktopGeneric.Mvvm;
 
 public interface IViewModelFactoryService
 {

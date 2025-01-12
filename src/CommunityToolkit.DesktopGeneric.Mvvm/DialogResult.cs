@@ -1,4 +1,4 @@
-﻿namespace CommunityToolkit.WinForms.DesktopGeneric.Mvvm;
+﻿namespace CommunityToolkit.DesktopGeneric.Mvvm;
 
 public enum DialogResult
 {

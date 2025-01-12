@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using CommunityToolkit.WinForms.ConversationView.Mvvm;
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace CommunityToolkit.WinForms.ConversationView.Components;
 
@@ -16,6 +18,7 @@ public partial class ConversationRenderer : ComponentBase
     private IJSRuntime? JSRuntime { get; set; }
 
     [Parameter]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public ConversationViewModel ViewModel
     {
         get => _viewModel;
@@ -26,6 +29,7 @@ public partial class ConversationRenderer : ComponentBase
     }
 
     [Parameter]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string BackColor { get; set; } = null!;
 
     protected async override void OnInitialized()

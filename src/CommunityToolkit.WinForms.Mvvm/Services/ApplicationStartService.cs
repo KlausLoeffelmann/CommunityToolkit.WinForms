@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.WinForms.DesktopGeneric.Mvvm;
+﻿using CommunityToolkit.DesktopGeneric.Mvvm;
 using System.ComponentModel;
 
 namespace CommunityToolkit.WinForms.Mvvm;
