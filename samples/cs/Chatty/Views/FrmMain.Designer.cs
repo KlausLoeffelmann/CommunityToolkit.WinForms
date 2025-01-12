@@ -49,12 +49,16 @@
             helpToolStripButton = new ToolStripButton();
             _splitContainer = new SplitContainer();
             treeView1 = new TreeView();
+            splitContainer1 = new SplitContainer();
             _menuStrip.SuspendLayout();
             _statusStrip.SuspendLayout();
             _toolStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)_splitContainer).BeginInit();
             _splitContainer.Panel1.SuspendLayout();
+            _splitContainer.Panel2.SuspendLayout();
             _splitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.SuspendLayout();
             SuspendLayout();
             // 
             // _menuStrip
@@ -65,7 +69,7 @@
             _menuStrip.Location = new Point(0, 0);
             _menuStrip.Name = "_menuStrip";
             _menuStrip.Padding = new Padding(7, 2, 0, 2);
-            _menuStrip.Size = new Size(1104, 36);
+            _menuStrip.Size = new Size(1230, 36);
             _menuStrip.TabIndex = 0;
             _menuStrip.Text = "menuStrip1";
             // 
@@ -92,7 +96,7 @@
             // _tsmAbout
             // 
             _tsmAbout.Name = "_tsmAbout";
-            _tsmAbout.Size = new Size(270, 36);
+            _tsmAbout.Size = new Size(181, 36);
             _tsmAbout.Text = "About...";
             _tsmAbout.Click += About_Click;
             // 
@@ -101,17 +105,17 @@
             _statusStrip.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
             _statusStrip.ImageScalingSize = new Size(24, 24);
             _statusStrip.Items.AddRange(new ToolStripItem[] { _tslInfo });
-            _statusStrip.Location = new Point(0, 538);
+            _statusStrip.Location = new Point(0, 751);
             _statusStrip.Name = "_statusStrip";
             _statusStrip.Padding = new Padding(1, 0, 17, 0);
-            _statusStrip.Size = new Size(1104, 37);
+            _statusStrip.Size = new Size(1230, 37);
             _statusStrip.TabIndex = 1;
             _statusStrip.Text = "statusStrip1";
             // 
             // _tslInfo
             // 
             _tslInfo.Name = "_tslInfo";
-            _tslInfo.Size = new Size(1086, 30);
+            _tslInfo.Size = new Size(1212, 30);
             _tslInfo.Spring = true;
             _tslInfo.Text = "#info";
             // 
@@ -121,7 +125,7 @@
             _toolStrip.Items.AddRange(new ToolStripItem[] { newToolStripButton, openToolStripButton, saveToolStripButton, printToolStripButton, toolStripSeparator, cutToolStripButton, copyToolStripButton, pasteToolStripButton, toolStripSeparator1, helpToolStripButton });
             _toolStrip.Location = new Point(0, 36);
             _toolStrip.Name = "_toolStrip";
-            _toolStrip.Size = new Size(1104, 33);
+            _toolStrip.Size = new Size(1230, 33);
             _toolStrip.TabIndex = 2;
             _toolStrip.Text = "toolStrip1";
             // 
@@ -220,9 +224,10 @@
             // 
             // _splitContainer.Panel2
             // 
+            _splitContainer.Panel2.Controls.Add(splitContainer1);
             _splitContainer.Panel2.Padding = new Padding(10);
-            _splitContainer.Size = new Size(1104, 469);
-            _splitContainer.SplitterDistance = 367;
+            _splitContainer.Size = new Size(1230, 682);
+            _splitContainer.SplitterDistance = 408;
             _splitContainer.TabIndex = 3;
             // 
             // treeView1
@@ -230,14 +235,24 @@
             treeView1.Dock = DockStyle.Fill;
             treeView1.Location = new Point(10, 10);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(347, 449);
+            treeView1.Size = new Size(388, 662);
             treeView1.TabIndex = 0;
+            // 
+            // splitContainer1
+            // 
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(10, 10);
+            splitContainer1.Name = "splitContainer1";
+            splitContainer1.Orientation = Orientation.Horizontal;
+            splitContainer1.Size = new Size(798, 662);
+            splitContainer1.SplitterDistance = 500;
+            splitContainer1.TabIndex = 0;
             // 
             // FrmMain
             // 
             AutoScaleDimensions = new SizeF(12F, 30F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1104, 575);
+            ClientSize = new Size(1230, 788);
             Controls.Add(_splitContainer);
             Controls.Add(_toolStrip);
             Controls.Add(_statusStrip);
@@ -254,8 +269,11 @@
             _toolStrip.ResumeLayout(false);
             _toolStrip.PerformLayout();
             _splitContainer.Panel1.ResumeLayout(false);
+            _splitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)_splitContainer).EndInit();
             _splitContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -282,5 +300,6 @@
         private TreeView treeView1;
         private ToolStripMenuItem helpToolStripMenuItem;
         private ToolStripMenuItem _tsmAbout;
+        private SplitContainer splitContainer1;
     }
 }
