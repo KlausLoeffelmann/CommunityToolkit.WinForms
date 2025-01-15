@@ -117,14 +117,15 @@ public partial class ConversationView : BlazorWebView
         }
 
         StringBuilder currentParagraph = new();
-        string builtUpHtmlParagraphs = string.Empty;
+        StringBuilder builtUpHtmlParagraphs = new();
+        StringBuilder builtUpMarkdown = new();
+
         string currentMarkdown = string.Empty;
 
         // Iterate through the responses asynchronously and add them to the conversation view model
         await foreach (var response in asyncEnumerable)
         {
             currentParagraph.Append(response);
-
             currentMarkdown = currentParagraph.ToString();
 
             // Convert Markdown to HTML using Markdig
@@ -135,9 +136,11 @@ public partial class ConversationView : BlazorWebView
             {
                 Debug.Print($"Next Paragraph: {currentMarkdown}");
 
-                builtUpHtmlParagraphs += currentHTML;
+                builtUpHtmlParagraphs.Append(currentHTML);
+                builtUpMarkdown.Append(currentMarkdown);
 
                 currentParagraph.Clear();
+                currentMarkdown = string.Empty;
                 currentHTML = string.Empty;
             }
 
@@ -150,7 +153,7 @@ public partial class ConversationView : BlazorWebView
         {
             BackColor = SystemColors.ControlLight.ToWebColor(),
             ForeColor = ForeColor.ToWebColor(),
-            MarkdownContent = currentMarkdown,
+            MarkdownContent = $"{builtUpMarkdown}",
             HtmlContent = $"<p>{_viewModel.ResponseInProgress}<p>",
             IsResponse = true
         });
