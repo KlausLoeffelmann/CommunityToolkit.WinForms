@@ -1,0 +1,60 @@
+﻿using Chatty.Views;
+using CommunityToolkit.WinForms.Controls.Blazor;
+using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
+
+namespace Chatty;
+
+public partial class FrmMain
+{
+    private void UpdateTreeView()
+    {
+        // Clear the treeview:
+        _trvConversationHistory.Nodes.Clear();
+        // And add all files from the base path:
+
+        foreach (string file in Directory.EnumerateFiles(_options!.BasePath, "*.json"))
+        {
+            string fileName = Path.GetFileNameWithoutExtension(file);
+            _trvConversationHistory.Nodes.Add(fileName);
+        }
+    }
+
+    private void ConversationHistory_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+    {
+        // Let's get the filename from the node:
+        string fileName = e.Node!.Text;
+
+        // And read the content of the file:
+        string path = Path.Combine(_options!.BasePath, $"{fileName}.json");
+
+        string json = File.ReadAllText(path);
+
+        // And load it into the conversation view:
+        _conversationView.FromJson(json);
+        _skCommunicator.ChatHistory?.Clear();
+
+        foreach (ConversationItemViewModel item in _conversationView.ConversationItems)
+        {
+            _skCommunicator.AddChatItem(
+                item.IsResponse,
+                item.MarkdownContent!);
+        }
+    }
+
+    private void TsmOptions_Click(object sender, EventArgs e)
+    {
+        using FrmOptions frmOptions = new(_options!);
+
+        if (frmOptions.ShowDialog() == DialogResult.OK)
+        {
+            _options = frmOptions.Options;
+        }
+    }
+
+    private void About_Click(object sender, EventArgs e)
+    {
+        using FrmAbout about = new();
+        about.ShowDialog();
+    }
+}

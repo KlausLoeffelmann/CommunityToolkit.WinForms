@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 
 namespace CommunityToolkit.WinForms.Controls.Blazor;
 
-public partial class ConversationViewModel(string headline, string backColor, string foreColor, string newItemsBackColor) 
+public partial class ConversationViewModel(string headline, string backColor, string foreColor, string newItemsBackColor)
     : ObservableObject
 {
     private static readonly string s_sampleMarkdown =
@@ -54,4 +55,58 @@ public partial class ConversationViewModel(string headline, string backColor, st
 
     [ObservableProperty]
     private ObservableCollection<ConversationItemViewModel> _conversationItems = [];
+
+    public void WriteJSon(Stream stream)
+    {
+        JsonWriterOptions options = new() 
+        { 
+            Indented = true,
+        };
+
+        // Let's use System.Text.Json to serialize the object:
+        using Utf8JsonWriter writer = new(stream, options);
+
+        writer.WriteStartObject();
+        writer.WriteString(nameof(BackColor), BackColor);
+        writer.WriteString(nameof(ForeColor), ForeColor);
+        writer.WriteString(nameof(Headline), Headline);
+
+        writer.WriteStartArray(nameof(ConversationItems));
+
+        foreach (ConversationItemViewModel item in ConversationItems)
+        {
+            writer.WriteStartObject();
+            item.WriteJSon(writer);
+            writer.WriteEndObject();
+        }
+
+        writer.WriteEndArray();
+        writer.WriteEndObject();
+    }
+
+    public static ConversationViewModel FromJSon(Stream stream)
+    {
+        using JsonDocument document = JsonDocument.Parse(stream);
+        JsonElement root = document.RootElement;
+
+        string headline = root.GetProperty(nameof(Headline)).GetString() ?? string.Empty;
+        string backColor = root.GetProperty(nameof(BackColor)).GetString() ?? string.Empty;
+        string foreColor = root.GetProperty(nameof(ForeColor)).GetString() ?? string.Empty;
+
+        // Assuming newItemsBackColor is available or set to a default value
+        string newItemsBackColor = string.Empty;
+
+        var conversationViewModel = new ConversationViewModel(headline, backColor, foreColor, newItemsBackColor);
+
+        if (root.TryGetProperty(nameof(ConversationItems), out JsonElement conversationItemsElement))
+        {
+            foreach (JsonElement itemElement in conversationItemsElement.EnumerateArray())
+            {
+                var item = ConversationItemViewModel.FromJsonElement(itemElement);
+                conversationViewModel.ConversationItems.Add(item);
+            }
+        }
+
+        return conversationViewModel;
+    }
 }
